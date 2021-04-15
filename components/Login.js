@@ -6,22 +6,18 @@ export default function Login(props) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const userList = [];
     const getUsers = async () => {
       let response = await fetch(
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/users"
       );
-      console.log("HERE", response);
-      // let jsonRes = await response.json();
-      // console.log(jsonRes);
-      // for (const user of jsonRes) {
-      //   if (!userList.includes(user.user)) {
-      //     userList.push(user.user);
-      //   }
-      // }
+      let jsonRes = await response.json();
+      for (const user of jsonRes) {
+        if (!users.includes(user.user)) {
+          users.push(user.user);
+        }
+      }
     };
     getUsers();
-    setUsers(userList);
   }, []);
 
   const handleInput = (val) => {
@@ -35,25 +31,24 @@ export default function Login(props) {
       Alert.alert("That user does not exist");
     }
   };
-
   return (
-    <View>
-      <Image
-        source={{
-          uri: "https://reactnative.dev/docs/assets/p_cat2.png",
-        }}
-        style={{ width: 200, height: 200, alignSelf: "center", marginTop: 40 }}
-      />
+    <View
+      style={{
+        backgroundColor: "#b1ddf1",
+        flex: 1,
+        alignItems: "center",
+      }}
+    >
+      <Image source={require("../assets/cloud.png")} />
       <TextInput
         style={{
           height: 40,
           width: 200,
           borderColor: "gray",
           borderWidth: 1,
-          marginTop: 30,
-          marginBottom: 30,
           padding: 5,
-          alignSelf: "center",
+          backgroundColor: "#fff",
+          marginBottom: 20,
         }}
         placeholder="Enter your username"
         onChangeText={handleInput}

@@ -7,7 +7,7 @@ export default function App() {
   const [username, setUsername] = useState("");
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {username === "" ? <Login setUsername={setUsername} /> : <Container />}
     </View>
   );
