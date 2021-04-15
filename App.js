@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import FlightList from "./components/FlightList";
 import Sidebar from "./components/Sidebar";
+import AddFlight from "./components/AddFlight";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
       <Login />
       <FlightList />
       <Sidebar />
+      <AddFlight />
     </View>
   );
 }
