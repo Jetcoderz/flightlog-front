@@ -4,6 +4,7 @@ import { View, TextInput, Image, Button, Alert } from "react-native";
 export default function Login(props) {
   const [userInput, setUserInput] = useState("");
   const [users, setUsers] = useState([]);
+  const [flights, setFlights] = useState([]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -25,7 +26,21 @@ export default function Login(props) {
   };
 
   const handlePress = () => {
+    const getFlights = async () => {
+      let fullURL =
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+        userInput;
+      let response = await fetch(fullURL);
+      let jsonRes = await response.json();
+      for (const flight of jsonRes) {
+        if (!flights.includes(flight)) {
+          flights.push(flight);
+        }
+      }
+    };
     if (users.includes(userInput)) {
+      getFlights();
+      props.setFlightList(flights);
       props.setUsername(userInput);
     } else {
       Alert.alert("That user does not exist");

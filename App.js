@@ -5,10 +5,15 @@ import Container from "./components/Container";
 
 export default function App() {
   const [username, setUsername] = useState("");
+  const [flightList, setFlightList] = useState([]);
 
   return (
     <View style={{ flex: 1 }}>
-      {username === "" ? <Login setUsername={setUsername} /> : <Container />}
+      {username === "" ? (
+        <Login setUsername={setUsername} setFlightList={setFlightList} />
+      ) : (
+        <Container flightList={flightList} />
+      )}
     </View>
   );
 }

@@ -5,17 +5,16 @@ import Navbar from "./Navbar";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
 
-function flightlist() {
-  return <FlightList />;
-}
+export default function Container(props) {
+  function flightlist() {
+    return <FlightList flightList={props.flightList} />;
+  }
 
-function addflight() {
-  return <AddFlight />;
-}
+  function addflight() {
+    return <AddFlight username={props.username} />;
+  }
 
-const Drawer = createDrawerNavigator();
-
-export default function Container() {
+  const Drawer = createDrawerNavigator();
   return (
     <NavigationContainer>
       <Navbar />
