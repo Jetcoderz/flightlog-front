@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { View, Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
@@ -6,14 +7,17 @@ import Navbar from "./Navbar";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
 
-export default function Container(props) {
+export default function Container() {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+
   const [flightList, setFlightList] = useState([]);
 
   useEffect(() => {
     const getFlights = async () => {
       let fullURL =
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-        props.username;
+        state.username;
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
       let theFlights = await jsonRes.map((flight) => flight);
@@ -27,12 +31,10 @@ export default function Container(props) {
   }
 
   function addflight() {
-    return <AddFlight username={props.username} />;
+    return <AddFlight username={state.username} />;
   }
 
   const Drawer = createDrawerNavigator();
-
-  console.log("YO YO", flightList);
 
   return (
     <NavigationContainer>

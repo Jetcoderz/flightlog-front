@@ -1,6 +1,7 @@
 export default function ReduxReducer(
   state = {
     count: 0,
+    username: "",
   },
   action
 ) {
@@ -10,10 +11,10 @@ export default function ReduxReducer(
         ...state,
         count: state.count + 1,
       };
-    case "DECREMENT":
+    case "SetUsername":
       return {
         ...state,
-        count: state.count - 1,
+        username: action.payload,
       };
     default:
       return state;
