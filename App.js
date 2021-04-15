@@ -1,18 +1,14 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Navbar from "./components/Navbar";
+import React, { useState } from "react";
+import { View } from "react-native";
 import Login from "./components/Login";
-import FlightList from "./components/FlightList";
-import Flight from "./components/Flight";
+import Container from "./components/Container";
 
 export default function App() {
+  const [username, setUsername] = useState("");
+
   return (
     <View style={{ flex: 1 }}>
-      <Navbar />
-      <Login />
-      <Flight />
-      <FlightList />
+      {username === "" ? <Login setUsername={setUsername} /> : <Container />}
     </View>
   );
 }
