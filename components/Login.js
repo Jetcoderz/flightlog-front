@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Image, Button, Alert } from "react-native";
+import { connect } from "react-redux";
+import { View, TextInput, Image, Button, Alert, Text } from "react-native";
 
-export default function Login(props) {
+function Login(props) {
   const [userInput, setUserInput] = useState("");
   const [users, setUsers] = useState([]);
 
@@ -12,9 +13,7 @@ export default function Login(props) {
       );
       let jsonRes = await response.json();
       for (const user of jsonRes) {
-        if (!users.includes(user.user)) {
-          users.push(user.user);
-        }
+        users.push(user.user);
       }
     };
     getUsers();
@@ -54,6 +53,21 @@ export default function Login(props) {
         onChangeText={handleInput}
       />
       <Button title="Log In" onPress={handlePress} />
+      <Text>{props.count}</Text>
+      <Button
+        title="Add"
+        onPress={() => {
+          props.dispatch({ type: "INCREMENT" });
+        }}
+      />
     </View>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    count: state.count,
+  };
+};
+
+export default connect(mapStateToProps)(Login);
