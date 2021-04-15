@@ -1,22 +1,17 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
+import Navbar from "./components/Navbar";
 import Login from "./components/Login";
+import FlightList from "./components/FlightList";
 import Sidebar from "./components/Sidebar";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <View>
+      <Navbar />
       <Login />
+      <FlightList />
       <Sidebar />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
