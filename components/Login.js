@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Image, Button, Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { View, TextInput, Image, Button, Alert, Text } from "react-native";
 
-export default function Login(props) {
+export default function Login() {
   const [userInput, setUserInput] = useState("");
   const [users, setUsers] = useState([]);
+
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -11,11 +15,7 @@ export default function Login(props) {
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/users"
       );
       let jsonRes = await response.json();
-      for (const user of jsonRes) {
-        if (!users.includes(user.user)) {
-          users.push(user.user);
-        }
-      }
+      setUsers(jsonRes.map((i) => i.user));
     };
     getUsers();
   }, []);
@@ -26,7 +26,7 @@ export default function Login(props) {
 
   const handlePress = () => {
     if (users.includes(userInput)) {
-      props.setUsername(userInput);
+      dispatch({ type: "SetUsername", payload: userInput });
     } else {
       Alert.alert("That user does not exist");
     }

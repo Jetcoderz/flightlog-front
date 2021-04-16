@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import { View } from "react-native";
+
+import { createStore } from "redux";
+import { Provider, useSelector, useDispatch } from "react-redux";
+import ReduxReducer from "./components/ReduxReducer";
+
 import Login from "./components/Login";
 import Container from "./components/Container";
 
-export default function App() {
-  const [username, setUsername] = useState("");
+function Body() {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
 
-  console.log("USERNAME", username);
   return (
     <View style={{ flex: 1 }}>
-      {username === "" ? (
-        <Login setUsername={setUsername} />
-      ) : (
-        <Container username={username} />
-      )}
+      {state.username === "" ? <Login /> : <Container />}
     </View>
+  );
+}
+
+export default function App(props) {
+  const store = createStore(ReduxReducer);
+
+  return (
+    <Provider store={store}>
+      <Body />
+    </Provider>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -8,17 +8,29 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import FlightInfo from "./FlightInfo";
 
 export default function AddFlight() {
+  const state = useSelector((state) => state);
+  const [flightNum, setFlightNum] = useState("");
+  const [submit, setSubmit] = useState(false);
+
   return (
     <View>
       <Text>ADD & Flight</Text>
-      <TextInput style={styles.TextInput} placeholder="Flight #" />
-      <TextInput style={styles.TextInput} placeholder="Purpose of Trip" />
-      <Button
-        title="ADD"
-        onPress={() => Alert.alert("Simple Button pressed")}
+      <Text>USERNAME:</Text>
+      <Text>{state.username}</Text>
+      <TextInput
+        style={styles.TextInput}
+        placeholder="Flight #"
+        onChangeText={(val) => {
+          setFlightNum(val);
+        }}
       />
+      <TextInput style={styles.TextInput} placeholder="Purpose of Trip" />
+      <Button title="ADD" onPress={() => setSubmit(true)} />
+      {submit ? <FlightInfo flightNum={flightNum} /> : <Text></Text>}
     </View>
   );
 }
