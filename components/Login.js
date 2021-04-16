@@ -4,6 +4,7 @@ import { View, TextInput, Image, Button, Alert, Text } from "react-native";
 
 export default function Login() {
   const [userInput, setUserInput] = useState("");
+  const [pwInput, setPWInput] = useState("");
   const [users, setUsers] = useState([]);
 
   const dispatch = useDispatch();
@@ -15,7 +16,12 @@ export default function Login() {
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/users"
       );
       let jsonRes = await response.json();
-      setUsers(jsonRes.map((i) => i.username));
+      setUsers(
+        jsonRes.map((i) => {
+          const userobj = { username: i.username, pw: i.pw };
+          return userobj;
+        })
+      );
     };
     getUsers();
   }, []);
@@ -24,13 +30,29 @@ export default function Login() {
     setUserInput(val);
   };
 
+  const handlePWInput = (val) => {
+    setPWInput(val);
+  };
+
   const handlePress = () => {
-    if (users.includes(userInput)) {
-      dispatch({ type: "SetUsername", payload: userInput });
-    } else {
+    let userExists = false;
+    let password = "";
+    for (const user of users) {
+      if (user.username === userInput) {
+        userExists = true;
+        password = user.pw;
+        break;
+      }
+    }
+    if (userExists === false) {
       Alert.alert("That user does not exist");
+    } /* else if (password !== pwInput) {
+      Alert.alert("Incorrect password");
+    } */ else {
+      dispatch({ type: "SetUsername", payload: userInput });
     }
   };
+
   return (
     <View
       style={{
@@ -52,6 +74,19 @@ export default function Login() {
         }}
         placeholder="Enter your username"
         onChangeText={handleInput}
+      />
+      <TextInput
+        style={{
+          height: 40,
+          width: 200,
+          borderColor: "gray",
+          borderWidth: 1,
+          padding: 5,
+          backgroundColor: "#fff",
+          marginBottom: 20,
+        }}
+        placeholder="Enter your password"
+        onChangeText={handlePWInput}
       />
       <Button title="Log In" onPress={handlePress} />
     </View>
