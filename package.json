@@ -10,7 +10,11 @@
   "dependencies": {
     "@react-navigation/drawer": "^5.12.5",
     "@react-navigation/native": "^5.9.4",
+<<<<<<< HEAD
     "aws-sdk": "^2.888.0",
+=======
+    "@react-navigation/stack": "^5.14.4",
+>>>>>>> 7ee10e80b1054750093ca355f12586024e04c4ee
     "expo": "~40.0.0",
     "expo-status-bar": "~1.0.3",
     "react": "16.13.1",
