@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, ScrollView, Button } from "react-native";
 import { ListItem } from "react-native-elements";
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Flight from "./Flight";
 
 export default function FlightList() {
   const state = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   function CreateList({ navigation }) {
     const list = state.flightList.map((l, i) => (
@@ -19,7 +19,10 @@ export default function FlightList() {
           </ListItem.Subtitle>
           <Button
             title="Go to Details"
-            onPress={() => navigation.navigate("Details")}
+            onPress={() => {
+              navigation.navigate("Details");
+              dispatch({ type: "SetSelectedFlight", payload: l.id });
+            }}
           />
         </ListItem.Content>
       </ListItem>

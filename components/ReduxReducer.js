@@ -2,6 +2,7 @@ export default function ReduxReducer(
   state = {
     username: "",
     flightList: [],
+    selectedFlight: "",
   },
   action
 ) {
@@ -15,6 +16,11 @@ export default function ReduxReducer(
       return {
         ...state,
         flightList: action.payload,
+      };
+    case "SetSelectedFlight":
+      return {
+        ...state,
+        selectedFlight: action.payload,
       };
     default:
       return state;

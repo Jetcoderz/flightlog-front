@@ -15,7 +15,7 @@ export default function Login() {
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/users"
       );
       let jsonRes = await response.json();
-      setUsers(jsonRes.map((i) => i.user));
+      setUsers(jsonRes.map((i) => i.username));
     };
     getUsers();
   }, []);
