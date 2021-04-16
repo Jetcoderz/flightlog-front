@@ -11,8 +11,6 @@ export default function Container() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-  const [flightList, setFlightList] = useState([]);
-
   useEffect(() => {
     const getFlights = async () => {
       let fullURL =
@@ -21,17 +19,17 @@ export default function Container() {
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
       let theFlights = await jsonRes.map((flight) => flight);
-      setFlightList(theFlights);
+      dispatch({ type: "SetFlightList", payload: theFlights });
     };
     getFlights();
   }, []);
 
   function flightlist() {
-    return <FlightList flightList={flightList} />;
+    return <FlightList />;
   }
 
   function addflight() {
-    return <AddFlight username={state.username} />;
+    return <AddFlight />;
   }
 
   const Drawer = createDrawerNavigator();

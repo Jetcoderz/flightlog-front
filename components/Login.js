@@ -54,14 +54,6 @@ export default function Login() {
         onChangeText={handleInput}
       />
       <Button title="Log In" onPress={handlePress} />
-      <Text>{state.count}</Text>
-      <Text>{state.username}</Text>
-      <Button
-        title="Add"
-        onPress={() => {
-          dispatch({ type: "INCREMENT" });
-        }}
-      />
     </View>
   );
 }

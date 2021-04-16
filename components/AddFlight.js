@@ -8,15 +8,19 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import FlightInfo from "./FlightInfo";
 
 export default function AddFlight() {
+  const state = useSelector((state) => state);
   const [flightNum, setFlightNum] = useState("");
   const [submit, setSubmit] = useState(false);
 
   return (
     <View>
       <Text>ADD & Flight</Text>
+      <Text>USERNAME:</Text>
+      <Text>{state.username}</Text>
       <TextInput
         style={styles.TextInput}
         placeholder="Flight #"
