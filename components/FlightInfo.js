@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+
 
 export default function FlightInfo({ flightNum }) {
   const [flightData, SetFlightData] = useState({});
@@ -26,7 +28,7 @@ export default function FlightInfo({ flightNum }) {
           <Text>{flightData.arrival.airport}</Text>
         </>
       ) : (
-        <Text></Text>
+        <Text>FlightIngo</Text>
       )}
     </View>
   );

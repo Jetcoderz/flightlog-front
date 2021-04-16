@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text } from "react-native";
 import Picture from "./Picture";
 import { useSelector, useDispatch } from "react-redux";
+import FlightInfo from "./FlightInfo";
+import UserInfo from "./UserInfo";
 
 export default function Flight() {
   const state = useSelector((state) => state);
@@ -16,6 +18,8 @@ export default function Flight() {
       <Text>{state.selectedFlight}</Text>
       <Text>Departure: {thisFlight.depAirport}</Text>
       <Text>Arrival: {thisFlight.arrAirport}</Text>
+      {/* <FlightInfo /> */}
+      <UserInfo />
       <Picture />
     </View>
   );
