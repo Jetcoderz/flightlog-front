@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, ScrollView, Button } from "react-native";
+import {
+  View,
+  ScrollView,
+  Button,
+  Image,
+  Text,
+  StyleSheet,
+} from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import Flight from "./Flight";
@@ -9,10 +16,21 @@ export default function FlightList() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const styles = StyleSheet.create({
+    tinyLogo: {
+      width: 30,
+      height: 30,
+    },
+  });
+
   function CreateList({ navigation }) {
     const list = state.flightList.map((l, i) => (
       <ListItem key={i} bottomDivider>
         <ListItem.Content>
+          <Image
+            style={styles.tinyLogo}
+            source={state.logo[l.airlineICAO]}
+          ></Image>
           <ListItem.Title>{l.flightNo}</ListItem.Title>
           <ListItem.Subtitle>
             {l.dep}-{l.arr}
