@@ -7,7 +7,7 @@ export default function Login() {
   const [users, setUsers] = useState([]);
 
   const dispatch = useDispatch();
-  const state = useSelector((state) => state);
+  // const state = useSelector((state) => state);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -15,7 +15,7 @@ export default function Login() {
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/users"
       );
       let jsonRes = await response.json();
-      setUsers(jsonRes.map((i) => i.user));
+      setUsers(jsonRes.map((i) => i.username));
     };
     getUsers();
   }, []);
