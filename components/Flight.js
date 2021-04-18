@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import Picture from "./Picture";
 import { useSelector, useDispatch } from "react-redux";
 import FlightInfo from "./FlightInfo";
@@ -14,6 +14,8 @@ export default function Flight() {
 
   return (
     <View style={{ flex: 1 }}>
+      <Image source={state.logo[thisFlight.airlineICAO]}></Image>
+      <Text>{thisFlight.airlineICAO}</Text>
       <Text>Flight Details</Text>
       <Text>{state.selectedFlight}</Text>
       <Text>Departure: {thisFlight.depAirport}</Text>
