@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, ScrollView, Image, StyleSheet } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
-import Flight from "./displayFlight/Flight";
+import Flight from "./Flight";
 
 export default function FlightList() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
   const styles = StyleSheet.create({
     tinyLogo: {
       width: 30,
@@ -18,6 +17,11 @@ export default function FlightList() {
   });
 
   function CreateList({ navigation }) {
+    useEffect(() => {
+      if (state.drawerFlag) navigation.openDrawer();
+      else navigation.closeDrawer();
+    }, [state.drawerFlag]);
+
     const list = state.flightList.map((l, i) => (
       <ListItem
         key={i}

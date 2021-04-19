@@ -25,12 +25,12 @@ export default function Container() {
     getFlights();
   }, []);
 
-  function flightlist() {
-    return <FlightList />;
+  function flightlist({ navigation }) {
+    return <FlightList navigation={navigation} />;
   }
 
-  function addflight({ navigation }) {
-    return <AddFlight navigation={navigation} />;
+  function addflight() {
+    return <AddFlight />;
   }
 
   function map() {
