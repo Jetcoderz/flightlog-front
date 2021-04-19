@@ -14,12 +14,7 @@ import FlightInfo from "./FlightInfo";
 export default function AddFlight() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-<<<<<<< HEAD
-  const [flightNum, setFlightNum] = useState("");
-  const [submit, setSubmit] = useState(false);
-=======
   const [flightNumInput, setFlightNumInput] = useState("");
->>>>>>> a2406308c675ed3c5a4c45f14aa704d80f3b80a1
 
   return (
     <View>
