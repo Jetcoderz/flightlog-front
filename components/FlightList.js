@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, ScrollView, Image, StyleSheet } from "react-native";
+import { View, ScrollView, Image, StyleSheet, Button } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
 import Flight from "./Flight";
 
-export default function FlightList() {
+export default function FlightList({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+
   const styles = StyleSheet.create({
     tinyLogo: {
       width: 30,
@@ -16,12 +17,7 @@ export default function FlightList() {
     },
   });
 
-  function CreateList({ navigation }) {
-    useEffect(() => {
-      if (state.drawerFlag) navigation.openDrawer();
-      else navigation.closeDrawer();
-    }, [state.drawerFlag]);
-
+  function CreateList() {
     const list = state.flightList.map((l, i) => (
       <ListItem
         key={i}
@@ -46,11 +42,11 @@ export default function FlightList() {
     return list;
   }
 
-  function List({ navigation }) {
+  function List() {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <ScrollView>
-          <CreateList navigation={navigation}></CreateList>
+          <CreateList></CreateList>
         </ScrollView>
       </View>
     );
@@ -64,8 +60,35 @@ export default function FlightList() {
 
   return (
     <Stack.Navigator initialRouteName="List">
-      <Stack.Screen name="List" component={List} />
-      <Stack.Screen name="Details" component={Details} />
+      <Stack.Screen
+        name="List"
+        component={List}
+        options={{
+          headerTitle: "My Flights",
+          headerStyle: {
+            backgroundColor: "#298BD9",
+          },
+          headerTintColor: "#fff",
+          headerLeft: () => (
+            <Button
+              onPress={() => navigation.openDrawer()}
+              title="Menu"
+              color="#fff"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Details"
+        component={Details}
+        options={{
+          headerTitle: "Flight Detail",
+          headerTintColor: "#fff",
+          headerStyle: {
+            backgroundColor: "#298BD9",
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }

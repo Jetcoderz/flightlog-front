@@ -7,8 +7,6 @@ export default function ReduxReducer(
     flightNum: "",
     selectedFlight: "",
     logo: logoObj,
-    drawerFlag: false,
-    navigateFunc: null,
   },
   action
 ) {
@@ -32,16 +30,6 @@ export default function ReduxReducer(
       return {
         ...state,
         selectedFlight: action.payload,
-      };
-    case "ToggleDrawer":
-      return {
-        ...state,
-        drawerFlag: action.payload,
-      };
-    case "NavigateFunc":
-      return {
-        ...state,
-        navigateFunc: action.payload,
       };
     default:
       return state;

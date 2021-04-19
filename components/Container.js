@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
-import Navbar from "./Navbar";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
 import Map from "./Map";
@@ -29,23 +27,22 @@ export default function Container() {
     return <FlightList navigation={navigation} />;
   }
 
-  function addflight() {
-    return <AddFlight />;
+  function addflight({ navigation }) {
+    return <AddFlight navigation={navigation} />;
   }
 
-  function map() {
-    return <Map />;
+  function map({ navigation }) {
+    return <Map navigation={navigation} />;
   }
 
   const Drawer = createDrawerNavigator();
 
   return (
     <NavigationContainer>
-      <Navbar />
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={flightlist} />
         <Drawer.Screen name="Add Flight" component={addflight} />
-        <Drawer.Screen name="Map View" component={map} />
+        <Drawer.Screen name="Flights Map" component={map} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
