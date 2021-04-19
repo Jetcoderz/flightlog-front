@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Navbar from "./Navbar";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
+import Map from "./Map";
 
 export default function Container() {
   const dispatch = useDispatch();
@@ -32,6 +33,10 @@ export default function Container() {
     return <AddFlight />;
   }
 
+  function map() {
+    return <Map />;
+  }
+
   const Drawer = createDrawerNavigator();
 
   return (
@@ -40,6 +45,7 @@ export default function Container() {
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={flightlist} />
         <Drawer.Screen name="Add Flight" component={addflight} />
+        <Drawer.Screen name="Map View" component={map} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
