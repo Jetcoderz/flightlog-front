@@ -21,7 +21,7 @@ export default function Flight() {
       <Text>Departure: {thisFlight.depAirport}</Text>
       <Text>Arrival: {thisFlight.arrAirport}</Text>
       {/* <FlightInfo /> */}
-      <UserInfo />
+      <UserInfo thisFlight = {thisFlight}/>
       <Picture />
     </View>
   );
