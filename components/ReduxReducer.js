@@ -7,7 +7,6 @@ export default function ReduxReducer(
     flightNum: "",
     selectedFlight: "",
     logo: logoObj,
-    ADDClicked: false,
   },
   action
 ) {

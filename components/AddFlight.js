@@ -15,16 +15,21 @@ import FlightList from "./Flight";
 export default function AddFlight() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [flightNumInput, setFlightNumInput] = useState("");
 
-  async function handlePress() {
+  const [flightNumInput, setFlightNumInput] = useState("");
+  const [flightData, SetFlightData] = useState({});
+
+  const handlePress = async () => {
+    dispatch({ type: "setFlightNum", payload: flightNumInput });
+
     const getData = async () => {
-      let response = await fetch(
+      const response = await fetch(
         `https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/aviation/${state.flightNum}`
       );
-      let parsed = await response.json();
+      const parsed = await response.json();
       SetFlightData(parsed);
     };
+
     getData();
 
     const postData = async () => {
@@ -82,26 +87,21 @@ export default function AddFlight() {
             body: JSON.stringify(bodyObj),
           }
         );
-        SetFlightPosted(true);
       }
       postData();
     };
 
     const getFlights = async () => {
-      let fullURL =
+      const fullURL =
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
         state.username;
-      let response = await fetch(fullURL);
-      let jsonRes = await response.json();
-      let theFlights = await jsonRes.map((flight) => flight);
+      const response = await fetch(fullURL);
+      const jsonRes = await response.json();
+      const theFlights = await jsonRes.map((flight) => flight);
       dispatch({ type: "SetFlightList", payload: theFlights });
-      SetFlightPosted(false);
     };
-    if (flightPosted === true) {
-      getFlights();
-    }
-    dispatch({ type: "setFlightNum", payload: flightNumInput });
-  }
+    getFlights();
+  };
 
   return (
     <View>
@@ -117,10 +117,8 @@ export default function AddFlight() {
       />
       <Button
         title="ADD"
-        onPress={
-          () => handlePress
-          // dispatch({ type: "setFlightNum", payload: flightNumInput })
-        }
+        onPress={handlePress}
+        // dispatch({ type: "setFlightNum", payload: flightNumInput })
       />
       {state.flightNum !== "" ? <FlightInfo /> : <Text>Test</Text>}
     </View>

@@ -101,12 +101,15 @@ export default function FlightInfo() {
     <View>
       <Text>Data from Flight API</Text>
       <Text>{state.flightNum}</Text>
-      {flightData.departure ? (
+      {state.flightList.departure ? (
+        // <>
+        //   <Text>{flightData.departure.iata}</Text>
+        //   <Text>{flightData.departure.airport}</Text>
+        //   <Text>{flightData.arrival.iata}</Text>
+        //   <Text>{flightData.arrival.airport}</Text>
+        // </>
         <>
-          <Text>{flightData.departure.iata}</Text>
-          <Text>{flightData.departure.airport}</Text>
-          <Text>{flightData.arrival.iata}</Text>
-          <Text>{flightData.arrival.airport}</Text>
+          <Text>{state.flightList.departure}</Text>
         </>
       ) : (
         <Text>FlightIngo</Text>
