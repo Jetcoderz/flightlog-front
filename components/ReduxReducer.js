@@ -1,8 +1,12 @@
+const { logoObj } = require("./logoObj.js");
+
 export default function ReduxReducer(
   state = {
     username: "",
     flightList: [],
     flightNum: "",
+    selectedFlight: "",
+    logo: logoObj,
   },
   action
 ) {
@@ -21,6 +25,11 @@ export default function ReduxReducer(
       return {
         ...state,
         flightNum: action.payload,
+      };
+    case "SetSelectedFlight":
+      return {
+        ...state,
+        selectedFlight: action.payload,
       };
     default:
       return state;

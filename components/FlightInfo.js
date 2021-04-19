@@ -75,7 +75,7 @@ export default function FlightInfo() {
           <Text>{flightData.arrival.airport}</Text>
         </>
       ) : (
-        <Text></Text>
+        <Text>FlightIngo</Text>
       )}
     </View>
   );
