@@ -8,7 +8,7 @@ export default function Login() {
   const [users, setUsers] = useState([]);
 
   const dispatch = useDispatch();
-  const state = useSelector((state) => state);
+  // const state = useSelector((state) => state);
 
   useEffect(() => {
     const getUsers = async () => {

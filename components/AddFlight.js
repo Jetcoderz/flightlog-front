@@ -13,8 +13,8 @@ import FlightInfo from "./FlightInfo";
 
 export default function AddFlight() {
   const state = useSelector((state) => state);
-  const [flightNum, setFlightNum] = useState("");
-  const [submit, setSubmit] = useState(false);
+  const dispatch = useDispatch();
+  const [flightNumInput, setFlightNumInput] = useState("");
 
   return (
     <View>
@@ -25,12 +25,17 @@ export default function AddFlight() {
         style={styles.TextInput}
         placeholder="Flight #"
         onChangeText={(val) => {
-          setFlightNum(val);
+          setFlightNumInput(val);
         }}
       />
       <TextInput style={styles.TextInput} placeholder="Purpose of Trip" />
-      <Button title="ADD" onPress={() => setSubmit(true)} />
-      {submit ? <FlightInfo flightNum={flightNum} /> : <Text></Text>}
+      <Button
+        title="ADD"
+        onPress={() =>
+          dispatch({ type: "setFlightNum", payload: flightNumInput })
+        }
+      />
+      {state.flightNum !== "" ? <FlightInfo /> : <Text>Test</Text>}
     </View>
   );
 }
