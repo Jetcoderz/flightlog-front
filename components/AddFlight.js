@@ -11,29 +11,95 @@ const styles = StyleSheet.create({
 export default function AddFlight({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [flightNumInput, setFlightNumInput] = useState("");
+
+  const getPostData = async (input) => {
+    let flightData;
+    try {
+      let response = await fetch(
+        `https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/aviation/${input}`
+      );
+      flightData = await response.json();
+    } catch (e) {
+      console.log(input, "Here", e);
+    }
+
+    const bodyObj = {
+      username: state.username,
+      date: "",
+      flightNo: input,
+      depAirport: flightData.departure.iata,
+      arrAirport: "",
+      depGate: flightData.departure.gate,
+      arrGate: "",
+      takeoff: flightData.departure.scheduled,
+      landing: "",
+      airline: "",
+      airlineICAO: flightData.airline.icao,
+      plane: "",
+    };
+
+    const params = [
+      flightData.flight_date,
+      flightData.arrival.iata,
+      flightData.arrival.gate,
+      flightData.arrival.scheduled,
+      flightData.airline.name,
+    ];
+
+    const keys = ["date", "arrAirport", "arrGate", "landing", "airline"];
+
+    for (let i = 0; i < 6; i++) {
+      if (params[i]) {
+        bodyObj[keys[i]] = params[i];
+      }
+    }
+
+    if (flightData.aircraft) {
+      bodyObj["plane"] = flightData.aircraft.iata;
+    }
+
+    try {
+      await fetch(
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bodyObj),
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+
+    const getFlights = async () => {
+      let fullURL =
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+        state.username;
+      let response = await fetch(fullURL);
+      let jsonRes = await response.json();
+      let theFlights = await jsonRes.map((flight) => flight);
+      dispatch({ type: "SetFlightList", payload: theFlights });
+    };
+    getFlights();
+    navigation.navigate("Home");
+  };
 
   function addFlight() {
+    const [flightNumInput, setFlightNumInput] = useState("");
     return (
       <View>
-        <Text>ADD & Flight</Text>
-        <Text>USERNAME:</Text>
-        <Text>{state.username}</Text>
+        <Text>Add a Flight</Text>
         <TextInput
           style={styles.TextInput}
           placeholder="Flight #"
-          onChangeText={(val) => {
-            setFlightNumInput(val);
-          }}
+          onChangeText={(val) => setFlightNumInput(val)}
         />
         <TextInput style={styles.TextInput} placeholder="Purpose of Trip" />
-        <Button
-          title="ADD"
-          onPress={() =>
-            dispatch({ type: "setFlightNum", payload: flightNumInput })
-          }
-        />
-        {state.flightNum !== "" ? <FlightInfo /> : <Text>Test</Text>}
+        <Button title="ADD" onPress={() => getPostData(flightNumInput)} />
+        {/* {state.flightNum !== "" ? <FlightInfo /> : <Text>Test</Text>} */}
       </View>
     );
   }
@@ -46,7 +112,7 @@ export default function AddFlight({ navigation }) {
         name="List"
         component={addFlight}
         options={{
-          headerTitle: "My Flights",
+          headerTitle: "Add Flight",
           headerStyle: {
             backgroundColor: "#298BD9",
           },

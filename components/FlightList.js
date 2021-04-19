@@ -76,6 +76,13 @@ export default function FlightList({ navigation }) {
               color="#fff"
             />
           ),
+          headerRight: () => (
+            <Button
+              onPress={() => navigation.navigate("Add Flight")}
+              title="Add"
+              color="#fff"
+            />
+          ),
         }}
       />
       <Stack.Screen
