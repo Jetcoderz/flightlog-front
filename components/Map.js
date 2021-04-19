@@ -34,20 +34,26 @@ export default function Map() {
     setTheAirports(airports);
   }, []);
 
-  const markers = theAirports.map((airport) => {
+  const markers = theAirports.map((airport, i) => {
     return (
       <Marker
         coordinate={{
           latitude: airportList[airport].Latitude,
           longitude: airportList[airport].Longitude,
         }}
+        key={i}
       />
     );
   });
 
-  const paths = pathCoords.map((path) => {
+  const paths = pathCoords.map((path, i) => {
     return (
-      <Polyline coordinates={path} strokeColor={"#0f0f6c"} strokeWidth={3} />
+      <Polyline
+        coordinates={path}
+        strokeColor={"#0f0f6c"}
+        strokeWidth={3}
+        key={i}
+      />
     );
   });
 

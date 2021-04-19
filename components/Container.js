@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
 import Map from "./Map";
+import UserStats from "./UserStats";
 
 export default function Container() {
   const dispatch = useDispatch();
@@ -37,6 +38,10 @@ export default function Container() {
     return <Map />;
   }
 
+  function userStats() {
+    return <UserStats />;
+  }
+
   const Drawer = createDrawerNavigator();
 
   return (
@@ -46,6 +51,7 @@ export default function Container() {
         <Drawer.Screen name="Home" component={flightlist} />
         <Drawer.Screen name="Add Flight" component={addflight} />
         <Drawer.Screen name="Map View" component={map} />
+        <Drawer.Screen name="View Stats" component={userStats} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
