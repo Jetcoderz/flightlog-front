@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text } from "react-native";
-import DropDownPicker from 'react-native-dropdown-picker';
 
-export default function UserInfo () {
-    // const [purpose, SetPurpose] = useState("")
-
-    // useEffect(() => {
-
-    // },[purpose]);
-
+export default function UserInfo ({thisFlight}) {
+   
     return (
         <View>
-            <Text>Purpose:</Text>
-            <DropDownPicker 
-                items = {
-                    {label: 'Business'},
-                    {label: 'Travel'}
-                }
-            />
+            <Text>Purpose:{ thisFlight.purpose }</Text>
+            <Text>Entertainment:{ thisFlight.entertainment }</Text>
+            <Text>Meal:{ thisFlight.meal }</Text>
+            <Text>SeatNo:{ thisFlight.seatNo }</Text>
+            <Text>Review:{ thisFlight.review }</Text>
         </View>
     )
+
 }
