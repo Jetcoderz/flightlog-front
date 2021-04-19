@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-const { airportList } = require("./airportList");
+const { airportList } = require("./data/airportList");
 
 export default function Map() {
   const [pathCoords, setPathCoords] = useState([]);
