@@ -6,10 +6,12 @@ const { airportList } = require("./airportList");
 
 export default function Map() {
   const [pathCoords, setPathCoords] = useState([]);
-  const [airports, setAirports] = useState([]);
+  const [theAirports, setTheAirports] = useState([]);
   const state = useSelector((state) => state);
 
   useEffect(() => {
+    const paths = [];
+    const airports = [];
     for (const flight of state.flightList) {
       if (!airports.includes(flight.depAirport)) {
         airports.push(flight.depAirport);
@@ -17,7 +19,7 @@ export default function Map() {
       if (!airports.includes(flight.arrAirport)) {
         airports.push(flight.arrAirport);
       }
-      pathCoords.push([
+      paths.push([
         {
           latitude: airportList[flight.depAirport].Latitude,
           longitude: airportList[flight.depAirport].Longitude,
@@ -28,9 +30,11 @@ export default function Map() {
         },
       ]);
     }
+    setPathCoords(paths);
+    setTheAirports(airports);
   }, []);
 
-  const markers = airports.map((airport) => {
+  const markers = theAirports.map((airport) => {
     return (
       <Marker
         coordinate={{
@@ -42,7 +46,9 @@ export default function Map() {
   });
 
   const paths = pathCoords.map((path) => {
-    return <Polyline coordinates={path} />;
+    return (
+      <Polyline coordinates={path} strokeColor={"#0f0f6c"} strokeWidth={3} />
+    );
   });
 
   return (
