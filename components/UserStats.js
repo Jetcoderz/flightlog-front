@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Dimensions, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { PieChart } from "react-native-chart-kit";
+import { createStackNavigator } from "@react-navigation/stack";
 const screenWidth = Dimensions.get("window").width;
 
-export default function UserStats() {
+export default function UserStats({ navigation }) {
   const state = useSelector((state) => state);
   const [flightsPerAirline, setFlightsPerAirline] = useState([]);
   const [data, setData] = useState([]);
@@ -51,23 +52,51 @@ export default function UserStats() {
     },
   };
 
+  function stats() {
+    return (
+      <View style={styles.container}>
+        <Text style={{ fontWeight: "bold", fontSize: 25 }}>
+          MY FLIGHT STATS
+        </Text>
+        <Text style={{ fontSize: 20, marginTop: 30 }}>Total Flights:</Text>
+        <Text style={{ fontSize: 20, marginTop: 5 }}>
+          {state.flightList.length}
+        </Text>
+        <Text style={{ fontSize: 20, marginTop: 30 }}>Flights by Airline:</Text>
+        <PieChart
+          data={data}
+          width={screenWidth}
+          height={220}
+          chartConfig={chartConfig}
+          accessor="numFlights"
+          backgroundColor="transparent"
+        />
+      </View>
+    );
+  }
+  const Stack = createStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <Text style={{ fontWeight: "bold", fontSize: 25 }}>MY FLIGHT STATS</Text>
-      <Text style={{ fontSize: 20, marginTop: 30 }}>Total Flights:</Text>
-      <Text style={{ fontSize: 20, marginTop: 5 }}>
-        {state.flightList.length}
-      </Text>
-      <Text style={{ fontSize: 20, marginTop: 30 }}>Flights by Airline:</Text>
-      <PieChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        chartConfig={chartConfig}
-        accessor="numFlights"
-        backgroundColor="transparent"
+    <Stack.Navigator initialRouteName="List">
+      <Stack.Screen
+        name="List"
+        component={stats}
+        options={{
+          headerTitle: "My Stats",
+          headerStyle: {
+            backgroundColor: "#298BD9",
+          },
+          headerTintColor: "#fff",
+          headerLeft: () => (
+            <Button
+              onPress={() => navigation.openDrawer()}
+              title="Menu"
+              color="#fff"
+            />
+          ),
+        }}
       />
-    </View>
+    </Stack.Navigator>
   );
 }
 

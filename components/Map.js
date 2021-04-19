@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, Text, View, Dimensions, Button } from "react-native";
+import { StyleSheet, View, Dimensions, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-const { airportList } = require("./data/airportList");
+const { airportList } = require("./resources/airportList");
 
 export default function Map({ navigation }) {
   const [pathCoords, setPathCoords] = useState([]);

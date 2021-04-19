@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  TextInput,
-  Image,
-  Button,
-  Alert,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { View, TextInput, Button, Text, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector, useDispatch } from "react-redux";
 import FlightInfo from "./FlightInfo";
@@ -62,7 +54,7 @@ export default function AddFlight({ navigation }) {
           headerLeft: () => (
             <Button
               onPress={() => navigation.openDrawer()}
-              title="Info"
+              title="Menu"
               color="#fff"
             />
           ),

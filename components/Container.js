@@ -36,8 +36,8 @@ export default function Container() {
     return <Map navigation={navigation} />;
   }
 
-  function userStats() {
-    return <UserStats />;
+  function userStats({ navigation }) {
+    return <UserStats navigation={navigation} />;
   }
 
   const Drawer = createDrawerNavigator();
