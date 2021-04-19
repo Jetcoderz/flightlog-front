@@ -16,16 +16,12 @@ export default function Login() {
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/users"
       );
       let jsonRes = await response.json();
-<<<<<<< HEAD
-      setUsers(jsonRes.map((i) => i.username));
-=======
       setUsers(
         jsonRes.map((i) => {
           const userobj = { username: i.username, pw: i.pw };
           return userobj;
         })
       );
->>>>>>> f240598cb7935541af3369db9ec39616c4e40b80
     };
     getUsers();
   }, []);

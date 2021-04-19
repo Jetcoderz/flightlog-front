@@ -32,6 +32,7 @@ export default function FlightInfo() {
         airline: "",
         plane: "",
       };
+
       const params = [
         flightData.flight_date,
         flightData.arrival.airport,
@@ -39,12 +40,15 @@ export default function FlightInfo() {
         flightData.arrival.scheduled,
         flightData.airline.name,
       ];
+
       const keys = ["date", "arrAirport", "arrGate", "landing", "airline"];
+
       for (let i = 0; i < 6; i++) {
         if (params[i]) {
           bodyObj[keys[i]] = params[i];
         }
       }
+
       if (flightData.aircraft) {
         bodyObj["plane"] = flightData.aircraft.iata;
       }
@@ -61,7 +65,7 @@ export default function FlightInfo() {
         }
       );
     }
-  });
+  }, []);
 
   return (
     <View>
