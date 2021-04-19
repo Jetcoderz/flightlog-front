@@ -7,6 +7,7 @@ export default function ReduxReducer(
     flightNum: "",
     selectedFlight: "",
     logo: logoObj,
+    ADDClicked: false,
   },
   action
 ) {
@@ -30,6 +31,11 @@ export default function ReduxReducer(
       return {
         ...state,
         selectedFlight: action.payload,
+      };
+    case "SetADDClicked":
+      return {
+        ...state,
+        ADDClicked: action.payload,
       };
     default:
       return state;
