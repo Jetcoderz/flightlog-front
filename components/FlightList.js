@@ -1,16 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  View,
-  ScrollView,
-  Button,
-  Image,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { View, ScrollView, Image, StyleSheet } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
-import Flight from "./Flight";
+import moment from "moment";
+import Flight from "./displayFlight/Flight";
 
 export default function FlightList() {
   const state = useSelector((state) => state);
@@ -25,7 +19,14 @@ export default function FlightList() {
 
   function CreateList({ navigation }) {
     const list = state.flightList.map((l, i) => (
-      <ListItem key={i} bottomDivider>
+      <ListItem
+        key={i}
+        bottomDivider
+        onPress={() => {
+          navigation.navigate("Details");
+          dispatch({ type: "SetSelectedFlight", payload: l.id });
+        }}
+      >
         <ListItem.Content>
           <Image
             style={styles.tinyLogo}
@@ -33,15 +34,8 @@ export default function FlightList() {
           ></Image>
           <ListItem.Title>{l.flightNo}</ListItem.Title>
           <ListItem.Subtitle>
-            {l.dep}-{l.arr}
+            {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-{l.arrAirport}
           </ListItem.Subtitle>
-          <Button
-            title="Go to Details"
-            onPress={() => {
-              navigation.navigate("Details");
-              dispatch({ type: "SetSelectedFlight", payload: l.id });
-            }}
-          />
         </ListItem.Content>
       </ListItem>
     ));

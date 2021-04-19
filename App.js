@@ -7,7 +7,6 @@ import ReduxReducer from "./components/ReduxReducer";
 
 import Login from "./components/Login";
 import Container from "./components/Container";
-import Flight from "./components/Flight";
 
 function Body() {
   const dispatch = useDispatch();

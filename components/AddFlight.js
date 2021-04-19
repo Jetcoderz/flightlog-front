@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -9,12 +9,15 @@ import {
   StyleSheet,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import FlightInfo from "./FlightInfo";
+import FlightInfo from "./displayFlight/FlightInfo";
 
-export default function AddFlight() {
+export default function AddFlight({ navigation }) {
   const state = useSelector((state) => state);
   const [flightNum, setFlightNum] = useState("");
   const [submit, setSubmit] = useState(false);
+  useEffect(() => {
+    navigation.toggleDrawer();
+  }, [state.drawerFlag]);
 
   return (
     <View>

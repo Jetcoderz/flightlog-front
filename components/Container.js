@@ -29,8 +29,8 @@ export default function Container() {
     return <FlightList />;
   }
 
-  function addflight() {
-    return <AddFlight />;
+  function addflight({ navigation }) {
+    return <AddFlight navigation={navigation} />;
   }
 
   function map() {
