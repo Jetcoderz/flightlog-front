@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { StyleSheet, View, Dimensions, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-const { airportList } = require("./data/airportList");
+const { airportList } = require("./resources/airportList");
 
-export default function Map() {
+export default function Map({ navigation }) {
   const [pathCoords, setPathCoords] = useState([]);
   const [theAirports, setTheAirports] = useState([]);
   const state = useSelector((state) => state);
@@ -57,21 +58,48 @@ export default function Map() {
     );
   });
 
+  function map() {
+    return (
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 36.2048,
+            longitude: 138.2529,
+            latitudeDelta: 10,
+            longitudeDelta: 10,
+          }}
+        >
+          {markers}
+          {paths}
+        </MapView>
+      </View>
+    );
+  }
+
+  const Stack = createStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 36.2048,
-          longitude: 138.2529,
-          latitudeDelta: 10,
-          longitudeDelta: 10,
+    <Stack.Navigator initialRouteName="List">
+      <Stack.Screen
+        name="List"
+        component={map}
+        options={{
+          headerTitle: "Flights Map",
+          headerStyle: {
+            backgroundColor: "#298BD9",
+          },
+          headerTintColor: "#fff",
+          headerLeft: () => (
+            <Button
+              onPress={() => navigation.openDrawer()}
+              title="Menu"
+              color="#fff"
+            />
+          ),
         }}
-      >
-        {markers}
-        {paths}
-      </MapView>
-    </View>
+      />
+    </Stack.Navigator>
   );
 }
 
