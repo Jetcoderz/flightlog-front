@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
 import Picture from "./Picture";
 import { useSelector, useDispatch } from "react-redux";
 import FlightInfo from "./FlightInfo";
@@ -19,43 +19,56 @@ export default function Flight() {
 
   return (
     <View style={styles.flight}>
-
-      <View style={styles.flightInfo}>
-        {/* for barcode */}
-        {/* <Image source={ barcode } style={styles.barcode}></Image> */}
-        <View style={styles.logoAirline}>
-          <Image source={state.logo[thisFlight.airlineICAO]} style={styles.logo}></Image>
-        </View>
-        {/* <Text>{state.selectedFlight}</Text> */}
-        <View style={styles.containerDepArr}>
-          <View>
-            <Text style={styles.depArr}>{thisFlight.depAirport}</Text>
-            <Text style={styles.moment}>{moment(thisFlight.takeoff).format("LT")}</Text>
-            <Text style={styles.moment}>{moment(thisFlight.takeoff).format("LL")}</Text>
-            <Text style={styles.gate}>Gate# {thisFlight.depGate}</Text>
+      <ScrollView>
+        <View style={styles.flightInfo}>
+          {/* for barcode */}
+          {/* <Image source={ barcode } style={styles.barcode}></Image> */}
+          <View style={styles.logoAirline}>
+            <Image
+              source={state.logo[thisFlight.airlineICAO]}
+              style={styles.logo}
+            ></Image>
           </View>
-          <Text　style={styles.airplane}>✈︎</Text>
-          <View>
-            <Text style={styles.depArr}>{thisFlight.arrAirport}</Text>
-            <Text style={styles.moment}>{moment(thisFlight.landing).format("LT")}</Text>
-            <Text style={styles.moment}>{moment(thisFlight.landing).format("LL")}</Text>
-            <Text style={styles.gate}>Gate# {thisFlight.arrGate}</Text>
+          {/* <Text>{state.selectedFlight}</Text> */}
+          <View style={styles.containerDepArr}>
+            <View>
+              <Text style={styles.depArr}>{thisFlight.depAirport}</Text>
+              <Text style={styles.moment}>
+                {moment(thisFlight.takeoff).format("LT")}
+              </Text>
+              <Text style={styles.moment}>
+                {moment(thisFlight.takeoff).format("LL")}
+              </Text>
+              <Text style={styles.gate}>Gate# {thisFlight.depGate}</Text>
+            </View>
+            <Text style={styles.airplane}>✈︎</Text>
+            <View>
+              <Text style={styles.depArr}>{thisFlight.arrAirport}</Text>
+              <Text style={styles.moment}>
+                {moment(thisFlight.landing).format("LT")}
+              </Text>
+              <Text style={styles.moment}>
+                {moment(thisFlight.landing).format("LL")}
+              </Text>
+              <Text style={styles.gate}>Gate# {thisFlight.arrGate}</Text>
+            </View>
           </View>
-          
+          <Text style={styles.airline}>Airline: {thisFlight.airlineICAO}</Text>
+          <Text style={styles.typeOfAircraft}>
+            Type of aircraft: {thisFlight.plane}
+          </Text>
         </View>
-        <Text style={styles.airline}>Airline: {thisFlight.airlineICAO}</Text>
-        <Text style={styles.typeOfAircraft}>Type of aircraft: {thisFlight.plane}</Text>
-      </View>
 
         {/* <FlightInfo /> */}
-        <UserInfo thisFlight = {thisFlight}/>
-      
-      <Picture />
+        <UserInfo thisFlight={thisFlight} />
+
+        <Picture />
+      </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   flight: {
     flex: 1,
   },
@@ -80,7 +93,6 @@ const styles = StyleSheet.create ({
     elevation: 5,
   },
   logoAirline: {
-
     margin: 5,
     flexDirection: "row",
   },
@@ -93,28 +105,28 @@ const styles = StyleSheet.create ({
     fontSize: 40,
     fontWeight: "bold",
     color: "dimgray",
-    textAlign: "center"
+    textAlign: "center",
   },
   moment: {
     textAlign: "center",
     color: "gray",
-    fontSize:10
+    fontSize: 10,
   },
   gate: {
     textAlign: "center",
     color: "gray",
-    fontSize:10
+    fontSize: 10,
   },
   airline: {
     marginLeft: 10,
     color: "gray",
-    fontSize:15,
+    fontSize: 15,
   },
   typeOfAircraft: {
     marginLeft: 10,
-    marginBottom:10,
+    marginBottom: 10,
     color: "gray",
-    fontSize:15
+    fontSize: 15,
   },
   containerDepArr: {
     flexDirection: "row",
@@ -124,7 +136,7 @@ const styles = StyleSheet.create ({
   airplane: {
     margin: 3,
     fontSize: 20,
-    paddingTop:10,
-    color: "dimgray"
+    paddingTop: 10,
+    color: "dimgray",
   },
-})
+});
