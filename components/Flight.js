@@ -6,7 +6,8 @@ import FlightInfo from "./FlightInfo";
 import UserInfo from "./UserInfo";
 import { color } from "react-native-reanimated";
 import moment from "moment";
-import barcode from "../assets/barcodehorizontal.png";
+//for barcode
+// import barcode from "../assets/barcodehorizontal.png";
 import { AutoScaling } from "aws-sdk";
 
 export default function Flight() {
@@ -20,7 +21,8 @@ export default function Flight() {
     <View style={styles.flight}>
 
       <View style={styles.flightInfo}>
-        <Image source={ barcode } style={styles.barcode}></Image>
+        {/* for barcode */}
+        {/* <Image source={ barcode } style={styles.barcode}></Image> */}
         <View style={styles.logoAirline}>
           <Image source={state.logo[thisFlight.airlineICAO]} style={styles.logo}></Image>
         </View>
@@ -57,11 +59,12 @@ const styles = StyleSheet.create ({
   flight: {
     flex: 1,
   },
-  barcode: {
-    width: "90%",
-    marginTop: 4,
-    marginLeft: 18
-  },
+  //for barcode
+  // barcode: {
+  //   width: "90%",
+  //   marginTop: 4,
+  //   marginLeft: 18
+  // },
   flightInfo: {
     display: "flex",
     backgroundColor: "white",
