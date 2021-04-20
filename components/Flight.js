@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import FlightInfo from "./FlightInfo";
 import UserInfo from "./UserInfo";
 import { color } from "react-native-reanimated";
+import moment from "moment";
+import barcode from "../assets/barcodehorizontal.png";
+import { AutoScaling } from "aws-sdk";
 
 export default function Flight() {
   const state = useSelector((state) => state);
@@ -15,18 +18,33 @@ export default function Flight() {
 
   return (
     <View style={styles.flight}>
+
       <View style={styles.flightInfo}>
+        <Image source={ barcode } style={styles.barcode}></Image>
         <View style={styles.logoAirline}>
           <Image source={state.logo[thisFlight.airlineICAO]} style={styles.logo}></Image>
-          <Text style={styles.airline}>{thisFlight.airlineICAO}</Text>
         </View>
         {/* <Text>{state.selectedFlight}</Text> */}
         <View style={styles.containerDepArr}>
-          <Text style={styles.depArr}>{thisFlight.depAirport}</Text>
+          <View>
+            <Text style={styles.depArr}>{thisFlight.depAirport}</Text>
+            <Text style={styles.moment}>{moment(thisFlight.takeoff).format("LT")}</Text>
+            <Text style={styles.moment}>{moment(thisFlight.takeoff).format("LL")}</Text>
+            <Text style={styles.gate}>Gate# {thisFlight.depGate}</Text>
+          </View>
           <Text　style={styles.airplane}>✈︎</Text>
-          <Text style={styles.depArr}>{thisFlight.arrAirport}</Text>
+          <View>
+            <Text style={styles.depArr}>{thisFlight.arrAirport}</Text>
+            <Text style={styles.moment}>{moment(thisFlight.landing).format("LT")}</Text>
+            <Text style={styles.moment}>{moment(thisFlight.landing).format("LL")}</Text>
+            <Text style={styles.gate}>Gate# {thisFlight.arrGate}</Text>
+          </View>
+          
         </View>
+        <Text style={styles.airline}>Airline: {thisFlight.airlineICAO}</Text>
+        <Text style={styles.typeOfAircraft}>Type of aircraft: {thisFlight.plane}</Text>
       </View>
+
         {/* <FlightInfo /> */}
         <UserInfo thisFlight = {thisFlight}/>
       
@@ -38,6 +56,11 @@ export default function Flight() {
 const styles = StyleSheet.create ({
   flight: {
     flex: 1,
+  },
+  barcode: {
+    width: "90%",
+    marginTop: 4,
+    marginLeft: 18
   },
   flightInfo: {
     display: "flex",
@@ -54,13 +77,9 @@ const styles = StyleSheet.create ({
     elevation: 5,
   },
   logoAirline: {
+
+    margin: 5,
     flexDirection: "row",
-  },
-  airline: {
-    marginBottom: 10,
-    textAlign: "center",
-    alignSelf: "flex-end",
-    color: "gray"
   },
   logo: {
     width: 80,
@@ -70,7 +89,29 @@ const styles = StyleSheet.create ({
   depArr: {
     fontSize: 40,
     fontWeight: "bold",
-    color: "dimgray"
+    color: "dimgray",
+    textAlign: "center"
+  },
+  moment: {
+    textAlign: "center",
+    color: "gray",
+    fontSize:10
+  },
+  gate: {
+    textAlign: "center",
+    color: "gray",
+    fontSize:10
+  },
+  airline: {
+    marginLeft: 10,
+    color: "gray",
+    fontSize:15,
+  },
+  typeOfAircraft: {
+    marginLeft: 10,
+    marginBottom:10,
+    color: "gray",
+    fontSize:15
   },
   containerDepArr: {
     flexDirection: "row",
@@ -80,8 +121,7 @@ const styles = StyleSheet.create ({
   airplane: {
     margin: 3,
     fontSize: 20,
-    textAlign: "center",
-    alignSelf: "center",
+    paddingTop:10,
     color: "dimgray"
-  }
+  },
 })
