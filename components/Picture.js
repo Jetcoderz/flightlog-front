@@ -10,12 +10,12 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
+import axios from "axios";
 
 const DEFAULT = {
   illustration:
     "https://flightlogpics.s3-ap-northeast-1.amazonaws.com/addimg.png",
 };
-
 const screenWidth = 270;
 
 export default function Picture() {
@@ -51,22 +51,79 @@ export default function Picture() {
     }
 
     let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    console.log("HERE", pickerResult);
-    // let postURL =
-    //   "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/awsPUT/" +
-    //   pickerResult.uri;
-    // console.log("local path", pickerResult.uri);
-    // console.log("POSTURL", postURL);
-    const response = await fetch(
-      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/awsPUT/data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fflightlog-front-a0f8a6b7-2470-43f7-ae62-e6712aa44e76/ImagePicker/5fe97a59-58ad-4c97-9ef3-83ade8f8c336.jpg"
+    console.log("---HERE---", pickerResult);
+    console.log(" ");
+
+    const resp = await axios.get(
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/awsPUT/whatever.jpg"
     );
-    // const jsonRes = await response.json();
-    console.log("RESOPNSE", response.url);
-    const newResponse = await fetch(response.url, {
-      method: "PUT",
-      body: pickerResult,
+    console.log("----------------", resp.data);
+    console.log(" ");
+
+    // const createFormData = (photo, body) => {
+    //   const data = new FormData();
+
+    //   data.append("photo", {
+    //     name: photo.fileName,
+    //     type: photo.type,
+    //     uri:
+    //       Platform.OS === "android"
+    //         ? photo.uri
+    //         : photo.uri.replace("file://", ""),
+    //   });
+
+    //   Object.keys(body).forEach((key) => {
+    //     data.append(key, body[key]);
+    //   });
+
+    //   return data;
+    // };
+
+    // const moreResponse = await fetch(resp.data, {
+    //   method: "PUT",
+    //   body: createFormData(pickerResult, { userId: "123" }),
+    // });
+    // console.log("&&&&&&&&&&&", JSON.stringify(moreResponse));
+
+    const bodyFormData = new FormData();
+    bodyFormData.append("image", {
+      name: "whatever",
+      type: pickerResult.type,
+      uri:
+        Platform.OS === "android"
+          ? pickerResult.uri
+          : pickerResult.uri.replace("file://", ""),
     });
-    console.log("--------PUT RESPONSE", JSON.stringify(newResponse));
+    console.log("is this right?", bodyFormData);
+    const anotherRes = await axios({
+      method: "PUT",
+      url: resp.data,
+      // body: bodyFormData,
+      body: pickerResult.uri,
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        "Content-Type": "image/jpg",
+      },
+    });
+    console.log("******", anotherRes);
+
+    // const getBlob = async (fileUri) => {
+    //   const resp = await fetch(fileUri);
+    //   const imageBody = await resp.blob();
+    //   return imageBody;
+    // };
+
+    // const uploadImage = async (uploadUrl, data) => {
+    //   const imageBody = await getBlob(data);
+
+    //   return axios({
+    //     method: "PUT",
+    //     url: uploadUrl,
+    //     body: imageBody,
+    //   });
+    // };
+    // const test = await uploadImage(resp.data, pickerResult.uri);
+    // console.log("WTFFFFFFFF", JSON.stringify(test));
   };
 
   const goForward = () => {

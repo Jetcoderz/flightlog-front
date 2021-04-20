@@ -61,14 +61,19 @@ export default function UserStats({ navigation }) {
   function stats() {
     return (
       <View style={styles.container}>
-        <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-          MY FLIGHT STATS
+        <Image
+          source={require("./resources/profileIMG.png")}
+          style={{ height: 100, width: 100, borderRadius: 50 }}
+        />
+        <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 20 }}>
+          Total Flights:
         </Text>
-        <Text style={{ fontSize: 20, marginTop: 30 }}>Total Flights:</Text>
         <Text style={{ fontSize: 20, marginTop: 5 }}>
           {state.flightList.length}
         </Text>
-        <Text style={{ fontSize: 20, marginTop: 30 }}>Flights by Airline:</Text>
+        <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 10 }}>
+          Flights by Airline:
+        </Text>
         <PieChart
           data={data}
           width={screenWidth}
@@ -111,6 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingTop: 30,
+    paddingTop: 20,
   },
 });
