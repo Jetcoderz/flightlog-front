@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Dimensions, Button } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  Text,
+  View,
+  Dimensions,
+  Button,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { PieChart } from "react-native-chart-kit";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -7,7 +14,6 @@ const screenWidth = Dimensions.get("window").width;
 
 export default function UserStats({ navigation }) {
   const state = useSelector((state) => state);
-  const [flightsPerAirline, setFlightsPerAirline] = useState([]);
   const [data, setData] = useState([]);
 
   useEffect(() => {
