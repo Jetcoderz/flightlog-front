@@ -1,81 +1,139 @@
 import React, { useRef, useState, useEffect } from "react";
 import Carousel, { ParallaxImage } from "react-native-snap-carousel";
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import * as ImagePicker from "expo-image-picker";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
-const ENTRIES1 = [
-  {
-    title: "Beautiful and dramatic Antelope Canyon",
-    subtitle: "Lorem ipsum dolor sit amet et nuncat mergitur",
-    illustration: "https://i.imgur.com/UYiroysl.jpg",
-  },
-  {
-    title: "Earlier this morning, NYC",
-    subtitle: "Lorem ipsum dolor sit amet",
-    illustration: "https://i.imgur.com/UPrs1EWl.jpg",
-  },
-  {
-    title: "White Pocket Sunset",
-    subtitle: "Lorem ipsum dolor sit amet et nuncat ",
-    illustration: "https://i.imgur.com/MABUbpDl.jpg",
-  },
-  {
-    title: "Acrocorinth, Greece",
-    subtitle: "Lorem ipsum dolor sit amet et nuncat mergitur",
-    illustration: "https://i.imgur.com/KZsmUi2l.jpg",
-  },
-  {
-    title: "The lone tree, majestic landscape of New Zealand",
-    subtitle: "Lorem ipsum dolor sit amet",
-    illustration: "https://i.imgur.com/2nCt3Sbl.jpg",
-  },
-];
-
-// const {width: screenWidth} = Dimensions.get('window');
-const screenWidth = 500;
+const DEFAULT = {
+  illustration:
+    "https://flightlogpics.s3-ap-northeast-1.amazonaws.com/addimg.png",
+};
+const screenWidth = 270;
 
 export default function Picture() {
+  const state = useSelector((state) => state);
   const [entries, setEntries] = useState([]);
+  //const [selectedPhoto, setSelectedPhoto] = useState("");
   const carouselRef = useRef(null);
 
-  useEffect(() => {
-    setEntries(ENTRIES1);
-  }, []);
+  // useEffect(() => {
+  const getPhotoURLs = async () => {
+    let fullURL =
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/photos/" +
+      String(state.selectedFlight);
+    let response = await fetch(fullURL);
+    let jsonRes = await response.json();
+    let theURLs = await jsonRes.map((photo) => {
+      const photoObj = {};
+      photoObj["illustration"] = photo.url;
+      return photoObj;
+    });
+    theURLs.push(DEFAULT);
+    setEntries(theURLs);
+  };
+  getPhotoURLs();
+  // }, []);
+
+  const openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required.");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+
+    // Get signedUrl
+    const curUID = uuidv4();
+    const awsURL =
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/awsPUT/" +
+      curUID;
+    const resp = await axios.get(awsURL);
+
+    // Upload to S3
+    pickerResult.uri = pickerResult.uri.replace("file://", "");
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", resp.data);
+    //xhr.setRequestHeader("Content-Type", pickerResult.type);
+    xhr.send({
+      uri: pickerResult.uri,
+      type: pickerResult.type,
+      //name: pickerResult.fileName,
+    });
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          //console.log("Image successfully uploaded to S3");
+        } else {
+          //console.log("Error while sending the image to S3", xhr.status);
+        }
+      }
+    };
+
+    // Add to database
+    const bodyObj = {
+      url: `https://flightlogpics.s3-ap-northeast-1.amazonaws.com/${curUID}`,
+      flightID: state.selectedFlight,
+    };
+    await fetch(
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/photos",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyObj),
+      }
+    );
+  };
 
   const goForward = () => {
     carouselRef.current.snapToNext();
   };
 
   const renderItem = ({ item, index }, parallaxProps) => {
-    return (
-      <View style={styles.item}>
-        <ParallaxImage
-          source={{ uri: item.illustration }}
-          containerStyle={styles.imageContainer}
-          style={styles.image}
-          parallaxFactor={0.4}
-          {...parallaxProps}
-        />
-        <Text style={styles.title} numberOfLines={2}>
-          {item.title}
-        </Text>
-      </View>
-    );
+    if (index === entries.length - 1) {
+      return (
+        <TouchableOpacity onPress={openImagePickerAsync}>
+          <View style={styles.item}>
+            <ParallaxImage
+              source={{ uri: item.illustration }}
+              containerStyle={styles.imageContainer}
+              style={styles.image}
+              parallaxFactor={0.4}
+              {...parallaxProps}
+            />
+          </View>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <View style={styles.item}>
+          <ParallaxImage
+            source={{ uri: item.illustration }}
+            containerStyle={styles.imageContainer}
+            style={styles.image}
+            parallaxFactor={0.4}
+            {...parallaxProps}
+          />
+        </View>
+      );
+    }
   };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={goForward}>
+      {/* <TouchableOpacity onPress={goForward}>
         <Text>go to next slide</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Carousel
         ref={carouselRef}
-        sliderWidth={screenWidth}
+        sliderWidth={screenWidth + 100}
         sliderHeight={screenWidth}
         itemWidth={screenWidth - 60}
         data={entries}
@@ -91,8 +149,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    width: 100,
-    height: 100,
+    width: 180,
+    height: 180,
   },
   imageContainer: {
     flex: 1,
@@ -102,6 +160,6 @@ const styles = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
 });
