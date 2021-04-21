@@ -8,18 +8,26 @@ import ReduxReducer from "./components/ReduxReducer";
 import Login from "./components/Login";
 import Container from "./components/Container";
 
+import AuthNavigator from "./components/auth/AuthNavigation";
+
+import AWSconfig from "./components/auth/awsconfig.js";
+import Amplify from "@aws-amplify/core";
+
+Amplify.configure(AWSconfig);
+
 function Body() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
   return (
     <View style={{ flex: 1 }}>
-      {state.username === "" ? <Login /> : <Container />}
+      {/* {state.username === "" ? <Login /> : <Container />} */}
+      <AuthNavigator />
     </View>
   );
 }
 
-export default function App(props) {
+export default function App() {
   const store = createStore(ReduxReducer);
 
   return (
