@@ -4,7 +4,7 @@ export default function ReduxReducer(
   state = {
     username: "",
     flightList: [],
-    flightNo: "333",
+    flightNo: "",
     selectedFlight: "",
     logo: logoObj,
     addedFlight: {},
