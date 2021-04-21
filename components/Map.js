@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, View, Dimensions, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Button,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 const { airportList } = require("./resources/airportList");
 
@@ -65,9 +72,9 @@ export default function Map({ navigation }) {
           style={styles.map}
           initialRegion={{
             latitude: 36.2048,
-            longitude: 138.2529,
-            latitudeDelta: 10,
-            longitudeDelta: 10,
+            longitude: 135.4529,
+            latitudeDelta: 20,
+            longitudeDelta: 20,
           }}
         >
           {markers}
@@ -90,12 +97,18 @@ export default function Map({ navigation }) {
             backgroundColor: "#298BD9",
           },
           headerTintColor: "#fff",
+          headerTitleAlign: "center",
           headerLeft: () => (
-            <Button
+            <TouchableOpacity
               onPress={() => navigation.openDrawer()}
-              title="Menu"
-              color="#298BD9"
-            />
+              style={{ backgroundColor: "#298BD9" }}
+            >
+              <Text
+                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
+              >
+                Menu
+              </Text>
+            </TouchableOpacity>
           ),
         }}
       />
