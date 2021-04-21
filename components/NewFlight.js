@@ -39,7 +39,7 @@ export default function NewFlight({ navigation }) {
             entertainment: entertainmnet,
             meal: meal,
             seatNo: seatNo,
-            reviw,
+            reviw: reviw,
           }),
         }
       );
@@ -55,7 +55,6 @@ export default function NewFlight({ navigation }) {
       let jsonRes = await response.json();
       let theFlights = await jsonRes.map((flight) => flight);
       dispatch({ type: "SetFlightList", payload: theFlights });
-      console.log(state.addedFlight);
     };
 
     getFlights();
@@ -67,7 +66,6 @@ export default function NewFlight({ navigation }) {
       {state.addedFlight.airline && (
         <View>
           <Image source={state.logo[state.addedFlight.airline.name]}></Image>
-          {/* ↓ error */}
           <View>
             <Text>Departure: {state.addedFlight.departure.iata}</Text>
             <Text>Arrival: {state.addedFlight.arrival.iata}</Text>
