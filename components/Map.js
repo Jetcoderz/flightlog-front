@@ -94,7 +94,7 @@ export default function Map({ navigation }) {
             <Button
               onPress={() => navigation.openDrawer()}
               title="Menu"
-              color="#fff"
+              color="#298BD9"
             />
           ),
         }}

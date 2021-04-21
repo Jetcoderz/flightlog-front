@@ -68,7 +68,7 @@ export default function AddFlight({ navigation }) {
             <Button
               onPress={() => navigation.openDrawer()}
               title="Menu"
-              color="#fff"
+              color="#298BD9"
             />
           ),
         }}
