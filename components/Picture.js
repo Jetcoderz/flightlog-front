@@ -60,70 +60,64 @@ export default function Picture() {
     console.log("----------------", resp.data);
     console.log(" ");
 
-    // const createFormData = (photo, body) => {
-    //   const data = new FormData();
-
-    //   data.append("photo", {
-    //     name: photo.fileName,
-    //     type: photo.type,
-    //     uri:
-    //       Platform.OS === "android"
-    //         ? photo.uri
-    //         : photo.uri.replace("file://", ""),
-    //   });
-
-    //   Object.keys(body).forEach((key) => {
-    //     data.append(key, body[key]);
-    //   });
-
-    //   return data;
-    // };
-
-    // const moreResponse = await fetch(resp.data, {
-    //   method: "PUT",
-    //   body: createFormData(pickerResult, { userId: "123" }),
+    // const bodyFormData = new FormData();
+    // bodyFormData.append("image", {
+    //   name: "whatever",
+    //   type: pickerResult.type,
+    //   uri:
+    //     Platform.OS === "android"
+    //       ? pickerResult.uri
+    //       : pickerResult.uri.replace("file://", ""),
     // });
-    // console.log("&&&&&&&&&&&", JSON.stringify(moreResponse));
+    // console.log("is this right?", bodyFormData);
+    // const anotherRes = await axios({
+    //   method: "PUT",
+    //   url: resp.data,
+    //   // body: bodyFormData,
+    //   body: pickerResult.uri,
+    //   // headers: {
+    //   //   // "Content-Type": "multipart/form-data",
+    //   //   // "Content-Type": "image/jpg",
+    //   // },
+    // });
+    // console.log("******", anotherRes);
 
-    const bodyFormData = new FormData();
-    bodyFormData.append("image", {
-      name: "whatever",
-      type: pickerResult.type,
-      uri:
-        Platform.OS === "android"
-          ? pickerResult.uri
-          : pickerResult.uri.replace("file://", ""),
-    });
-    console.log("is this right?", bodyFormData);
-    const anotherRes = await axios({
-      method: "PUT",
-      url: resp.data,
-      // body: bodyFormData,
-      body: pickerResult.uri,
-      headers: {
-        // "Content-Type": "multipart/form-data",
-        "Content-Type": "image/jpg",
+    //NEW ATTEMPT
+    function urlToBlob(url) {
+      return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+        xhr.onerror = reject;
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4) {
+            resolve(xhr.response);
+          }
+        };
+        xhr.open("GET", url);
+        xhr.responseType = "blob"; // convert type
+        xhr.send();
+      });
+    }
+
+    const imageExt = pickerResult.uri.split(".").pop();
+    const imageMime = `image/${imageExt}`;
+    //let picture = await fetch(pickerResult.uri);
+    //picture = await picture.blob();
+    let picture = urlToBlob(pickerResult.uri);
+
+    const imageData = new File([picture], "photo.jpg");
+
+    const axiosResponse = await axios.put(
+      resp.data,
+      {
+        data: imageData,
       },
-    });
-    console.log("******", anotherRes);
-
-    // const getBlob = async (fileUri) => {
-    //   const resp = await fetch(fileUri);
-    //   const imageBody = await resp.blob();
-    //   return imageBody;
-    // };
-
-    // const uploadImage = async (uploadUrl, data) => {
-    //   const imageBody = await getBlob(data);
-
-    //   return axios({
-    //     method: "PUT",
-    //     url: uploadUrl,
-    //     body: imageBody,
-    //   });
-    // };
-    // const test = await uploadImage(resp.data, pickerResult.uri);
-    // console.log("WTFFFFFFFF", JSON.stringify(test));
+      {
+        headers: {
+          "Content-Type": "",
+        },
+      }
+    );
+    console.log(axiosResponse);
   };
 
   const goForward = () => {
