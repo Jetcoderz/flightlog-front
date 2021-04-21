@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
 import Picture from "./Picture";
 import { useSelector, useDispatch } from "react-redux";
-import FlightInfo from "./FlightInfo";
 import UserInfo from "./UserInfo";
 import { color } from "react-native-reanimated";
 import moment from "moment";
