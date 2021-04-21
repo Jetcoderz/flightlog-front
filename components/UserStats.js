@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Dimensions, Button } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  Text,
+  View,
+  Dimensions,
+  Button,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { PieChart } from "react-native-chart-kit";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -7,7 +14,6 @@ const screenWidth = Dimensions.get("window").width;
 
 export default function UserStats({ navigation }) {
   const state = useSelector((state) => state);
-  const [flightsPerAirline, setFlightsPerAirline] = useState([]);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -55,14 +61,19 @@ export default function UserStats({ navigation }) {
   function stats() {
     return (
       <View style={styles.container}>
-        <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-          MY FLIGHT STATS
+        <Image
+          source={require("./resources/profileIMG.png")}
+          style={{ height: 100, width: 100, borderRadius: 50 }}
+        />
+        <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 20 }}>
+          Total Flights:
         </Text>
-        <Text style={{ fontSize: 20, marginTop: 30 }}>Total Flights:</Text>
         <Text style={{ fontSize: 20, marginTop: 5 }}>
           {state.flightList.length}
         </Text>
-        <Text style={{ fontSize: 20, marginTop: 30 }}>Flights by Airline:</Text>
+        <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 10 }}>
+          Flights by Airline:
+        </Text>
         <PieChart
           data={data}
           width={screenWidth}
@@ -105,6 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingTop: 30,
+    paddingTop: 20,
   },
 });
