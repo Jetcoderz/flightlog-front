@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import Auth from "@aws-amplify/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -15,44 +13,9 @@ import Confirmation from "./screens/Confirmation";
 const AuthStack = createStackNavigator();
 const AuthModalStack = createStackNavigator();
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
-
 function AuthNavigation() {
   const [userToken, SetUserToken] = useState("");
   const [user, SetUser] = useState("");
-
-  //     constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //       userToken: null,
-  //     };
-  //     this.signOut = this.signOut.bind(this);
-  //     this.signIn = this.signIn.bind(this);
-  //   }
-
-  //   async componentDidMount() {
-  //     await this.loadApp();
-  //   }
-
-  //   async loadApp() {
-  //     await Auth.currentAuthenticatedUser()
-  //       .then((user) => {
-  //         this.signIn(user);
-  //       })
-  //       .catch(() => {
-  //         console.log("err signing in");
-  //       });
-  //     this.setState({
-  //       loading: false,
-  //     });
-  //   }
 
   const signOut = async () => {
     await Auth.signOut().catch((err) => {
@@ -66,8 +29,6 @@ function AuthNavigation() {
     const userLogged = Auth.user.attributes.email;
     SetUser(userLogged);
   };
-
-  //const { userToken, loading } = this.state;
 
   function AuthNavigator({ signIn }) {
     return (
