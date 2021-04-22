@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import Auth from "@aws-amplify/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -25,6 +26,7 @@ const AuthModalStack = createStackNavigator();
 
 function AuthNavigation() {
   const [userToken, SetUserToken] = useState("");
+  const [user, SetUser] = useState("");
 
   //     constructor(props) {
   //     super(props);
@@ -61,6 +63,8 @@ function AuthNavigation() {
 
   const signIn = async (user) => {
     SetUserToken(user.signInUserSession.accessToken.jwtToken);
+    const userLogged = Auth.user.attributes.email;
+    SetUser(userLogged);
   };
 
   //const { userToken, loading } = this.state;
@@ -102,7 +106,7 @@ function AuthNavigation() {
   if (!userToken) {
     view = <AuthNavigator signIn={signIn} />;
   } else {
-    view = <Container signOut={signOut} userToken={userToken} />;
+    view = <Container signOut={signOut} user={user} />;
   }
   return <NavigationContainer>{view}</NavigationContainer>;
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, ScrollView, Image, StyleSheet, Button } from "react-native";
+import Auth from "@aws-amplify/auth";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";

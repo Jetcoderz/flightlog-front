@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
-import { Text } from "react-native";
+import { View, Text } from "react-native";
+import Auth from "@aws-amplify/auth";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
 import Map from "./Map";
@@ -11,19 +12,18 @@ import UserStats from "./UserStats";
 export default function Container(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-
   useEffect(() => {
     const getFlights = async () => {
       let fullURL =
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-        state.username;
+        Auth.user.attributes.email;
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
       let theFlights = await jsonRes.map((flight) => flight);
       dispatch({ type: "SetFlightList", payload: theFlights });
     };
-    getFlights();
-  }, []);
+    if (props.user) getFlights();
+  }, [props.user]);
 
   function flightlist({ navigation }) {
     return <FlightList navigation={navigation} />;
@@ -44,14 +44,11 @@ export default function Container(props) {
   const Drawer = createDrawerNavigator();
 
   return (
-    // <NavigationContainer>
-    // <Drawer.Navigator initialRouteName="Home">
-    //   <Drawer.Screen name="Home" component={flightlist} />
-    //   <Drawer.Screen name="Add Flight" component={addflight} />
-    //   <Drawer.Screen name="Flights Map" component={map} />
-    //   <Drawer.Screen name="View Stats" component={userStats} />
-    // </Drawer.Navigator>
-    <Text>{props.userToken}</Text>
-    // </NavigationContainer>
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen name="Home" component={flightlist} />
+      <Drawer.Screen name="Add Flight" component={addflight} />
+      <Drawer.Screen name="Flights Map" component={map} />
+      <Drawer.Screen name="View Stats" component={userStats} />
+    </Drawer.Navigator>
   );
 }

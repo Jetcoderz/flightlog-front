@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, Button, TextInput } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import Auth from "@aws-amplify/auth";
 
 export default function NewFlight({ navigation }) {
   const state = useSelector((state) => state);
@@ -23,7 +24,7 @@ export default function NewFlight({ navigation }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: state.username || "",
+            username: Auth.user.attributes.email || "",
             date: state.addedFlight.flight_date || "",
             flightNo: state.flightNo,
             depAirport: state.addedFlight.departure.iata || "",
@@ -50,7 +51,7 @@ export default function NewFlight({ navigation }) {
     const getFlights = async () => {
       let fullURL =
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-        state.username;
+        Auth.user.attributes.email;
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
       let theFlights = await jsonRes.map((flight) => flight);

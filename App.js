@@ -8,7 +8,7 @@ import ReduxReducer from "./components/ReduxReducer";
 import Login from "./components/Login";
 import Container from "./components/Container";
 
-import AuthNavigator from "./components/auth/AuthNavigation";
+import AuthNavigator from "./components/auth/AuthNavigator";
 
 import AWSconfig from "./components/auth/awsconfig.js";
 import Amplify from "@aws-amplify/core";
