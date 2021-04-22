@@ -1,6 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, ScrollView, Image, StyleSheet, Button } from "react-native";
+import {
+  View,
+  ScrollView,
+  Image,
+  StyleSheet,
+  Button,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
@@ -69,19 +77,30 @@ export default function FlightList({ navigation }) {
             backgroundColor: "#298BD9",
           },
           headerTintColor: "#fff",
+          headerTitleAlign: "center",
           headerLeft: () => (
-            <Button
+            <TouchableOpacity
               onPress={() => navigation.openDrawer()}
-              title="Menu"
-              color="#fff"
-            />
+              style={{ backgroundColor: "#298BD9" }}
+            >
+              <Text
+                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
+              >
+                Menu
+              </Text>
+            </TouchableOpacity>
           ),
           headerRight: () => (
-            <Button
+            <TouchableOpacity
               onPress={() => navigation.navigate("Add Flight")}
-              title="Add"
-              color="#fff"
-            />
+              style={{ backgroundColor: "#298BD9" }}
+            >
+              <Text
+                style={{ color: "#fff", fontWeight: "bold", marginRight: 15 }}
+              >
+                Add
+              </Text>
+            </TouchableOpacity>
           ),
         }}
       />
