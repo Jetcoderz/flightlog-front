@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { PieChart } from "react-native-chart-kit";
@@ -101,12 +102,18 @@ export default function UserStats({ navigation }) {
             backgroundColor: "#298BD9",
           },
           headerTintColor: "#fff",
+          headerTitleAlign: "center",
           headerLeft: () => (
-            <Button
+            <TouchableOpacity
               onPress={() => navigation.openDrawer()}
-              title="Menu"
-              color="#fff"
-            />
+              style={{ backgroundColor: "#298BD9" }}
+            >
+              <Text
+                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
+              >
+                Menu
+              </Text>
+            </TouchableOpacity>
           ),
         }}
       />

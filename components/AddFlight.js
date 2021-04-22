@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -64,12 +71,18 @@ export default function AddFlight({ navigation }) {
             backgroundColor: "#298BD9",
           },
           headerTintColor: "#fff",
+          headerTitleAlign: "center",
           headerLeft: () => (
-            <Button
+            <TouchableOpacity
               onPress={() => navigation.openDrawer()}
-              title="Menu"
-              color="#fff"
-            />
+              style={{ backgroundColor: "#298BD9" }}
+            >
+              <Text
+                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
+              >
+                Menu
+              </Text>
+            </TouchableOpacity>
           ),
         }}
       />

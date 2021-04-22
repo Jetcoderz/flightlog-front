@@ -5,9 +5,6 @@ import { createStore } from "redux";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import ReduxReducer from "./components/ReduxReducer";
 
-import Login from "./components/Login";
-import Container from "./components/Container";
-
 import AuthNavigator from "./components/auth/AuthNavigator";
 
 import AWSconfig from "./components/auth/awsconfig.js";
@@ -21,7 +18,6 @@ function Body() {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* {state.username === "" ? <Login /> : <Container />} */}
       <AuthNavigator />
     </View>
   );
