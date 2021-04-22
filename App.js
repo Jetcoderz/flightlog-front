@@ -7,6 +7,7 @@ import ReduxReducer from "./components/ReduxReducer";
 
 import Login from "./components/Login";
 import Container from "./components/Container";
+// import QRScanner from "./components/QRScanner";
 
 function Body() {
   const dispatch = useDispatch();
@@ -15,7 +16,9 @@ function Body() {
   return (
     <View style={{ flex: 1 }}>
       {state.username === "" ? <Login /> : <Container />}
+      {/* <QRScanner />s */}
     </View>
+    
   );
 }
 
