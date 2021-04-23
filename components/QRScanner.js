@@ -20,11 +20,13 @@ export default function QRScanner() {
 
     const handleBarCodeScanned = async ({ type, data }) => {
       setScanned(true);
+      alert(`QRcode with type ${type} and data ${data} has been scanned`);
       
       const postQR = async () => {
         
         try {
-          console.log({
+          console.log(
+            {
             username: Auth.user.attributes.email,
             flightID: state.selectedFlight,
             url: data,
@@ -43,22 +45,24 @@ export default function QRScanner() {
                 url: data,
               })
             }
-            )
-            console.log(res);
-          }
-          catch (e) {
-            console.log(e);
-          }
+          )
+          // let test = JSON.stringify(res);
+          // console.log(test);
         }
-        
+        catch (e) {
+          console.log(e);
+        }
+      }
 
-        // if(Array.includes(data)){
-        //   postQR();
-
-        // } else {
-        //   alert(`QRcode with type ${type} and data ${data} has been scanned`);
-        // }
+      postQR();
     };
+
+    // if(Array.includes(data)){
+      // postQR();
+
+      // } else {
+      //   alert(`QRcode with type ${type} and data ${data} has been scanned`);
+      // }
     
 
     

@@ -7,12 +7,21 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Dimensions,
+  Alert,
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import moment from "moment";
+import Auth from "@aws-amplify/auth";
+import DropDownPicker from "react-native-dropdown-picker";
 import Flight from "./Flight";
 import QRScanner from "./QRScanner"
+import { Platform } from "react-native";
+
+const screenwidth = Dimensions.get("window").width - 40;
+const fullWidth = Dimensions.get("window").width;
 
 export default function FlightList({ navigation }) {
   const state = useSelector((state) => state);
@@ -23,29 +32,197 @@ export default function FlightList({ navigation }) {
       width: 30,
       height: 30,
     },
+    deleteBox: {
+      backgroundColor: "red",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 100,
+      height: 100,
+    },
+    deleteText: {
+      fontSize: 15,
+      color: "white",
+    },
   });
+
+  const resetList = async () => {
+    let fullURL =
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+      Auth.user.attributes.email;
+    let response = await fetch(fullURL);
+    let jsonRes = await response.json();
+    let theFlights = [];
+    for (let i = jsonRes.length - 1; i >= 0; i--) {
+      theFlights.push(jsonRes[i]);
+    }
+    let sorted = theFlights.sort((a, b) => {
+      let date1 = a.date.slice(0, 10).replace(/-/g, "");
+      let date2 = b.date.slice(0, 10).replace(/-/g, "");
+      return Number(date2) - Number(date1);
+    });
+    filterItems = [];
+    dispatch({ type: "SetFlightList", payload: sorted });
+  };
+
+  const years = [];
+  const months = [];
+  if (state.flightList.length > 0) {
+    state.flightList.forEach((flight) => {
+      let yr = flight.date.slice(0, 4);
+      if (!years.includes(yr)) years.push(yr);
+      let mn = flight.date.slice(5, 7);
+      if (!months.includes(mn)) months.push(mn);
+    });
+  }
+  // console.log("TESTING", months);
+  // console.log("TESTING", years);
+
+  let filterItems = [];
+
+  years.forEach((yr) => {
+    if (filterItems.length === 0) {
+      filterItems.push({ label: "Year", value: "yr", untouchable: true });
+    }
+    filterItems.push({
+      label: yr,
+      value: yr,
+      parent: "yr",
+    });
+  });
+
+  filterItems.push({ label: "Month", value: "mn", untouchable: true });
+
+  months.forEach((mn) => {
+    filterItems.push({
+      label: mn,
+      value: mn,
+      parent: "mn",
+    });
+  });
+
+  const applyFilters = (item) => {
+    console.log("LIST", state.flightList);
+    const filteredFlights = state.flightList.filter((flight) => {
+      if (item[0]) {
+        if (item[0].parent === "mn") {
+          let checkVal = flight.date.slice(5, 7);
+          return checkVal === item[0].value;
+        }
+
+        if (item[0].parent === "yr") {
+          console.log("ITEM", item[0]);
+          console.log("FLIGHT", flight);
+          let checkVal = flight.date.slice(0, 4);
+          console.log("VAL", checkVal);
+          return checkVal === item[0].value;
+        }
+      }
+    });
+    console.log("CHECKING", filteredFlights);
+    dispatch({ type: "SetFlightList", payload: filteredFlights });
+  };
+
+  const deleteFlight = async (id) => {
+    let fullURL =
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+      id;
+    const resp = await fetch(fullURL, {
+      method: "DELETE",
+    });
+    let jsonR = await JSON.stringify(resp.status);
+
+    if (jsonR === "200") {
+      resetList();
+    }
+  };
+
+  const confirmDelete = (id) => {
+    Alert.alert(
+      "Delete Flight",
+      "Are you sure you want to delete this flight?",
+      [
+        {
+          text: "Yes",
+          onPress: () => deleteFlight(id),
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
 
   function CreateList() {
     const list = state.flightList.map((l, i) => (
-      <ListItem
+      <Swipeable
         key={i}
-        bottomDivider
-        onPress={() => {
-          navigation.navigate("Details");
-          dispatch({ type: "SetSelectedFlight", payload: l.id });
+        renderRightActions={() => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                confirmDelete(l.id);
+              }}
+              activeOpacity={0.6}
+            >
+              <View style={styles.deleteBox}>
+                <Text style={styles.deleteText}>Delete</Text>
+              </View>
+            </TouchableOpacity>
+          );
         }}
       >
-        <ListItem.Content>
-          <Image
-            style={styles.tinyLogo}
-            source={state.logo[l.airlineICAO]}
-          ></Image>
-          <ListItem.Title>{l.flightNo}</ListItem.Title>
-          <ListItem.Subtitle>
-            {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-{l.arrAirport}
-          </ListItem.Subtitle>
-        </ListItem.Content>
-      </ListItem>
+        <ListItem
+          bottomDivider
+          onPress={() => {
+            navigation.navigate("Details");
+            dispatch({ type: "SetSelectedFlight", payload: l.id });
+          }}
+        >
+          <ListItem.Content>
+            <View
+              style={{
+                flexDirection: "row",
+                width: screenwidth,
+                justifyContent: "space-between",
+              }}
+            >
+              <Image
+                style={styles.tinyLogo}
+                source={state.logo[l.airlineICAO]}
+              ></Image>
+              {/* <TouchableOpacity
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderColor: "black",
+                  borderWidth: 1,
+                  borderRadius: 9,
+                  alignContent: "center",
+                  justifyContent: "space-around",
+                }}
+                onPress={() => {
+                  confirmDelete(l.id);
+                }}
+              >
+                <Text
+                  style={{
+                    color: "black",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  X
+                </Text>
+              </TouchableOpacity> */}
+            </View>
+            <ListItem.Title>{l.flightNo}</ListItem.Title>
+            <ListItem.Subtitle>
+              {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-
+              {l.arrAirport}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+      </Swipeable>
     ));
     return list;
   }
@@ -53,6 +230,59 @@ export default function FlightList({ navigation }) {
   function List() {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <View
+          style={{
+            ...(Platform.OS !== "android" && {
+              zIndex: 10,
+            }),
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            height: 40,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              height: 25,
+              borderColor: "lightgray",
+              borderWidth: 2,
+              borderRadius: 10,
+              marginLeft: 15,
+            }}
+            onPress={resetList}
+          >
+            <Text
+              style={{
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
+              Clear Filter
+            </Text>
+          </TouchableOpacity>
+          <DropDownPicker
+            items={filterItems}
+            multiple={true}
+            multipleText="%d items have been selected."
+            min={0}
+            max={10}
+            defaultValue={""}
+            placeholder="Filter by..."
+            containerStyle={{ width: 200 }}
+            itemStyle={{
+              justifyContent: "flex-start",
+            }}
+            onChangeItemMultiple={(item) => applyFilters(item)}
+          />
+        </View>
+        <Text
+          style={{
+            width: fullWidth,
+            height: 0,
+            borderColor: "gray",
+            borderBottomWidth: 1,
+          }}
+        ></Text>
         <ScrollView>
           <CreateList></CreateList>
         </ScrollView>
@@ -78,7 +308,7 @@ export default function FlightList({ navigation }) {
         name="List"
         component={List}
         options={{
-          headerTitle: "My Flights",
+          headerTitle: `${Auth.user.attributes.name}'s Flights`,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
