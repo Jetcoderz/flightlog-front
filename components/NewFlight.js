@@ -54,7 +54,10 @@ export default function NewFlight({ navigation }) {
         Auth.user.attributes.email;
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
-      let theFlights = await jsonRes.map((flight) => flight);
+      let theFlights = [];
+      for (let i = jsonRes.length - 1; i >= 0; i--) {
+        theFlights.push(jsonRes[i]);
+      }
       dispatch({ type: "SetFlightList", payload: theFlights });
     };
 

@@ -5,7 +5,7 @@ import {
   Text,
   View,
   Dimensions,
-  Button,
+  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -37,7 +37,7 @@ export default function UserStats({ navigation }) {
         name: airline,
         numFlights: perAirline[airline],
         legendFontColor: "#000000",
-        legendFontSize: 20,
+        legendFontSize: 16,
         color: `rgba(${r}, ${g}, ${b}, 1)`,
       };
       pieData.push(dataSet);
@@ -63,18 +63,26 @@ export default function UserStats({ navigation }) {
 
   function stats() {
     return (
-      <View style={styles.container}>
+      <ScrollView
+        style={{
+          flex: 1,
+          backgroundColor: "#fff",
+          paddingTop: 20,
+          paddingBottom: 20,
+        }}
+        contentContainerStyle={{ alignItems: "center" }}
+      >
         <Image
           source={require("./resources/profileIMG.png")}
-          style={{ height: 100, width: 100, borderRadius: 50 }}
+          style={{ height: 80, width: 80, borderRadius: 40 }}
         />
-        <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 20 }}>
+        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
           Total Flights:
         </Text>
-        <Text style={{ fontSize: 20, marginTop: 5 }}>
+        <Text style={{ fontSize: 16, marginTop: 5 }}>
           {state.flightList.length}
         </Text>
-        <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 10 }}>
+        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>
           Flights by Airline:
         </Text>
         <PieChart
@@ -86,7 +94,8 @@ export default function UserStats({ navigation }) {
           backgroundColor="transparent"
         />
         <Calender />
-      </View>
+        <Text style={{ marginBottom: 15 }}></Text>
+      </ScrollView>
     );
   }
   const Stack = createStackNavigator();
@@ -120,12 +129,3 @@ export default function UserStats({ navigation }) {
     </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    paddingTop: 20,
-  },
-});
