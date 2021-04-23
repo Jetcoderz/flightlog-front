@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { PieChart } from "react-native-chart-kit";
 import { createStackNavigator } from "@react-navigation/stack";
 import Calender from "./Calender";
+import Stamp from "./Stamp";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -94,6 +95,7 @@ export default function UserStats({ navigation }) {
           backgroundColor="transparent"
         />
         <Calender />
+        <Stamp />
         <Text style={{ marginBottom: 15 }}></Text>
       </ScrollView>
     );
