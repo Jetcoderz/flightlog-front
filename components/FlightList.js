@@ -17,6 +17,7 @@ import moment from "moment";
 import Auth from "@aws-amplify/auth";
 import DropDownPicker from "react-native-dropdown-picker";
 import Flight from "./Flight";
+import { Platform } from "react-native";
 
 const screenwidth = Dimensions.get("window").width - 40;
 const fullWidth = Dimensions.get("window").width;
@@ -230,9 +231,13 @@ export default function FlightList({ navigation }) {
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View
           style={{
+            ...(Platform.OS !== "android" && {
+              zIndex: 10,
+            }),
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            height: 40,
           }}
         >
           <TouchableOpacity
@@ -262,7 +267,7 @@ export default function FlightList({ navigation }) {
             max={10}
             defaultValue={""}
             placeholder="Filter by..."
-            containerStyle={{ height: 40, width: 200 }}
+            containerStyle={{ width: 200 }}
             itemStyle={{
               justifyContent: "flex-start",
             }}
