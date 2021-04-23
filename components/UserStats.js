@@ -37,7 +37,7 @@ export default function UserStats({ navigation }) {
         name: airline,
         numFlights: perAirline[airline],
         legendFontColor: "#000000",
-        legendFontSize: 20,
+        legendFontSize: 16,
         color: `rgba(${r}, ${g}, ${b}, 1)`,
       };
       pieData.push(dataSet);
@@ -63,6 +63,7 @@ export default function UserStats({ navigation }) {
 
   function stats() {
     return (
+<<<<<<< HEAD
       <View style={styles.container}>
         <ScrollView>
           <Image
@@ -89,6 +90,41 @@ export default function UserStats({ navigation }) {
           <Calender />
         </ScrollView>
       </View>
+=======
+      <ScrollView
+        style={{
+          flex: 1,
+          backgroundColor: "#fff",
+          paddingTop: 20,
+          paddingBottom: 20,
+        }}
+        contentContainerStyle={{ alignItems: "center" }}
+      >
+        <Image
+          source={require("./resources/profileIMG.png")}
+          style={{ height: 80, width: 80, borderRadius: 40 }}
+        />
+        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
+          Total Flights:
+        </Text>
+        <Text style={{ fontSize: 16, marginTop: 5 }}>
+          {state.flightList.length}
+        </Text>
+        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>
+          Flights by Airline:
+        </Text>
+        <PieChart
+          data={data}
+          width={screenWidth}
+          height={220}
+          chartConfig={chartConfig}
+          accessor="numFlights"
+          backgroundColor="transparent"
+        />
+        <Calender />
+        <Text style={{ marginBottom: 15 }}></Text>
+      </ScrollView>
+>>>>>>> 42619b1f7140f4e95247fc9fcfdcc5b583bfadf3
     );
   }
   const Stack = createStackNavigator();
@@ -122,12 +158,3 @@ export default function UserStats({ navigation }) {
     </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    paddingTop: 20,
-  },
-});
