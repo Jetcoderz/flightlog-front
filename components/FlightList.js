@@ -7,11 +7,15 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Dimensions,
+  Alert,
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
 import Flight from "./Flight";
+
+const screenwidth = Dimensions.get("window").width - 40;
 
 export default function FlightList({ navigation }) {
   const state = useSelector((state) => state);
@@ -24,6 +28,34 @@ export default function FlightList({ navigation }) {
     },
   });
 
+  const deleteFlight = async (id) => {
+    let fullURL =
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+      id;
+    console.log("FULL", fullURL);
+    const resp = await fetch(fullURL, {
+      method: "DELETE",
+    });
+    let jsonR = await JSON.stringify(resp);
+    console.log(jsonR);
+  };
+
+  const confirmDelete = (id) => {
+    Alert.alert(
+      "Delete Flight",
+      "Are you sure you want to delete this flight?",
+      [
+        {
+          text: "Yes",
+          onPress: () => deleteFlight(id),
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
+  };
+
   function CreateList() {
     const list = state.flightList.map((l, i) => (
       <ListItem
@@ -35,10 +67,42 @@ export default function FlightList({ navigation }) {
         }}
       >
         <ListItem.Content>
-          <Image
-            style={styles.tinyLogo}
-            source={state.logo[l.airlineICAO]}
-          ></Image>
+          <View
+            style={{
+              flexDirection: "row",
+              width: screenwidth,
+              justifyContent: "space-between",
+            }}
+          >
+            <Image
+              style={styles.tinyLogo}
+              source={state.logo[l.airlineICAO]}
+            ></Image>
+            <TouchableOpacity
+              style={{
+                width: 20,
+                height: 20,
+                borderColor: "black",
+                borderWidth: 1,
+                borderRadius: 9,
+                alignContent: "center",
+                justifyContent: "space-around",
+              }}
+              onPress={() => {
+                confirmDelete(l.id);
+              }}
+            >
+              <Text
+                style={{
+                  color: "black",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                X
+              </Text>
+            </TouchableOpacity>
+          </View>
           <ListItem.Title>{l.flightNo}</ListItem.Title>
           <ListItem.Subtitle>
             {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-{l.arrAirport}
