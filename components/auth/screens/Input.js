@@ -1,16 +1,17 @@
-import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import React from "react";
+import { StyleSheet, TextInput } from "react-native";
 
 const styles = StyleSheet.create({
   input: {
     height: 40,
-    margin: '3%',
-    padding: '3%',
-    width: '94%',
+    margin: "3%",
+    padding: 10,
+    width: "94%",
     borderWidth: 1,
-    borderColor: 'lightgray',
+    borderColor: "lightgray",
     borderRadius: 5,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
+    fontSize: 16,
   },
 });
 

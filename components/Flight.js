@@ -3,11 +3,9 @@ import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
 import Picture from "./Picture";
 import { useSelector, useDispatch } from "react-redux";
 import UserInfo from "./UserInfo";
-import { color } from "react-native-reanimated";
 import moment from "moment";
 //for barcode
 // import barcode from "../assets/barcodehorizontal.png";
-import { AutoScaling } from "aws-sdk";
 
 export default function Flight() {
   const state = useSelector((state) => state);

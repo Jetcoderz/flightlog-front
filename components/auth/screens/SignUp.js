@@ -37,7 +37,7 @@ export default function SignUp({ navigation }) {
         validationData: [], // optional
       })
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           console.log("navigation: ", navigation);
           navigation.navigate("Confirmation", { email });
         })

@@ -54,8 +54,16 @@ export default function NewFlight({ navigation }) {
         Auth.user.attributes.email;
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
-      let theFlights = await jsonRes.map((flight) => flight);
-      dispatch({ type: "SetFlightList", payload: theFlights });
+      let theFlights = [];
+      for (let i = jsonRes.length - 1; i >= 0; i--) {
+        theFlights.push(jsonRes[i]);
+      }
+      let sorted = theFlights.sort((a, b) => {
+        let date1 = a.date.slice(0, 10).replace(/-/g, "");
+        let date2 = b.date.slice(0, 10).replace(/-/g, "");
+        return Number(date2) - Number(date1);
+      });
+      dispatch({ type: "SetFlightList", payload: sorted });
     };
 
     getFlights();

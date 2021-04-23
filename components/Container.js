@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
-import { View, Text } from "react-native";
 import Auth from "@aws-amplify/auth";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
@@ -19,8 +17,16 @@ export default function Container(props) {
         Auth.user.attributes.email;
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
-      let theFlights = await jsonRes.map((flight) => flight);
-      dispatch({ type: "SetFlightList", payload: theFlights });
+      let theFlights = [];
+      for (let i = jsonRes.length - 1; i >= 0; i--) {
+        theFlights.push(jsonRes[i]);
+      }
+      let sorted = theFlights.sort((a, b) => {
+        let date1 = a.date.slice(0, 10).replace(/-/g, "");
+        let date2 = b.date.slice(0, 10).replace(/-/g, "");
+        return Number(date2) - Number(date1);
+      });
+      dispatch({ type: "SetFlightList", payload: sorted });
     };
     if (props.user) getFlights();
   }, [props.user]);
