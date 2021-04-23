@@ -13,6 +13,7 @@ import {
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
+import Auth from "@aws-amplify/auth";
 import Flight from "./Flight";
 
 const screenwidth = Dimensions.get("window").width - 40;
@@ -32,12 +33,23 @@ export default function FlightList({ navigation }) {
     let fullURL =
       "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
       id;
-    console.log("FULL", fullURL);
     const resp = await fetch(fullURL, {
       method: "DELETE",
     });
-    let jsonR = await JSON.stringify(resp);
-    console.log(jsonR);
+    let jsonR = await JSON.stringify(resp.status);
+
+    if (jsonR === "200") {
+      let refreshListURL =
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+        Auth.user.attributes.email;
+      let response = await fetch(refreshListURL);
+      let jsonRes = await response.json();
+      let theFlights = [];
+      for (let i = jsonRes.length - 1; i >= 0; i--) {
+        theFlights.push(jsonRes[i]);
+      }
+      dispatch({ type: "SetFlightList", payload: theFlights });
+    }
   };
 
   const confirmDelete = (id) => {
