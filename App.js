@@ -9,6 +9,7 @@ import AuthNavigator from "./components/auth/AuthNavigator";
 
 import AWSconfig from "./components/auth/awsconfig.js";
 import Amplify from "@aws-amplify/core";
+import QRScanner from "./components/QRScanner";
 
 Amplify.configure(AWSconfig);
 
@@ -18,8 +19,10 @@ function Body() {
 
   return (
     <View style={{ flex: 1 }}>
+      {/* <QRScanners /> */}
       <AuthNavigator />
     </View>
+    
   );
 }
 

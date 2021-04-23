@@ -18,8 +18,6 @@ export default function Flight() {
     <View style={styles.flight}>
       <ScrollView>
         <View style={styles.flightInfo}>
-          {/* for barcode */}
-          {/* <Image source={ barcode } style={styles.barcode}></Image> */}
           <View style={styles.logoAirline}>
             <Image
               source={state.logo[thisFlight.airlineICAO]}

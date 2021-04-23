@@ -17,6 +17,7 @@ import moment from "moment";
 import Auth from "@aws-amplify/auth";
 import DropDownPicker from "react-native-dropdown-picker";
 import Flight from "./Flight";
+import QRScanner from "./QRScanner"
 import { Platform } from "react-native";
 
 const screenwidth = Dimensions.get("window").width - 40;
@@ -73,8 +74,8 @@ export default function FlightList({ navigation }) {
       if (!months.includes(mn)) months.push(mn);
     });
   }
-  console.log("TESTING", months);
-  console.log("TESTING", years);
+  // console.log("TESTING", months);
+  // console.log("TESTING", years);
 
   let filterItems = [];
 
@@ -293,6 +294,12 @@ export default function FlightList({ navigation }) {
     return <Flight></Flight>;
   }
 
+  function Scanner() {
+    return(
+        <QRScanner></QRScanner>
+    )
+  }
+
   const Stack = createStackNavigator();
 
   return (
@@ -338,6 +345,29 @@ export default function FlightList({ navigation }) {
         component={Details}
         options={{
           headerTitle: "Flight Detail",
+          headerTintColor: "#fff",
+          headerStyle: {
+            backgroundColor: "#298BD9",
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("QRscanner")}
+              style={{ backgroundColor: "#298BD9" }}
+            >
+              <Text
+                style={{ color: "#fff", fontWeight: "bold", marginRight: 15 }}
+              >
+                QR
+              </Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="QRscanner"
+        component={Scanner}
+        option={{
+          headerTitle: "QRScanner",
           headerTintColor: "#fff",
           headerStyle: {
             backgroundColor: "#298BD9",
