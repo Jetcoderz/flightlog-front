@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 const Confirmation = ({ route, navigation }) => {
   const [authCode, setAuthCode] = useState("");
   const [error, setError] = useState(" ");
-  console.log("confirmation navigation: ", navigation);
+  //console.log("confirmation navigation: ", navigation);
   const { email } = route.params;
 
   const confirmSignUp = async () => {

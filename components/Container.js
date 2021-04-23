@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
-import { View, Text } from "react-native";
 import Auth from "@aws-amplify/auth";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
