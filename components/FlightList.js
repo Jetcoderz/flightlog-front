@@ -12,6 +12,7 @@ import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
 import Flight from "./Flight";
+import QRScanner from "./QRScanner"
 
 export default function FlightList({ navigation }) {
   const state = useSelector((state) => state);
@@ -63,6 +64,12 @@ export default function FlightList({ navigation }) {
     return <Flight></Flight>;
   }
 
+  function Scanner() {
+    return(
+        <QRScanner></QRScanner>
+    )
+  }
+
   const Stack = createStackNavigator();
 
   return (
@@ -108,6 +115,29 @@ export default function FlightList({ navigation }) {
         component={Details}
         options={{
           headerTitle: "Flight Detail",
+          headerTintColor: "#fff",
+          headerStyle: {
+            backgroundColor: "#298BD9",
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("QRscanner")}
+              style={{ backgroundColor: "#298BD9" }}
+            >
+              <Text
+                style={{ color: "#fff", fontWeight: "bold", marginRight: 15 }}
+              >
+                QR
+              </Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="QRscanner"
+        component={Scanner}
+        option={{
+          headerTitle: "QRScanner",
           headerTintColor: "#fff",
           headerStyle: {
             backgroundColor: "#298BD9",

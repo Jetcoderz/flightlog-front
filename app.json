@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jetcoderz"
+      "bundleIdentifier": "com.jetcoderz.flightlog"
     },
     "android": {
       "adaptiveIcon": {
