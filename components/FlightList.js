@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import moment from "moment";
 import Auth from "@aws-amplify/auth";
 import Flight from "./Flight";
@@ -26,6 +27,17 @@ export default function FlightList({ navigation }) {
     tinyLogo: {
       width: 30,
       height: 30,
+    },
+    deleteBox: {
+      backgroundColor: "red",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 100,
+      height: 100,
+    },
+    deleteText: {
+      fontSize: 15,
+      color: "white",
     },
   });
 
@@ -70,57 +82,75 @@ export default function FlightList({ navigation }) {
 
   function CreateList() {
     const list = state.flightList.map((l, i) => (
-      <ListItem
+      <Swipeable
         key={i}
-        bottomDivider
-        onPress={() => {
-          navigation.navigate("Details");
-          dispatch({ type: "SetSelectedFlight", payload: l.id });
-        }}
-      >
-        <ListItem.Content>
-          <View
-            style={{
-              flexDirection: "row",
-              width: screenwidth,
-              justifyContent: "space-between",
-            }}
-          >
-            <Image
-              style={styles.tinyLogo}
-              source={state.logo[l.airlineICAO]}
-            ></Image>
+        renderRightActions={() => {
+          return (
             <TouchableOpacity
-              style={{
-                width: 20,
-                height: 20,
-                borderColor: "black",
-                borderWidth: 1,
-                borderRadius: 9,
-                alignContent: "center",
-                justifyContent: "space-around",
-              }}
               onPress={() => {
                 confirmDelete(l.id);
               }}
+              activeOpacity={0.6}
             >
-              <Text
+              <View style={styles.deleteBox}>
+                <Text style={styles.deleteText}>Delete</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
+      >
+        <ListItem
+          bottomDivider
+          onPress={() => {
+            navigation.navigate("Details");
+            dispatch({ type: "SetSelectedFlight", payload: l.id });
+          }}
+        >
+          <ListItem.Content>
+            <View
+              style={{
+                flexDirection: "row",
+                width: screenwidth,
+                justifyContent: "space-between",
+              }}
+            >
+              <Image
+                style={styles.tinyLogo}
+                source={state.logo[l.airlineICAO]}
+              ></Image>
+              {/* <TouchableOpacity
                 style={{
-                  color: "black",
-                  textAlign: "center",
-                  fontWeight: "bold",
+                  width: 20,
+                  height: 20,
+                  borderColor: "black",
+                  borderWidth: 1,
+                  borderRadius: 9,
+                  alignContent: "center",
+                  justifyContent: "space-around",
+                }}
+                onPress={() => {
+                  confirmDelete(l.id);
                 }}
               >
-                X
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <ListItem.Title>{l.flightNo}</ListItem.Title>
-          <ListItem.Subtitle>
-            {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-{l.arrAirport}
-          </ListItem.Subtitle>
-        </ListItem.Content>
-      </ListItem>
+                <Text
+                  style={{
+                    color: "black",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  X
+                </Text>
+              </TouchableOpacity> */}
+            </View>
+            <ListItem.Title>{l.flightNo}</ListItem.Title>
+            <ListItem.Subtitle>
+              {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-
+              {l.arrAirport}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+      </Swipeable>
     ));
     return list;
   }
@@ -147,7 +177,7 @@ export default function FlightList({ navigation }) {
         name="List"
         component={List}
         options={{
-          headerTitle: "My Flights",
+          headerTitle: `${Auth.user.attributes.name}'s Flights`,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
