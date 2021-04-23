@@ -14,9 +14,11 @@ import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
 import Auth from "@aws-amplify/auth";
+import DropDownPicker from "react-native-dropdown-picker";
 import Flight from "./Flight";
 
 const screenwidth = Dimensions.get("window").width - 40;
+const fullWidth = Dimensions.get("window").width;
 
 export default function FlightList({ navigation }) {
   const state = useSelector((state) => state);
@@ -29,6 +31,83 @@ export default function FlightList({ navigation }) {
     },
   });
 
+  const resetList = async () => {
+    let fullURL =
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+      Auth.user.attributes.email;
+    let response = await fetch(fullURL);
+    let jsonRes = await response.json();
+    let theFlights = [];
+    for (let i = jsonRes.length - 1; i >= 0; i--) {
+      theFlights.push(jsonRes[i]);
+    }
+    let sorted = theFlights.sort((a, b) => {
+      let date1 = a.date.slice(0, 10).replace(/-/g, "");
+      let date2 = b.date.slice(0, 10).replace(/-/g, "");
+      return Number(date2) - Number(date1);
+    });
+    filterItems = [];
+    dispatch({ type: "SetFlightList", payload: sorted });
+  };
+
+  const years = [];
+  const months = [];
+  if (state.flightList.length > 0) {
+    state.flightList.forEach((flight) => {
+      let yr = flight.date.slice(0, 4);
+      if (!years.includes(yr)) years.push(yr);
+      let mn = flight.date.slice(5, 7);
+      if (!months.includes(mn)) months.push(mn);
+    });
+  }
+  console.log("TESTING", months);
+  console.log("TESTING", years);
+
+  let filterItems = [];
+
+  years.forEach((yr) => {
+    if (filterItems.length === 0) {
+      filterItems.push({ label: "Year", value: "yr", untouchable: true });
+    }
+    filterItems.push({
+      label: yr,
+      value: yr,
+      parent: "yr",
+    });
+  });
+
+  filterItems.push({ label: "Month", value: "mn", untouchable: true });
+
+  months.forEach((mn) => {
+    filterItems.push({
+      label: mn,
+      value: mn,
+      parent: "mn",
+    });
+  });
+
+  const applyFilters = (item) => {
+    console.log("LIST", state.flightList);
+    const filteredFlights = state.flightList.filter((flight) => {
+      if (item[0]) {
+        if (item[0].parent === "mn") {
+          let checkVal = flight.date.slice(5, 7);
+          return checkVal === item[0].value;
+        }
+
+        if (item[0].parent === "yr") {
+          console.log("ITEM", item[0]);
+          console.log("FLIGHT", flight);
+          let checkVal = flight.date.slice(0, 4);
+          console.log("VAL", checkVal);
+          return checkVal === item[0].value;
+        }
+      }
+    });
+    console.log("CHECKING", filteredFlights);
+    dispatch({ type: "SetFlightList", payload: filteredFlights });
+  };
+
   const deleteFlight = async (id) => {
     let fullURL =
       "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
@@ -39,16 +118,7 @@ export default function FlightList({ navigation }) {
     let jsonR = await JSON.stringify(resp.status);
 
     if (jsonR === "200") {
-      let refreshListURL =
-        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-        Auth.user.attributes.email;
-      let response = await fetch(refreshListURL);
-      let jsonRes = await response.json();
-      let theFlights = [];
-      for (let i = jsonRes.length - 1; i >= 0; i--) {
-        theFlights.push(jsonRes[i]);
-      }
-      dispatch({ type: "SetFlightList", payload: theFlights });
+      resetList();
     }
   };
 
@@ -128,6 +198,55 @@ export default function FlightList({ navigation }) {
   function List() {
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              height: 25,
+              borderColor: "lightgray",
+              borderWidth: 2,
+              borderRadius: 10,
+              marginLeft: 15,
+            }}
+            onPress={resetList}
+          >
+            <Text
+              style={{
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
+              Clear Filter
+            </Text>
+          </TouchableOpacity>
+          <DropDownPicker
+            items={filterItems}
+            multiple={true}
+            multipleText="%d items have been selected."
+            min={0}
+            max={10}
+            defaultValue={""}
+            placeholder="Filter by..."
+            containerStyle={{ height: 40, width: 200 }}
+            itemStyle={{
+              justifyContent: "flex-start",
+            }}
+            onChangeItemMultiple={(item) => applyFilters(item)}
+          />
+        </View>
+        <Text
+          style={{
+            width: fullWidth,
+            height: 0,
+            borderColor: "gray",
+            borderBottomWidth: 1,
+          }}
+        ></Text>
         <ScrollView>
           <CreateList></CreateList>
         </ScrollView>

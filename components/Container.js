@@ -23,7 +23,12 @@ export default function Container(props) {
       for (let i = jsonRes.length - 1; i >= 0; i--) {
         theFlights.push(jsonRes[i]);
       }
-      dispatch({ type: "SetFlightList", payload: theFlights });
+      let sorted = theFlights.sort((a, b) => {
+        let date1 = a.date.slice(0, 10).replace(/-/g, "");
+        let date2 = b.date.slice(0, 10).replace(/-/g, "");
+        return Number(date2) - Number(date1);
+      });
+      dispatch({ type: "SetFlightList", payload: sorted });
     };
     if (props.user) getFlights();
   }, [props.user]);
