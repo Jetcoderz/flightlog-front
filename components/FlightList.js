@@ -24,7 +24,6 @@ const screenwidth = Dimensions.get("window").width - 40;
 const fullWidth = Dimensions.get("window").width;
 
 export default function FlightList({ navigation }) {
-  console.log("Flightlist Mounted");
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -327,7 +326,9 @@ export default function FlightList({ navigation }) {
           ),
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("Add Flight")}
+              onPress={() =>
+                navigation.navigate("Add Flight", { screen: "AddFlight" })
+              }
               style={{ backgroundColor: "#298BD9" }}
             >
               <Text
