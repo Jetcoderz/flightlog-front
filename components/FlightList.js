@@ -17,13 +17,14 @@ import moment from "moment";
 import Auth from "@aws-amplify/auth";
 import DropDownPicker from "react-native-dropdown-picker";
 import Flight from "./Flight";
-import QRScanner from "./QRScanner"
+import QRScanner from "./QRScanner";
 import { Platform } from "react-native";
 
 const screenwidth = Dimensions.get("window").width - 40;
 const fullWidth = Dimensions.get("window").width;
 
 export default function FlightList({ navigation }) {
+  console.log("Flightlist Mounted");
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -295,9 +296,7 @@ export default function FlightList({ navigation }) {
   }
 
   function Scanner() {
-    return(
-        <QRScanner></QRScanner>
-    )
+    return <QRScanner></QRScanner>;
   }
 
   const Stack = createStackNavigator();

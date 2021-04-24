@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Auth from "@aws-amplify/auth";
@@ -7,7 +7,9 @@ import AddFlight from "./AddFlight";
 import Map from "./Map";
 import UserStats from "./UserStats";
 
-export default function Container(props) {
+const Drawer = createDrawerNavigator();
+
+export default function Container() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   useEffect(() => {
@@ -28,11 +30,11 @@ export default function Container(props) {
       });
       dispatch({ type: "SetFlightList", payload: sorted });
     };
-    if (props.user) getFlights();
-  }, [props.user]);
+    if (Auth.user.attributes.email) getFlights();
+  }, [Auth.user.attributes.email]);
 
   function flightlist({ navigation }) {
-    return <FlightList navigation={navigation} />;
+    return state.flightListLoaded && <FlightList navigation={navigation} />;
   }
 
   function addflight({ navigation }) {
@@ -46,8 +48,6 @@ export default function Container(props) {
   function userStats({ navigation }) {
     return <UserStats navigation={navigation} />;
   }
-
-  const Drawer = createDrawerNavigator();
 
   return (
     <Drawer.Navigator initialRouteName="Home">
