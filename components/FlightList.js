@@ -45,6 +45,9 @@ export default function FlightList({ navigation }) {
       fontSize: 15,
       color: "white",
     },
+    labelHead: {
+      fontWeight: "bold",
+    },
   });
 
   const resetList = async () => {
@@ -66,24 +69,49 @@ export default function FlightList({ navigation }) {
     dispatch({ type: "SetFlightList", payload: sorted });
   };
 
+  const airlines = [];
   const years = [];
   const months = [];
+  const monNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   if (state.flightList.length > 0) {
     state.flightList.forEach((flight) => {
       let yr = flight.date.slice(0, 4);
       if (!years.includes(yr)) years.push(yr);
       let mn = flight.date.slice(5, 7);
-      if (!months.includes(mn)) months.push(mn);
+      let monIndex = Number(mn) - 1;
+      if (!months.includes(monNames[monIndex])) {
+        months.unshift(monNames[monIndex]);
+      }
+      let airl = flight.airlineICAO;
+      if (!airlines.includes(airl)) {
+        airlines.push(airl);
+      }
     });
   }
-  // console.log("TESTING", months);
-  // console.log("TESTING", years);
 
   let filterItems = [];
 
   years.forEach((yr) => {
     if (filterItems.length === 0) {
-      filterItems.push({ label: "Year", value: "yr", untouchable: true });
+      filterItems.push({
+        label: "Year",
+        value: "yr",
+        untouchable: true,
+        textStyle: styles.labelHead,
+      });
     }
     filterItems.push({
       label: yr,
@@ -92,7 +120,12 @@ export default function FlightList({ navigation }) {
     });
   });
 
-  filterItems.push({ label: "Month", value: "mn", untouchable: true });
+  filterItems.push({
+    label: "Month",
+    value: "mn",
+    untouchable: true,
+    textStyle: styles.labelHead,
+  });
 
   months.forEach((mn) => {
     filterItems.push({
@@ -102,8 +135,22 @@ export default function FlightList({ navigation }) {
     });
   });
 
+  filterItems.push({
+    label: "Airline",
+    value: "airline",
+    untouchable: true,
+    textStyle: styles.labelHead,
+  });
+
+  airlines.forEach((airl) => {
+    filterItems.push({
+      label: airl,
+      value: airl,
+      parent: "airline",
+    });
+  });
+
   const applyFilters = (item) => {
-    console.log("LIST", state.flightList);
     const filteredFlights = state.flightList.filter((flight) => {
       if (item[0]) {
         if (item[0].parent === "mn") {
@@ -112,15 +159,16 @@ export default function FlightList({ navigation }) {
         }
 
         if (item[0].parent === "yr") {
-          console.log("ITEM", item[0]);
-          console.log("FLIGHT", flight);
           let checkVal = flight.date.slice(0, 4);
           console.log("VAL", checkVal);
           return checkVal === item[0].value;
         }
+        if (item[0].parent === "airline") {
+          let checkVal = flight.airlineICAO;
+          return checkVal === item[0].value;
+        }
       }
     });
-    console.log("CHECKING", filteredFlights);
     dispatch({ type: "SetFlightList", payload: filteredFlights });
   };
 
@@ -179,6 +227,7 @@ export default function FlightList({ navigation }) {
             navigation.navigate("Details");
             dispatch({ type: "SetSelectedFlight", payload: l.id });
           }}
+          style={{ borderBottomWidth: 1, borderBottomColor: "lightgray" }}
         >
           <ListItem.Content>
             <View
@@ -239,6 +288,9 @@ export default function FlightList({ navigation }) {
             </Text>
           </TouchableOpacity>
           <DropDownPicker
+            scrollViewProps={{
+              persistentScrollbar: true,
+            }}
             items={filterItems}
             multiple={true}
             multipleText="%d items have been selected."
