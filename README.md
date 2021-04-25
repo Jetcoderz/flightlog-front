@@ -14,6 +14,7 @@ This is a team project created during our study at Code Chrysalis, a Tokyo-based
 
 ## Tech Stack
 <img width="796" alt="Screen Shot 2021-04-25 at 21 55 35" src="https://user-images.githubusercontent.com/34878933/115994215-03013e00-a611-11eb-8dfa-8ac3c2972c69.png">
+
 * Front End
   * React Native
   * Expo
