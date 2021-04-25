@@ -4,7 +4,7 @@ This is a team project created during our study at Code Chrysalis, a Tokyo-based
 
 ## User Story and Features
 * User should be able to add/delete flights 
-  * 
+  * Add flight with data from Aviationstack API
   * Attach photo to flight
 * User should br able to view/analyse own flight history
   * Flight list with filter
