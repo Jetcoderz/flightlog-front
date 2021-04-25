@@ -30,7 +30,17 @@ export default function Stamp() {
 
   return (
     <View>
-      <Text>My Airline Collection</Text>
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: "bold",
+          marginTop: 20,
+          marginBottom: 15,
+          textAlign: "center",
+        }}
+      >
+        My Airline Collection:
+      </Text>
       {state.flightList && (
         <View style={styles.logoBox}>
           {Object.keys(state.logo).map((i) => {

@@ -73,10 +73,10 @@ export default function UserStats({ navigation }) {
         }}
         contentContainerStyle={{ alignItems: "center" }}
       >
-        <Image
+        {/* <Image
           source={require("./resources/profileIMG.png")}
           style={{ height: 80, width: 80, borderRadius: 40 }}
-        />
+        /> */}
         <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
           Total Flights:
         </Text>
@@ -96,7 +96,7 @@ export default function UserStats({ navigation }) {
         />
         <Calender />
         <Stamp />
-        <Text style={{ marginBottom: 15 }}></Text>
+        <Text style={{ marginBottom: 20 }}></Text>
       </ScrollView>
     );
   }
