@@ -26,8 +26,29 @@ export default function NewFlight({ navigation }) {
     { id: 2, selected: false, name: "Travel" },
   ]);
 
-  const postButton = async () => {
-    const purpose = purposeItems.filter((i) => i.selected === true)[0]["name"];
+  async function postButton() {
+    const purpose = purposeItems.filter((i) => i.selected === true).length
+      ? purposeItems.filter((i) => i.selected === true)[0]["name"]
+      : "";
+    const body = {
+      username: Auth.user.attributes.email || "",
+      date: state.addedFlight.flight_date || "",
+      flightNo: state.flightNo,
+      depAirport: state.addedFlight.departure.iata || "",
+      arrAirport: state.addedFlight.arrival.iata || "",
+      depGate: state.addedFlight.departure.gate || "",
+      arrGate: state.addedFlight.arrival.gate || "",
+      takeoff: state.addedFlight.departure.scheduled || "",
+      landing: state.addedFlight.arrival.scheduled || "",
+      airlineICAO: state.addedFlight.airline.icao || "",
+      // ↓ return null
+      // plane: state.addedFlight.aircraft.icao || "",
+      purpose: purpose,
+      entertainment: entertainmnet,
+      meal: meal,
+      seatNo: seatNo,
+      reviw: reviw,
+    };
     try {
       await fetch(
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist",
@@ -37,25 +58,7 @@ export default function NewFlight({ navigation }) {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            username: Auth.user.attributes.email || "",
-            date: state.addedFlight.flight_date || "",
-            flightNo: state.flightNo,
-            depAirport: state.addedFlight.departure.iata || "",
-            arrAirport: state.addedFlight.arrival.iata || "",
-            depGate: state.addedFlight.departure.gate || "",
-            arrGate: state.addedFlight.arrival.gate || "",
-            takeoff: state.addedFlight.departure.scheduled || "",
-            landing: state.addedFlight.arrival.scheduled || "",
-            airlineICAO: state.addedFlight.airline.icao || "",
-            // ↓ return null
-            // plane: state.addedFlight.aircraft.icao || "",
-            purpose: purpose,
-            entertainment: entertainmnet,
-            meal: meal,
-            seatNo: seatNo,
-            reviw: reviw,
-          }),
+          body: JSON.stringify(body),
         }
       );
     } catch (e) {
@@ -72,7 +75,7 @@ export default function NewFlight({ navigation }) {
     };
     getFlights();
     navigation.navigate("Home");
-  };
+  }
 
   function Purpose() {
     function radioButtonOnPress(id) {
