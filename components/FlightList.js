@@ -166,7 +166,12 @@ export default function FlightList({ navigation }) {
     let jsonR = await JSON.stringify(resp.status);
 
     if (jsonR === "200") {
-      resetList();
+      let newfullURL =
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+        Auth.user.attributes.email;
+      let response = await fetch(newfullURL);
+      let jsonRes = await response.json();
+      dispatch({ type: "SetFlightList", payload: jsonRes });
     }
   };
 
