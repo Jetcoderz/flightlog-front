@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Auth from "@aws-amplify/auth";
@@ -7,7 +7,9 @@ import AddFlight from "./AddFlight";
 import Map from "./Map";
 import UserStats from "./UserStats";
 
-export default function Container(props) {
+const Drawer = createDrawerNavigator();
+
+export default function Container() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   useEffect(() => {
@@ -17,22 +19,13 @@ export default function Container(props) {
         Auth.user.attributes.email;
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
-      let theFlights = [];
-      for (let i = jsonRes.length - 1; i >= 0; i--) {
-        theFlights.push(jsonRes[i]);
-      }
-      let sorted = theFlights.sort((a, b) => {
-        let date1 = a.date.slice(0, 10).replace(/-/g, "");
-        let date2 = b.date.slice(0, 10).replace(/-/g, "");
-        return Number(date2) - Number(date1);
-      });
-      dispatch({ type: "SetFlightList", payload: sorted });
+      dispatch({ type: "SetFlightList", payload: jsonRes });
     };
-    if (props.user) getFlights();
-  }, [props.user]);
+    if (Auth.user.attributes.email) getFlights();
+  }, [Auth.user.attributes.email]);
 
   function flightlist({ navigation }) {
-    return <FlightList navigation={navigation} />;
+    return state.flightListLoaded && <FlightList navigation={navigation} />;
   }
 
   function addflight({ navigation }) {
@@ -46,8 +39,6 @@ export default function Container(props) {
   function userStats({ navigation }) {
     return <UserStats navigation={navigation} />;
   }
-
-  const Drawer = createDrawerNavigator();
 
   return (
     <Drawer.Navigator initialRouteName="Home">

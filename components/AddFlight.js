@@ -61,7 +61,7 @@ export default function AddFlight({ navigation }) {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="List">
+    <Stack.Navigator initialRouteName="AddFlight">
       <Stack.Screen
         name="AddFlight"
         component={addFlight}

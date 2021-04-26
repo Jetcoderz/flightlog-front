@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   View,
@@ -17,15 +17,18 @@ import moment from "moment";
 import Auth from "@aws-amplify/auth";
 import DropDownPicker from "react-native-dropdown-picker";
 import Flight from "./Flight";
-import QRScanner from "./QRScanner"
+import QRScanner from "./QRScanner";
 import { Platform } from "react-native";
 
 const screenwidth = Dimensions.get("window").width - 40;
 const fullWidth = Dimensions.get("window").width;
 
+const Stack = createStackNavigator();
+
 export default function FlightList({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [filteredList, setFilteredList] = useState(state.flightList);
 
   const styles = StyleSheet.create({
     tinyLogo: {
@@ -43,45 +46,57 @@ export default function FlightList({ navigation }) {
       fontSize: 15,
       color: "white",
     },
+    labelHead: {
+      fontWeight: "bold",
+    },
   });
 
-  const resetList = async () => {
-    let fullURL =
-      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-      Auth.user.attributes.email;
-    let response = await fetch(fullURL);
-    let jsonRes = await response.json();
-    let theFlights = [];
-    for (let i = jsonRes.length - 1; i >= 0; i--) {
-      theFlights.push(jsonRes[i]);
-    }
-    let sorted = theFlights.sort((a, b) => {
-      let date1 = a.date.slice(0, 10).replace(/-/g, "");
-      let date2 = b.date.slice(0, 10).replace(/-/g, "");
-      return Number(date2) - Number(date1);
-    });
-    filterItems = [];
-    dispatch({ type: "SetFlightList", payload: sorted });
+  const resetList = () => {
+    setFilteredList(state.flightList);
   };
 
+  const airlines = [];
   const years = [];
   const months = [];
+  const monNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   if (state.flightList.length > 0) {
     state.flightList.forEach((flight) => {
       let yr = flight.date.slice(0, 4);
       if (!years.includes(yr)) years.push(yr);
       let mn = flight.date.slice(5, 7);
-      if (!months.includes(mn)) months.push(mn);
+      let monIndex = Number(mn) - 1;
+      if (!months.includes(monNames[monIndex])) {
+        months.unshift(monNames[monIndex]);
+      }
+      let airl = flight.airlineICAO;
+      if (!airlines.includes(airl)) {
+        airlines.push(airl);
+      }
     });
   }
-  // console.log("TESTING", months);
-  // console.log("TESTING", years);
-
   let filterItems = [];
 
   years.forEach((yr) => {
     if (filterItems.length === 0) {
-      filterItems.push({ label: "Year", value: "yr", untouchable: true });
+      filterItems.push({
+        label: "Year",
+        value: "yr",
+        untouchable: true,
+        textStyle: styles.labelHead,
+      });
     }
     filterItems.push({
       label: yr,
@@ -90,36 +105,55 @@ export default function FlightList({ navigation }) {
     });
   });
 
-  filterItems.push({ label: "Month", value: "mn", untouchable: true });
+  filterItems.push({
+    label: "Month",
+    value: "mn",
+    untouchable: true,
+    textStyle: styles.labelHead,
+  });
 
   months.forEach((mn) => {
     filterItems.push({
       label: mn,
-      value: mn,
+      value: monNames.indexOf(mn) + 1,
       parent: "mn",
     });
   });
 
+  filterItems.push({
+    label: "Airline",
+    value: "airline",
+    untouchable: true,
+    textStyle: styles.labelHead,
+  });
+
+  airlines.forEach((airl) => {
+    filterItems.push({
+      label: airl,
+      value: airl,
+      parent: "airline",
+    });
+  });
+
   const applyFilters = (item) => {
-    console.log("LIST", state.flightList);
-    const filteredFlights = state.flightList.filter((flight) => {
+    const filteredFlights = filteredList.filter((flight) => {
       if (item[0]) {
         if (item[0].parent === "mn") {
           let checkVal = flight.date.slice(5, 7);
-          return checkVal === item[0].value;
+          return Number(checkVal) === item[0].value;
         }
 
         if (item[0].parent === "yr") {
-          console.log("ITEM", item[0]);
-          console.log("FLIGHT", flight);
           let checkVal = flight.date.slice(0, 4);
-          console.log("VAL", checkVal);
+          return checkVal === item[0].value;
+        }
+        if (item[0].parent === "airline") {
+          let checkVal = flight.airlineICAO;
           return checkVal === item[0].value;
         }
       }
     });
-    console.log("CHECKING", filteredFlights);
-    dispatch({ type: "SetFlightList", payload: filteredFlights });
+    setFilteredList(filteredFlights);
   };
 
   const deleteFlight = async (id) => {
@@ -132,7 +166,12 @@ export default function FlightList({ navigation }) {
     let jsonR = await JSON.stringify(resp.status);
 
     if (jsonR === "200") {
-      resetList();
+      let newfullURL =
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+        Auth.user.attributes.email;
+      let response = await fetch(newfullURL);
+      let jsonRes = await response.json();
+      dispatch({ type: "SetFlightList", payload: jsonRes });
     }
   };
 
@@ -153,7 +192,7 @@ export default function FlightList({ navigation }) {
   };
 
   function CreateList() {
-    const list = state.flightList.map((l, i) => (
+    const list = filteredList.map((l, i) => (
       <Swipeable
         key={i}
         renderRightActions={() => {
@@ -177,6 +216,7 @@ export default function FlightList({ navigation }) {
             navigation.navigate("Details");
             dispatch({ type: "SetSelectedFlight", payload: l.id });
           }}
+          style={{ borderBottomWidth: 1, borderBottomColor: "lightgray" }}
         >
           <ListItem.Content>
             <View
@@ -190,30 +230,6 @@ export default function FlightList({ navigation }) {
                 style={styles.tinyLogo}
                 source={state.logo[l.airlineICAO]}
               ></Image>
-              {/* <TouchableOpacity
-                style={{
-                  width: 20,
-                  height: 20,
-                  borderColor: "black",
-                  borderWidth: 1,
-                  borderRadius: 9,
-                  alignContent: "center",
-                  justifyContent: "space-around",
-                }}
-                onPress={() => {
-                  confirmDelete(l.id);
-                }}
-              >
-                <Text
-                  style={{
-                    color: "black",
-                    textAlign: "center",
-                    fontWeight: "bold",
-                  }}
-                >
-                  X
-                </Text>
-              </TouchableOpacity> */}
             </View>
             <ListItem.Title>{l.flightNo}</ListItem.Title>
             <ListItem.Subtitle>
@@ -261,6 +277,9 @@ export default function FlightList({ navigation }) {
             </Text>
           </TouchableOpacity>
           <DropDownPicker
+            scrollViewProps={{
+              persistentScrollbar: true,
+            }}
             items={filterItems}
             multiple={true}
             multipleText="%d items have been selected."
@@ -295,12 +314,8 @@ export default function FlightList({ navigation }) {
   }
 
   function Scanner() {
-    return(
-        <QRScanner></QRScanner>
-    )
+    return <QRScanner></QRScanner>;
   }
-
-  const Stack = createStackNavigator();
 
   return (
     <Stack.Navigator initialRouteName="List">
@@ -328,7 +343,9 @@ export default function FlightList({ navigation }) {
           ),
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("Add Flight")}
+              onPress={() =>
+                navigation.navigate("Add Flight", { screen: "AddFlight" })
+              }
               style={{ backgroundColor: "#298BD9" }}
             >
               <Text
@@ -349,6 +366,7 @@ export default function FlightList({ navigation }) {
           headerStyle: {
             backgroundColor: "#298BD9",
           },
+          headerTitleAlign: "center",
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate("QRscanner")}
