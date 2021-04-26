@@ -198,6 +198,9 @@ export default function FlightList({ navigation }) {
       <Swipeable
         key={i}
         renderRightActions={() => {
+          {
+            console.log(l.id);
+          }
           return (
             <TouchableOpacity
               onPress={() => {

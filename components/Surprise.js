@@ -7,12 +7,11 @@ export default function Surprise() {
   const [clicked, setClicked] = useState(false);
 
   const arrayOfFlihtId = state.qrCodes.map((qrcode) => qrcode.flightID);
+
   const surprise = () => {
     setClicked(true);
     for (const qrCode of state.qrCodes) {
-      //   console.log("qrCode: ", qrCode);
       if (qrCode.flightID === state.selectedFlight) {
-        console.log("qrCode.url: ", qrCode.url);
         return (
           <Image
             style={{ width: 50, height: 50 }}
