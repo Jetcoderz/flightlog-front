@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   View,
@@ -28,6 +28,7 @@ const Stack = createStackNavigator();
 export default function FlightList({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [filteredList, setFilteredList] = useState(state.flightList);
 
   const styles = StyleSheet.create({
     tinyLogo: {
@@ -50,23 +51,8 @@ export default function FlightList({ navigation }) {
     },
   });
 
-  const resetList = async () => {
-    let fullURL =
-      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-      Auth.user.attributes.email;
-    let response = await fetch(fullURL);
-    let jsonRes = await response.json();
-    let theFlights = [];
-    for (let i = jsonRes.length - 1; i >= 0; i--) {
-      theFlights.push(jsonRes[i]);
-    }
-    let sorted = theFlights.sort((a, b) => {
-      let date1 = a.date.slice(0, 10).replace(/-/g, "");
-      let date2 = b.date.slice(0, 10).replace(/-/g, "");
-      return Number(date2) - Number(date1);
-    });
-    filterItems = [];
-    dispatch({ type: "SetFlightList", payload: sorted });
+  const resetList = () => {
+    setFilteredList(state.flightList);
   };
 
   const airlines = [];
@@ -150,7 +136,7 @@ export default function FlightList({ navigation }) {
   });
 
   const applyFilters = (item) => {
-    const filteredFlights = state.flightList.filter((flight) => {
+    const filteredFlights = filteredList.filter((flight) => {
       if (item[0]) {
         if (item[0].parent === "mn") {
           let checkVal = flight.date.slice(5, 7);
@@ -167,7 +153,7 @@ export default function FlightList({ navigation }) {
         }
       }
     });
-    dispatch({ type: "SetFlightList", payload: filteredFlights });
+    setFilteredList(filteredFlights);
   };
 
   const deleteFlight = async (id) => {
@@ -180,7 +166,12 @@ export default function FlightList({ navigation }) {
     let jsonR = await JSON.stringify(resp.status);
 
     if (jsonR === "200") {
-      resetList();
+      let newfullURL =
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+        Auth.user.attributes.email;
+      let response = await fetch(newfullURL);
+      let jsonRes = await response.json();
+      dispatch({ type: "SetFlightList", payload: jsonRes });
     }
   };
 
@@ -201,7 +192,7 @@ export default function FlightList({ navigation }) {
   };
 
   function CreateList() {
-    const list = state.flightList.map((l, i) => (
+    const list = filteredList.map((l, i) => (
       <Swipeable
         key={i}
         renderRightActions={() => {
@@ -375,6 +366,7 @@ export default function FlightList({ navigation }) {
           headerStyle: {
             backgroundColor: "#298BD9",
           },
+          headerTitleAlign: "center",
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate("QRscanner")}
