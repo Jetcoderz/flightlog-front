@@ -15,7 +15,6 @@ const AuthModalStack = createStackNavigator();
 
 function AuthNavigation() {
   const [userToken, SetUserToken] = useState("");
-  const [user, SetUser] = useState("");
 
   const signOut = async () => {
     await Auth.signOut().catch((err) => {
@@ -26,8 +25,6 @@ function AuthNavigation() {
 
   const signIn = async (user) => {
     SetUserToken(user.signInUserSession.accessToken.jwtToken);
-    const userLogged = Auth.user.attributes.email;
-    SetUser(userLogged);
   };
 
   function AuthNavigator({ signIn }) {
@@ -67,7 +64,7 @@ function AuthNavigation() {
   if (!userToken) {
     view = <AuthNavigator signIn={signIn} />;
   } else {
-    view = <Container signOut={signOut} user={user} />;
+    view = Auth.user.attributes.email && <Container signOut={signOut} />;
   }
   return <NavigationContainer>{view}</NavigationContainer>;
 }

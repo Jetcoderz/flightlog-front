@@ -23,6 +23,8 @@ import { Platform } from "react-native";
 const screenwidth = Dimensions.get("window").width - 40;
 const fullWidth = Dimensions.get("window").width;
 
+const Stack = createStackNavigator();
+
 export default function FlightList({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -237,30 +239,6 @@ export default function FlightList({ navigation }) {
                 style={styles.tinyLogo}
                 source={state.logo[l.airlineICAO]}
               ></Image>
-              {/* <TouchableOpacity
-                style={{
-                  width: 20,
-                  height: 20,
-                  borderColor: "black",
-                  borderWidth: 1,
-                  borderRadius: 9,
-                  alignContent: "center",
-                  justifyContent: "space-around",
-                }}
-                onPress={() => {
-                  confirmDelete(l.id);
-                }}
-              >
-                <Text
-                  style={{
-                    color: "black",
-                    textAlign: "center",
-                    fontWeight: "bold",
-                  }}
-                >
-                  X
-                </Text>
-              </TouchableOpacity> */}
             </View>
             <ListItem.Title>{l.flightNo}</ListItem.Title>
             <ListItem.Subtitle>
@@ -348,8 +326,6 @@ export default function FlightList({ navigation }) {
     return <QRScanner></QRScanner>;
   }
 
-  const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator initialRouteName="List">
       <Stack.Screen
@@ -376,7 +352,9 @@ export default function FlightList({ navigation }) {
           ),
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => navigation.navigate("Add Flight")}
+              onPress={() =>
+                navigation.navigate("Add Flight", { screen: "AddFlight" })
+              }
               style={{ backgroundColor: "#298BD9" }}
             >
               <Text

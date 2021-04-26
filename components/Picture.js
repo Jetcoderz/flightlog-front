@@ -16,25 +16,26 @@ const screenWidth = 270;
 export default function Picture() {
   const state = useSelector((state) => state);
   const [entries, setEntries] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const carouselRef = useRef(null);
 
-  // useEffect(() => {
-  const getPhotoURLs = async () => {
-    let fullURL =
-      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/photos/" +
-      String(state.selectedFlight);
-    let response = await fetch(fullURL);
-    let jsonRes = await response.json();
-    let theURLs = await jsonRes.map((photo) => {
-      const photoObj = {};
-      photoObj["illustration"] = photo.url;
-      return photoObj;
-    });
-    theURLs.push(DEFAULT);
-    setEntries(theURLs);
-  };
-  getPhotoURLs();
-  // }, []);
+  useEffect(() => {
+    const getPhotoURLs = async () => {
+      let fullURL =
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/photos/" +
+        String(state.selectedFlight);
+      let response = await fetch(fullURL);
+      let jsonRes = await response.json();
+      let theURLs = await jsonRes.map((photo) => {
+        const photoObj = {};
+        photoObj["illustration"] = photo.url;
+        return photoObj;
+      });
+      theURLs.push(DEFAULT);
+      setEntries(theURLs);
+    };
+    getPhotoURLs();
+  }, [refresh]);
 
   const openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -92,6 +93,7 @@ export default function Picture() {
           body: JSON.stringify(bodyObj),
         }
       );
+      setRefresh(!refresh);
     };
 
     let pickerResult;
@@ -161,15 +163,17 @@ export default function Picture() {
       {/* <TouchableOpacity onPress={goForward}>
         <Text>go to next slide</Text>
       </TouchableOpacity> */}
-      <Carousel
-        ref={carouselRef}
-        sliderWidth={screenWidth + 100}
-        sliderHeight={screenWidth}
-        itemWidth={screenWidth - 60}
-        data={entries}
-        renderItem={renderItem}
-        hasParallaxImages={true}
-      />
+      {entries && (
+        <Carousel
+          ref={carouselRef}
+          sliderWidth={screenWidth + 100}
+          sliderHeight={screenWidth}
+          itemWidth={screenWidth - 60}
+          data={entries}
+          renderItem={renderItem}
+          hasParallaxImages={true}
+        />
+      )}
     </View>
   );
 }

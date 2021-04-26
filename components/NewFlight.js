@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, Button, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Auth from "@aws-amplify/auth";
 
@@ -7,13 +15,19 @@ export default function NewFlight({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const [purpose, setPurpose] = useState("");
+  //const [purpose, setPurpose] = useState("");
   const [entertainmnet, setEntertainmnet] = useState([]);
   const [meal, setMeal] = useState("");
   const [seatNo, setSeatNo] = useState("");
   const [reviw, setReviw] = useState("");
 
+  const [purposeItems, SetPurposeItems] = useState([
+    { id: 1, selected: false, name: "Business" },
+    { id: 2, selected: false, name: "Travel" },
+  ]);
+
   const postButton = async () => {
+    const purpose = purposeItems.filter((i) => i.selected === true)[0]["name"];
     try {
       await fetch(
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist",
@@ -54,21 +68,49 @@ export default function NewFlight({ navigation }) {
         Auth.user.attributes.email;
       let response = await fetch(fullURL);
       let jsonRes = await response.json();
-      let theFlights = [];
-      for (let i = jsonRes.length - 1; i >= 0; i--) {
-        theFlights.push(jsonRes[i]);
-      }
-      let sorted = theFlights.sort((a, b) => {
-        let date1 = a.date.slice(0, 10).replace(/-/g, "");
-        let date2 = b.date.slice(0, 10).replace(/-/g, "");
-        return Number(date2) - Number(date1);
-      });
-      dispatch({ type: "SetFlightList", payload: sorted });
+      dispatch({ type: "SetFlightList", payload: jsonRes });
     };
-
     getFlights();
     navigation.navigate("Home");
   };
+
+  function Purpose() {
+    function radioButtonOnPress(id) {
+      let updatedState = purposeItems.map((item) =>
+        item.id === id
+          ? { ...item, selected: true }
+          : { ...item, selected: false }
+      );
+      SetPurposeItems(updatedState);
+    }
+
+    return (
+      <View>
+        <Text>Purpose of Travel</Text>
+        <View style={styles.radioButtonContainer}>
+          {purposeItems.map((item) => (
+            <View key={item.id}>
+              {item.selected ? (
+                <TouchableOpacity
+                  onPress={() => radioButtonOnPress(item.id)}
+                  style={styles.radioButtonSelected}
+                >
+                  <Text style={styles.radioButtonText}>{item.name}</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => radioButtonOnPress(item.id)}
+                  style={styles.radioButtonNotSelected}
+                >
+                  <Text style={styles.radioButtonText}>{item.name}</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          ))}
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View>
@@ -81,12 +123,12 @@ export default function NewFlight({ navigation }) {
           </View>
         </View>
       )}
-
-      <TextInput
+      <Purpose />
+      {/* <TextInput
         style={styles.TextInput}
         placeholder="purpose"
         onChangeText={(val) => setPurpose(val)}
-      />
+      /> */}
       <TextInput
         style={styles.TextInput}
         placeholder="entertainmnet"
@@ -99,12 +141,12 @@ export default function NewFlight({ navigation }) {
       />
       <TextInput
         style={styles.TextInput}
-        placeholder="seatNo"
+        placeholder="seat number"
         onChangeText={(val) => setSeatNo(val)}
       />
       <TextInput
         style={styles.TextInput}
-        placeholder="reviw"
+        placeholder="review"
         onChangeText={(val) => setReviw(val)}
       />
       <Button title="ADD" onPress={postButton} />
@@ -114,4 +156,34 @@ export default function NewFlight({ navigation }) {
 
 const styles = StyleSheet.create({
   TextInput: { height: 40, borderColor: "gray", borderWidth: 1, marginTop: 50 },
+  radioButtonContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  radioButtonSelected: {
+    height: 50,
+    width: 160,
+    backgroundColor: "#298BD9",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+    borderWidth: 1,
+    borderColor: "#E6E6E6",
+  },
+  radioButtonNotSelected: {
+    height: 50,
+    width: 160,
+    backgroundColor: "#AAAAAA",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+    borderWidth: 1,
+    borderColor: "#E6E6E6",
+  },
+  radioButtonText: {
+    fontSize: 16,
+  },
 });
