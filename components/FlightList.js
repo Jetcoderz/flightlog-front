@@ -1,19 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-<<<<<<< HEAD
-import { View, ScrollView, Image, StyleSheet, Button } from "react-native";
-import Auth from "@aws-amplify/auth";
-=======
 import {
   View,
   ScrollView,
   Image,
   StyleSheet,
-  Button,
   Text,
   TouchableOpacity,
 } from "react-native";
->>>>>>> 9d740e4386d93ccd6d7eb5b8793507278ca99934
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
 import moment from "moment";
@@ -31,6 +25,8 @@ export default function FlightList({ navigation }) {
   });
 
   function CreateList() {
+    const arrayOfFlihtId = state.qrCodes.map((qrcode) => qrcode.flightID);
+
     const list = state.flightList.map((l, i) => (
       <ListItem
         key={i}
@@ -49,6 +45,7 @@ export default function FlightList({ navigation }) {
           <ListItem.Subtitle>
             {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-{l.arrAirport}
           </ListItem.Subtitle>
+          {arrayOfFlihtId.includes(l.id) ? <Text>😎</Text> : <></>}
         </ListItem.Content>
       </ListItem>
     ));

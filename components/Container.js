@@ -12,17 +12,30 @@ import UserStats from "./UserStats";
 export default function Container(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+
   useEffect(() => {
     const getFlights = async () => {
-      let fullURL =
+      const fullURL =
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
         Auth.user.attributes.email;
-      let response = await fetch(fullURL);
-      let jsonRes = await response.json();
-      let theFlights = await jsonRes.map((flight) => flight);
+      const response = await fetch(fullURL);
+      const jsonRes = await response.json();
+      const theFlights = await jsonRes.map((flight) => flight);
       dispatch({ type: "SetFlightList", payload: theFlights });
     };
-    if (props.user) getFlights();
+
+    const getQrcodes = async () => {
+      const res = await fetch(
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes/" +
+          Auth.user.attributes.email
+      );
+      const data = await res.json();
+      dispatch({ type: "SetQrCodes", payload: data });
+    };
+    if (props.user) {
+      getFlights();
+      getQrcodes();
+    }
   }, [props.user]);
 
   function flightlist({ navigation }) {
