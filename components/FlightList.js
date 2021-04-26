@@ -361,6 +361,7 @@ export default function FlightList({ navigation }) {
           headerStyle: {
             backgroundColor: "#298BD9",
           },
+          headerTitleAlign: "center",
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate("QRscanner")}
