@@ -101,7 +101,6 @@ export default function FlightList({ navigation }) {
       }
     });
   }
-
   let filterItems = [];
 
   years.forEach((yr) => {
@@ -130,7 +129,7 @@ export default function FlightList({ navigation }) {
   months.forEach((mn) => {
     filterItems.push({
       label: mn,
-      value: mn,
+      value: monNames.indexOf(mn) + 1,
       parent: "mn",
     });
   });
@@ -155,12 +154,11 @@ export default function FlightList({ navigation }) {
       if (item[0]) {
         if (item[0].parent === "mn") {
           let checkVal = flight.date.slice(5, 7);
-          return checkVal === item[0].value;
+          return Number(checkVal) === item[0].value;
         }
 
         if (item[0].parent === "yr") {
           let checkVal = flight.date.slice(0, 4);
-          console.log("VAL", checkVal);
           return checkVal === item[0].value;
         }
         if (item[0].parent === "airline") {
