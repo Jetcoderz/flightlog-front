@@ -192,6 +192,8 @@ export default function FlightList({ navigation }) {
   };
 
   function CreateList() {
+    const arrayOfFlihtId = state.qrCodes.map((qrcode) => qrcode.flightID);
+
     const list = filteredList.map((l, i) => (
       <Swipeable
         key={i}
@@ -236,6 +238,7 @@ export default function FlightList({ navigation }) {
               {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-
               {l.arrAirport}
             </ListItem.Subtitle>
+            {arrayOfFlihtId.includes(l.id) ? <Text>😎</Text> : <></>}
           </ListItem.Content>
         </ListItem>
       </Swipeable>

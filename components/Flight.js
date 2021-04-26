@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
-import Picture from "./Picture";
 import { useSelector, useDispatch } from "react-redux";
+import Picture from "./Picture";
 import UserInfo from "./UserInfo";
+import Surprise from "./Surprise";
+import { color } from "react-native-reanimated";
 import moment from "moment";
+
 //for barcode
 // import barcode from "../assets/barcodehorizontal.png";
 
@@ -53,10 +56,9 @@ export default function Flight() {
             Type of aircraft: {thisFlight.plane}
           </Text>
         </View>
-
         {/* <FlightInfo /> */}
         <UserInfo thisFlight={thisFlight} />
-
+        <Surprise />
         <Picture />
       </ScrollView>
     </View>

@@ -9,6 +9,7 @@ export default function ReduxReducer(
     selectedFlight: "",
     logo: logoObj,
     addedFlight: {},
+    qrCodes: [],
   },
   action
 ) {
@@ -38,6 +39,11 @@ export default function ReduxReducer(
       return {
         ...state,
         addedFlight: action.payload,
+      };
+    case "SetQrCodes":
+      return {
+        ...state,
+        qrCodes: action.payload,
       };
     default:
       return state;
