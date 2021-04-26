@@ -9,7 +9,6 @@ import moment from "moment";
 
 //for barcode
 // import barcode from "../assets/barcodehorizontal.png";
-import { AutoScaling } from "aws-sdk";
 
 export default function Flight() {
   const state = useSelector((state) => state);
@@ -22,8 +21,6 @@ export default function Flight() {
     <View style={styles.flight}>
       <ScrollView>
         <View style={styles.flightInfo}>
-          {/* for barcode */}
-          {/* <Image source={ barcode } style={styles.barcode}></Image> */}
           <View style={styles.logoAirline}>
             <Image
               source={state.logo[thisFlight.airlineICAO]}

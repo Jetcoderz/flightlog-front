@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 
 import { createStore } from "redux";
-import { Provider, useSelector, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import ReduxReducer from "./components/ReduxReducer";
 
 import AuthNavigator from "./components/auth/AuthNavigator";
@@ -13,9 +13,6 @@ import Amplify from "@aws-amplify/core";
 Amplify.configure(AWSconfig);
 
 function Body() {
-  const dispatch = useDispatch();
-  const state = useSelector((state) => state);
-
   return (
     <View style={{ flex: 1 }}>
       <AuthNavigator />

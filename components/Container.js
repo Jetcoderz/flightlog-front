@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
-import { View, Text } from "react-native";
 import Auth from "@aws-amplify/auth";
 import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
 import Map from "./Map";
 import UserStats from "./UserStats";
 
-export default function Container(props) {
+const Drawer = createDrawerNavigator();
+
+export default function Container() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
@@ -32,14 +32,14 @@ export default function Container(props) {
       const data = await res.json();
       dispatch({ type: "SetQrCodes", payload: data });
     };
-    if (props.user) {
+    if (Auth.user.attributes.email) {
       getFlights();
       getQrcodes();
     }
-  }, [props.user]);
+  }, [Auth.user.attributes.email]);
 
   function flightlist({ navigation }) {
-    return <FlightList navigation={navigation} />;
+    return state.flightListLoaded && <FlightList navigation={navigation} />;
   }
 
   function addflight({ navigation }) {
@@ -53,8 +53,6 @@ export default function Container(props) {
   function userStats({ navigation }) {
     return <UserStats navigation={navigation} />;
   }
-
-  const Drawer = createDrawerNavigator();
 
   return (
     <Drawer.Navigator initialRouteName="Home">
