@@ -12,16 +12,18 @@
       "supportsTablet": true
     },
     "android": {
+      "splash": {
+        "image": "./assets/planeNcloud.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#0e2b77"
+      },
       "package": "com.jetcoderz.flightlog",
-      "versionCode": 7,
+      "versionCode": 8,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyA5df97hjQlblBQcaZMeRhTVleU1RlbkV8"
         }
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
