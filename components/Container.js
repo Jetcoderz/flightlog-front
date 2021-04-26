@@ -12,16 +12,30 @@ const Drawer = createDrawerNavigator();
 export default function Container() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+
   useEffect(() => {
     const getFlights = async () => {
-      let fullURL =
+      const fullURL =
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
         Auth.user.attributes.email;
-      let response = await fetch(fullURL);
-      let jsonRes = await response.json();
-      dispatch({ type: "SetFlightList", payload: jsonRes });
+      const response = await fetch(fullURL);
+      const jsonRes = await response.json();
+      const theFlights = await jsonRes.map((flight) => flight);
+      dispatch({ type: "SetFlightList", payload: theFlights });
     };
-    if (Auth.user.attributes.email) getFlights();
+
+    const getQrcodes = async () => {
+      const res = await fetch(
+        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes/" +
+          Auth.user.attributes.email
+      );
+      const data = await res.json();
+      dispatch({ type: "SetQrCodes", payload: data });
+    };
+    if (Auth.user.attributes.email) {
+      getFlights();
+      getQrcodes();
+    }
   }, [Auth.user.attributes.email]);
 
   function flightlist({ navigation }) {
