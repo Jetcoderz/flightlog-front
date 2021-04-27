@@ -6,6 +6,7 @@ import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
 import Map from "./Map";
 import UserStats from "./UserStats";
+import LanguageSelect from "./LanguageSelect";
 
 const Drawer = createDrawerNavigator();
 
