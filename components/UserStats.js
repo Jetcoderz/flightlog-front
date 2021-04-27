@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
-  Image,
   Text,
-  View,
+  Image,
   Dimensions,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { PieChart } from "react-native-chart-kit";
 import { createStackNavigator } from "@react-navigation/stack";
 import Calender from "./Calender";
-import Stamp from "./Stamp";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -68,22 +65,26 @@ export default function UserStats({ navigation }) {
         style={{
           flex: 1,
           backgroundColor: "#fff",
-          paddingTop: 20,
-          paddingBottom: 20,
         }}
         contentContainerStyle={{ alignItems: "center" }}
       >
-        {/* <Image
-          source={require("./resources/profileIMG.png")}
-          style={{ height: 80, width: 80, borderRadius: 40 }}
-        /> */}
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
-          Total Flights:
-        </Text>
-        <Text style={{ fontSize: 16, marginTop: 5 }}>
+        <Text
+          style={{
+            fontSize: 50,
+            fontWeight: "bold",
+            margin: 0,
+            padding: 0,
+          }}
+        >
           {state.flightList.length}
         </Text>
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>
+        <Text
+          style={{ fontSize: 15, marginTop: 0, padding: 0, marginBottom: 5 }}
+        >
+          Total Flights
+        </Text>
+        <Calender />
+        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
           Flights by Airline:
         </Text>
         <PieChart
@@ -93,10 +94,8 @@ export default function UserStats({ navigation }) {
           chartConfig={chartConfig}
           accessor="numFlights"
           backgroundColor="transparent"
+          paddingLeft={18}
         />
-        <Calender />
-        <Stamp />
-        <Text style={{ marginBottom: 20 }}></Text>
       </ScrollView>
     );
   }
@@ -119,11 +118,10 @@ export default function UserStats({ navigation }) {
               onPress={() => navigation.openDrawer()}
               style={{ backgroundColor: "#298BD9" }}
             >
-              <Text
-                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
-              >
-                Menu
-              </Text>
+              <Image
+                source={require("./resources/hamburger.png")}
+                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2 }}
+              />
             </TouchableOpacity>
           ),
         }}
