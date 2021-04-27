@@ -22,8 +22,9 @@ export default function SignIn({ navigation, signIn: signInCb }) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const signIn = async () => {
-    if (email.length > 4 && password.length > 2) {
-      await Auth.signIn(email, password)
+    const emailTrim = email.trim();
+    if (emailTrim.length > 4 && password.length > 2) {
+      await Auth.signIn(emailTrim, password)
         .then((user) => {
           signInCb(user);
         })
@@ -35,7 +36,7 @@ export default function SignIn({ navigation, signIn: signInCb }) {
             if (err.code === "UserNotConfirmedException") {
               console.log("User not confirmed");
               navigation.navigate("Confirmation", {
-                email,
+                emailTrim,
               });
             }
             if (err.message) {
