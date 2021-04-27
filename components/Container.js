@@ -50,6 +50,14 @@ export default function Container() {
   }, [Auth.user.attributes.email]);
 
   let jpName = ["ホーム", "フライト追加", "地図", "統計", "収集", "言語設定"];
+  let enName = [
+    "Home",
+    "Add Flight",
+    "Flight Map",
+    "View Stats",
+    "View Collection",
+    "Language Selection",
+  ];
   let drawerNames = [];
   if (state.language === "en") {
     drawerNames = enName;
