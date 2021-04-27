@@ -1,22 +1,9 @@
 import React from "react";
-import {
-  StyleSheet,
-  Image,
-  Text,
-  View,
-  Dimensions,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { Image, Text, ScrollView, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Stamp from "./Stamp";
 
-const screenWidth = Dimensions.get("window").width;
-
 export default function Collection({ navigation }) {
-  const state = useSelector((state) => state);
-
   function collections() {
     return (
       <ScrollView
@@ -60,11 +47,10 @@ export default function Collection({ navigation }) {
               onPress={() => navigation.openDrawer()}
               style={{ backgroundColor: "#298BD9" }}
             >
-              <Text
-                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
-              >
-                Menu
-              </Text>
+              <Image
+                source={require("./resources/hamburger.png")}
+                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2 }}
+              />
             </TouchableOpacity>
           ),
         }}

@@ -337,11 +337,10 @@ export default function FlightList({ navigation }) {
               onPress={() => navigation.openDrawer()}
               style={{ backgroundColor: "#298BD9" }}
             >
-              <Text
-                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
-              >
-                Menu
-              </Text>
+              <Image
+                source={require("./resources/hamburger.png")}
+                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2 }}
+              />
             </TouchableOpacity>
           ),
           headerRight: () => (
@@ -352,9 +351,15 @@ export default function FlightList({ navigation }) {
               style={{ backgroundColor: "#298BD9" }}
             >
               <Text
-                style={{ color: "#fff", fontWeight: "bold", marginRight: 15 }}
+                style={{
+                  color: "#fff",
+                  fontWeight: "bold",
+                  fontSize: 30,
+                  marginRight: 15,
+                  paddingBottom: 2,
+                }}
               >
-                Add
+                +
               </Text>
             </TouchableOpacity>
           ),

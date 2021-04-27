@@ -5,8 +5,7 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  Button,
-  Text,
+  Image,
   TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -103,11 +102,10 @@ export default function Map({ navigation }) {
               onPress={() => navigation.openDrawer()}
               style={{ backgroundColor: "#298BD9" }}
             >
-              <Text
-                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
-              >
-                Menu
-              </Text>
+              <Image
+                source={require("./resources/hamburger.png")}
+                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2 }}
+              />
             </TouchableOpacity>
           ),
         }}
