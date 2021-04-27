@@ -26,6 +26,15 @@ export default function Container() {
       dispatch({ type: "SetFlightList", payload: theFlights });
     };
 
+    let enName = [
+      "Home",
+      "Add Flight",
+      "Flights Map",
+      "View Stats",
+      "View Collection",
+      "Language Selection",
+    ];
+
     const getQrcodes = async () => {
       const res = await fetch(
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes/" +
@@ -39,6 +48,15 @@ export default function Container() {
       getQrcodes();
     }
   }, [Auth.user.attributes.email]);
+
+  let jpName = ["ホーム", "フライト追加", "地図", "統計", "収集", "言語設定"];
+  let drawerNames = [];
+  if (state.language === "en") {
+    drawerNames = enName;
+  }
+  if (state.language === "jp") {
+    drawerNames = jpName;
+  }
 
   function flightlist({ navigation }) {
     return state.flightListLoaded && <FlightList navigation={navigation} />;
@@ -66,12 +84,12 @@ export default function Container() {
 
   return (
     <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={flightlist} />
-      <Drawer.Screen name="Add Flight" component={addflight} />
-      <Drawer.Screen name="Flights Map" component={map} />
-      <Drawer.Screen name="View Stats" component={userStats} />
-      <Drawer.Screen name="View Collection" component={collections} />
-      <Drawer.Screen name="Language Selection" component={language} />
+      <Drawer.Screen name={drawerNames[0]} component={flightlist} />
+      <Drawer.Screen name={drawerNames[1]} component={addflight} />
+      <Drawer.Screen name={drawerNames[2]} component={map} />
+      <Drawer.Screen name={drawerNames[3]} component={userStats} />
+      <Drawer.Screen name={drawerNames[4]} component={collections} />
+      <Drawer.Screen name={drawerNames[5]} component={language} />
     </Drawer.Navigator>
   );
 }
