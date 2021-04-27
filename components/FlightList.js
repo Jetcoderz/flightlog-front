@@ -380,11 +380,10 @@ export default function FlightList({ navigation }) {
               onPress={() => navigation.navigate("QRscanner")}
               style={{ backgroundColor: "#298BD9" }}
             >
-              <Text
-                style={{ color: "#fff", fontWeight: "bold", marginRight: 15 }}
-              >
-                QR
-              </Text>
+              <Image
+                source={require("./resources/qrsearch.png")}
+                style={{ width: 25, height: 25, marginRight: 20, marginTop: 2 }}
+              />
             </TouchableOpacity>
           ),
         }}
