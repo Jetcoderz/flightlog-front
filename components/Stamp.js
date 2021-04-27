@@ -15,10 +15,12 @@ export default function Stamp() {
       width: 30,
       height: 30,
       opacity: 0.1,
+      margin: 2,
     },
     myLogo: {
       width: 30,
       height: 30,
+      margin: 2,
     },
     logoBox: {
       width: "80%",
@@ -30,17 +32,6 @@ export default function Stamp() {
 
   return (
     <View>
-      <Text
-        style={{
-          fontSize: 18,
-          fontWeight: "bold",
-          marginTop: 20,
-          marginBottom: 15,
-          textAlign: "center",
-        }}
-      >
-        My Airline Collection:
-      </Text>
       {state.flightList && (
         <View style={styles.logoBox}>
           {Object.keys(state.logo).map((i) => {

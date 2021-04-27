@@ -3,6 +3,7 @@ import {
   View,
   TextInput,
   Button,
+  Image,
   Text,
   StyleSheet,
   TouchableOpacity,
@@ -40,9 +41,10 @@ export default function AddFlight({ navigation }) {
         <Text>Please select your flight date</Text>
         <Calendar
           markedDates={selectedDate}
+          theme={{ arrowColor: "#298BD9" }}
           onDayPress={(day) => {
             const obj = {};
-            obj[day.dateString] = { selected: true };
+            obj[day.dateString] = { selected: true, selectedColor: "#298BD9" };
             setSelectedDate(obj);
             console.log("selected day", day);
           }}
@@ -88,11 +90,10 @@ export default function AddFlight({ navigation }) {
               onPress={() => navigation.openDrawer()}
               style={{ backgroundColor: "#298BD9" }}
             >
-              <Text
-                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
-              >
-                Menu
-              </Text>
+              <Image
+                source={require("./resources/hamburger.png")}
+                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2 }}
+              />
             </TouchableOpacity>
           ),
         }}
