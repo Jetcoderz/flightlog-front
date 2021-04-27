@@ -60,6 +60,10 @@ export default function Container() {
     return <Collection navigation={navigation} />;
   }
 
+  function language({ navigation }) {
+    return <LanguageSelect navigation={navigation} />;
+  }
+
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen name="Home" component={flightlist} />
@@ -67,6 +71,7 @@ export default function Container() {
       <Drawer.Screen name="Flights Map" component={map} />
       <Drawer.Screen name="View Stats" component={userStats} />
       <Drawer.Screen name="View Collection" component={collections} />
+      <Drawer.Screen name="Language Selection" component={language} />
     </Drawer.Navigator>
   );
 }
