@@ -32,19 +32,33 @@ export default function AddFlight({ navigation }) {
     }
   };
 
+  let pl = "Purpose of Trip";
+  let pl2 = "Flight #";
+  let bTitle = "NEXT";
+  let hTit = "Add Flight";
+  let hTit2 = "Add User Info";
+  if (state.language === "jp") {
+    pl = "目的";
+    pl2 = "フライト番号";
+    bTitle = "次";
+    hTit = "フライト追加";
+    hTit2 = "個人情報追加";
+  }
+
   function addFlight() {
     const [flightNumInput, setFlightNumInput] = useState("");
     return (
       <View>
-        <Text>Add a Flight</Text>
+        {state.language === "en" && <Text>Add a Flight</Text>}
+        {state.language === "jp" && <Text>フライト追加</Text>}
         <TextInput
           style={styles.TextInput}
-          placeholder="Flight #"
+          placeholder={pl2}
           onChangeText={(val) => setFlightNumInput(val)}
         />
-        <TextInput style={styles.TextInput} placeholder="Purpose of Trip" />
+        <TextInput style={styles.TextInput} placeholder={pl} />
         <Button
-          title="NEXT"
+          title={bTitle}
           onPress={async () => {
             getPostData(flightNumInput);
 
@@ -67,7 +81,7 @@ export default function AddFlight({ navigation }) {
         name="AddFlight"
         component={addFlight}
         options={{
-          headerTitle: "Add Flight",
+          headerTitle: hTit,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
@@ -90,7 +104,7 @@ export default function AddFlight({ navigation }) {
         name="AddUserInfo"
         component={newFlight}
         options={{
-          headerTitle: "Add User Info",
+          headerTitle: hTit2,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
