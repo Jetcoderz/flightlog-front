@@ -12,8 +12,13 @@
       "supportsTablet": true
     },
     "android": {
+      "icon": "./assets/playstoreicon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/planecloudsm.png",
+        "backgroundImage": "./assets/bg.png"
+      },
       "splash": {
-        "image": "./assets/planeNcloud.png",
+        "image": "./assets/planecloudsm.png",
         "resizeMode": "contain",
         "backgroundColor": "#0e2b77"
       },
