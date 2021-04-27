@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import Auth from "@aws-amplify/auth";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function QRScanner() {
   const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -27,7 +28,7 @@ export default function QRScanner() {
           flightID: state.selectedFlight,
           url: data,
         });
-        const res = await fetch(
+        await fetch(
           "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes",
           {
             method: "POST",
@@ -42,8 +43,6 @@ export default function QRScanner() {
             }),
           }
         );
-        // let test = JSON.stringify(res);
-        // console.log(test);
       } catch (e) {
         console.log(e);
       }
@@ -75,18 +74,11 @@ export default function QRScanner() {
       };
 
       getQrcodes();
-      console.log("aaa", state.qrCodes);
+      dispatch({ type: "SetFlightList", payload: state.flightList });
     } else {
       alert("QR-code is not correct");
     }
   };
-
-  // if(Array.includes(data)){
-  // postQR();
-
-  // } else {
-  //   alert(`QRcode with type ${type} and data ${data} has been scanned`);
-  // }
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
