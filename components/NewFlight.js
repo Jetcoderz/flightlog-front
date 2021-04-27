@@ -173,24 +173,19 @@ export default function NewFlight({ navigation }) {
       )}
       <Purpose />
       <Entertainment />
-      {/* <TextInput
-        style={styles.TextInput}
-        placeholder="entertainmnet"
-        onChangeText={(val) => setEntertainmnet(val)}
-      /> */}
       <TextInput
         style={styles.TextInput}
-        placeholder="meal"
+        placeholder="Meal"
         onChangeText={(val) => setMeal(val)}
       />
       <TextInput
         style={styles.TextInput}
-        placeholder="seat number"
+        placeholder="Seat Number"
         onChangeText={(val) => setSeatNo(val)}
       />
       <TextInput
         style={styles.TextInput}
-        placeholder="review"
+        placeholder="Comments"
         onChangeText={(val) => setReviw(val)}
       />
       <Button title="ADD" onPress={postButton} />

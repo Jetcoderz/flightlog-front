@@ -326,7 +326,7 @@ export default function FlightList({ navigation }) {
         name="List"
         component={List}
         options={{
-          headerTitle: `${Auth.user.attributes.name}'s Flights`,
+          headerTitle: "My Flights",
           headerStyle: {
             backgroundColor: "#298BD9",
           },
