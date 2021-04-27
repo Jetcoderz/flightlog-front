@@ -58,7 +58,7 @@ export default function Flight() {
         </View>
         {/* <FlightInfo /> */}
         <UserInfo thisFlight={thisFlight} />
-        <Surprise />
+        <Surprise id={thisFlight.id} />
         <Picture />
       </ScrollView>
     </View>
