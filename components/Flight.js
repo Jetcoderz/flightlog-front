@@ -7,9 +7,6 @@ import Surprise from "./Surprise";
 import { color } from "react-native-reanimated";
 import moment from "moment";
 
-//for barcode
-// import barcode from "../assets/barcodehorizontal.png";
-
 export default function Flight() {
   const state = useSelector((state) => state);
 

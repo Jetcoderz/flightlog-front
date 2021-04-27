@@ -10,12 +10,12 @@ export default function Calender() {
 
   state.flightList.forEach((flight) => {
     const date = flight.date.substring(0, 10);
-    flightDate[date] = { selected: true };
+    flightDate[date] = { selected: true, selectedColor: "#298BD9" };
   });
 
   return (
     <View>
-      <Calendar markedDates={flightDate} />
+      <Calendar markedDates={flightDate} theme={{ arrowColor: "#298BD9" }} />
     </View>
   );
 }
