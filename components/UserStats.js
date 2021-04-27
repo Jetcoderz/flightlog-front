@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, Dimensions, ScrollView, TouchableOpacity } from "react-native";
+import {
+  Text,
+  Image,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useSelector } from "react-redux";
 import { PieChart } from "react-native-chart-kit";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -112,11 +118,10 @@ export default function UserStats({ navigation }) {
               onPress={() => navigation.openDrawer()}
               style={{ backgroundColor: "#298BD9" }}
             >
-              <Text
-                style={{ color: "#fff", fontWeight: "bold", marginLeft: 15 }}
-              >
-                Menu
-              </Text>
+              <Image
+                source={require("./resources/hamburger.png")}
+                style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2 }}
+              />
             </TouchableOpacity>
           ),
         }}
