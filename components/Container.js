@@ -6,6 +6,7 @@ import FlightList from "./FlightList";
 import AddFlight from "./AddFlight";
 import Map from "./Map";
 import UserStats from "./UserStats";
+import Collection from "./Collection";
 
 const Drawer = createDrawerNavigator();
 
@@ -54,12 +55,17 @@ export default function Container() {
     return <UserStats navigation={navigation} />;
   }
 
+  function collections({ navigation }) {
+    return <Collection navigation={navigation} />;
+  }
+
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen name="Home" component={flightlist} />
       <Drawer.Screen name="Add Flight" component={addflight} />
       <Drawer.Screen name="Flights Map" component={map} />
       <Drawer.Screen name="View Stats" component={userStats} />
+      <Drawer.Screen name="View Collection" component={collections} />
     </Drawer.Navigator>
   );
 }
