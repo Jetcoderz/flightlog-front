@@ -19,6 +19,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import Flight from "./Flight";
 import QRScanner from "./QRScanner";
 import { Platform } from "react-native";
+import { getMediaLibraryPermissionsAsync } from "expo-image-picker";
 
 const screenwidth = Dimensions.get("window").width - 40;
 const fullWidth = Dimensions.get("window").width;
@@ -31,9 +32,58 @@ export default function FlightList({ navigation }) {
   const [filteredList, setFilteredList] = useState(state.flightList);
 
   const styles = StyleSheet.create({
+    flightLabel: {
+      paddingTop: 10,
+      paddingBottom: 10,
+      alignItems: "center",
+      height: "auto",
+      width: "100%",
+      backgroundColor: "white",
+      borderRadius: 10,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 0.25,
+      elevation: 5,
+    },
+    flightLabelUpper: {
+      flexDirection: "row",
+    },
+    rightInfo: {
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+    rightInfoUpper: {
+      flexDirection: "row",
+      justifyContent: "space-between"
+    },
     tinyLogo: {
-      width: 30,
-      height: 30,
+      width: 40,
+      height: 40,
+      margin:3,
+    },
+    deperatureArrival: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginRight: 30,
+      marginLeft: 30,
+    },
+    deperature: {
+      fontSize: 30,
+      fontWeight: "bold",
+      height: 35,
+    },
+    arrival: {
+      fontSize: 30,
+      fontWeight: "bold",
+      height: 35,
+    },
+    tinyAirplane: {
+      fontSize: 15,
+      marginLeft: 5,
+      marginRight: 5,
     },
     deleteBox: {
       backgroundColor: "red",
@@ -213,33 +263,46 @@ export default function FlightList({ navigation }) {
         }}
       >
         <ListItem
-          bottomDivider
           onPress={() => {
             navigation.navigate("Details");
             dispatch({ type: "SetSelectedFlight", payload: l.id });
           }}
-          style={{ borderBottomWidth: 1, borderBottomColor: "lightgray" }}
         >
-          <ListItem.Content>
-            <View
-              style={{
-                flexDirection: "row",
-                width: screenwidth,
-                justifyContent: "space-between",
-              }}
-            >
-              <Image
-                style={styles.tinyLogo}
-                source={state.logo[l.airlineICAO]}
-              ></Image>
+         
+            <View style={styles.flightLabel}>
+                <View style={styles.flightLabelUpper}>
+                    <View style={styles.logo}>
+                        <Image
+                        style={styles.tinyLogo}
+                        source={state.logo[l.airlineICAO]}
+                        ></Image>
+                    </View>
+                    <View style={styles.deperatureArrival}>
+                        <View >
+                            <Text style={styles.deperature}>{l.depAirport}</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.tinyAirplane}> ✈︎ </Text>
+                        </View>
+                        <View>
+                            <Text style={styles.arrival}>{l.arrAirport}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.rightInfo}>
+                        <View style={styles.rightInfoUpper}>
+                            <View>
+                                <Text>{l.flightNo}</Text>
+                            </View>
+                            <View>
+                                <Text>{arrayOfFlihtId.includes(l.id) ? <Text>✉️</Text> : <></>}</Text>
+                            </View>
+                        </View>
+                        <View>
+                            <Text>{moment(l.date).format("MMM Do YYYY")}</Text>
+                        </View>
+                    </View>
+                </View>   
             </View>
-            <ListItem.Title>{l.flightNo}</ListItem.Title>
-            <ListItem.Subtitle>
-              {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-
-              {l.arrAirport}
-            </ListItem.Subtitle>
-            {arrayOfFlihtId.includes(l.id) ? <Text>😎</Text> : <></>}
-          </ListItem.Content>
         </ListItem>
       </Swipeable>
     ));
