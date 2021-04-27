@@ -6,6 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const DEFAULT = {
   illustration:
