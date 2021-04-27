@@ -70,7 +70,7 @@ export default function SignIn({ navigation, signIn: signInCb }) {
       <Button onPress={() => signIn()}>Sign In</Button>
       <Text>{errorMessage}</Text>
       <Button onPress={() => navigation.navigate("ForgetPassword")}>
-        Forget Password
+        Forgot Password
       </Button>
     </View>
   );

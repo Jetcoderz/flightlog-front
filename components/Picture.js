@@ -60,20 +60,32 @@ export default function Picture() {
 
       // Upload to S3
       pickerResult.uri = pickerResult.uri.replace("file://", "");
+
+      //attempt photo compression
+      const manipResult = await ImageManipulator.manipulateAsync(
+        pickerResult.uri || pickerResult.localUri,
+        [],
+        { compress: 0.1 }
+      );
+      console.log("MANIPULATION", manipResult);
+      manipResult.uri = manipResult.uri.replace("file://", "");
+      //end attempt photo compression
+
       const xhr = new XMLHttpRequest();
       xhr.open("PUT", resp.data);
       //xhr.setRequestHeader("Content-Type", pickerResult.type);
       xhr.send({
-        uri: pickerResult.uri,
+        //uri: pickerResult.uri,
+        uri: manipResult.uri,
         type: pickerResult.type,
         //name: pickerResult.fileName,
       });
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            //console.log("Image successfully uploaded to S3");
+            console.log("Image successfully uploaded to S3");
           } else {
-            //console.log("Error while sending the image to S3", xhr.status);
+            console.log("Error while sending the image to S3", xhr.status);
           }
         }
       };
