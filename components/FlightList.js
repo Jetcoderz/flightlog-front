@@ -73,22 +73,18 @@ export default function FlightList({ navigation }) {
     deperature: {
       fontSize: 30,
       fontWeight: "bold",
-      // backgroundColor: "lightblue",
       height: 35,
     },
     arrival: {
       fontSize: 30,
       fontWeight: "bold",
-      // backgroundColor: "lightblue",
       height: 35,
     },
     tinyAirplane: {
       fontSize: 15,
       marginLeft: 5,
       marginRight: 5,
-  
     },
-    
     deleteBox: {
       backgroundColor: "red",
       justifyContent: "center",
@@ -305,14 +301,8 @@ export default function FlightList({ navigation }) {
                             <Text>{moment(l.date).format("MMM Do YYYY")}</Text>
                         </View>
                     </View>
-                </View>
-                
-                
-                
-                
+                </View>   
             </View>
-   
-
         </ListItem>
       </Swipeable>
     ));
