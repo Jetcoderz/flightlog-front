@@ -17,6 +17,7 @@ import NewFlight from "./NewFlight";
 export default function AddFlight({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [selectedDate, setSelectedDate] = useState({});
 
   const getPostData = async (input) => {
     let flightData;
@@ -28,6 +29,10 @@ export default function AddFlight({ navigation }) {
 
       dispatch({ type: "SetaddedFlight", payload: flightData });
       dispatch({ type: "SetFlightNo", payload: input });
+      dispatch({
+        type: "SetFlightDate",
+        payload: Object.keys(selectedDate)[0],
+      });
     } catch (e) {
       console.log(input, "Here", e);
     }
@@ -35,7 +40,7 @@ export default function AddFlight({ navigation }) {
 
   function addFlight() {
     const [flightNumInput, setFlightNumInput] = useState("");
-    const [selectedDate, setSelectedDate] = useState({});
+
     return (
       <View>
         <Text>Please select your flight date</Text>
@@ -46,7 +51,6 @@ export default function AddFlight({ navigation }) {
             const obj = {};
             obj[day.dateString] = { selected: true, selectedColor: "#298BD9" };
             setSelectedDate(obj);
-            console.log("selected day", day);
           }}
         />
         <Text>Please input your Flight Number</Text>

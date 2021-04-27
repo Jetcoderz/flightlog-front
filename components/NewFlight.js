@@ -42,7 +42,7 @@ export default function NewFlight({ navigation }) {
       : "";
     const body = {
       username: Auth.user.attributes.email || "",
-      date: state.addedFlight.flight_date || "",
+      date: state.flightDate || state.addedFlight.flight_date || "",
       flightNo: state.flightNo,
       depAirport: state.addedFlight.departure.iata || "",
       arrAirport: state.addedFlight.arrival.iata || "",
