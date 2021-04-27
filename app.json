@@ -1,14 +1,8 @@
 {
   "expo": {
-<<<<<<< HEAD
     "name": "flightlog-front",
     "slug": "flightlog-front",
     "version": "1.0.3",
-=======
-    "name": "Flightlog",
-    "slug": "flightlog",
-    "version": "1.0.2",
->>>>>>> fa09191a38bbdb89fb849ecbcf9c4edfa51c2c30
     "icon": "./assets/icon.png",
     "orientation": "portrait",
     "updates": {
