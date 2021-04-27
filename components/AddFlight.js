@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Calendar } from "react-native-calendars";
 import { useSelector, useDispatch } from "react-redux";
 
 import NewFlight from "./NewFlight";
@@ -33,15 +34,25 @@ export default function AddFlight({ navigation }) {
 
   function addFlight() {
     const [flightNumInput, setFlightNumInput] = useState("");
+    const [selectedDate, setSelectedDate] = useState({});
     return (
       <View>
-        <Text>Add a Flight</Text>
+        <Text>Please select your flight date</Text>
+        <Calendar
+          markedDates={selectedDate}
+          onDayPress={(day) => {
+            const obj = {};
+            obj[day.dateString] = { selected: true };
+            setSelectedDate(obj);
+            console.log("selected day", day);
+          }}
+        />
+        <Text>Please input your Flight Number</Text>
         <TextInput
           style={styles.TextInput}
           placeholder="Flight #"
           onChangeText={(val) => setFlightNumInput(val)}
         />
-        <TextInput style={styles.TextInput} placeholder="Purpose of Trip" />
         <Button
           title="NEXT"
           onPress={async () => {
