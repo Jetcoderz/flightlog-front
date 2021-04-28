@@ -24,7 +24,7 @@
         "backgroundColor": "#0e2b77"
       },
       "package": "com.jetcoderz.flightlog",
-      "versionCode": 8,
+      "versionCode": 9,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyA5df97hjQlblBQcaZMeRhTVleU1RlbkV8"

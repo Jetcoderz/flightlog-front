@@ -70,9 +70,9 @@ export default function Picture() {
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            //console.log("Image successfully uploaded to S3");
+            console.log("Image successfully uploaded to S3");
           } else {
-            //console.log("Error while sending the image to S3", xhr.status);
+            console.log("Error while sending the image to S3", xhr.status);
           }
         }
       };

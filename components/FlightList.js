@@ -19,6 +19,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import Flight from "./Flight";
 import QRScanner from "./QRScanner";
 import { Platform } from "react-native";
+import { getMediaLibraryPermissionsAsync } from "expo-image-picker";
 
 const screenwidth = Dimensions.get("window").width - 40;
 const fullWidth = Dimensions.get("window").width;
@@ -31,9 +32,58 @@ export default function FlightList({ navigation }) {
   const [filteredList, setFilteredList] = useState(state.flightList);
 
   const styles = StyleSheet.create({
+    flightLabel: {
+      paddingTop: 10,
+      paddingBottom: 10,
+      alignItems: "center",
+      height: "auto",
+      width: "100%",
+      backgroundColor: "white",
+      borderRadius: 10,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 0.25,
+      elevation: 5,
+    },
+    flightLabelUpper: {
+      flexDirection: "row",
+    },
+    rightInfo: {
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+    rightInfoUpper: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
     tinyLogo: {
-      width: 30,
-      height: 30,
+      width: 40,
+      height: 40,
+      margin: 3,
+    },
+    deperatureArrival: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginRight: 30,
+      marginLeft: 30,
+    },
+    deperature: {
+      fontSize: 30,
+      fontWeight: "bold",
+      height: 35,
+    },
+    arrival: {
+      fontSize: 30,
+      fontWeight: "bold",
+      height: 35,
+    },
+    tinyAirplane: {
+      fontSize: 15,
+      marginLeft: 5,
+      marginRight: 5,
     },
     deleteBox: {
       backgroundColor: "red",
@@ -58,7 +108,7 @@ export default function FlightList({ navigation }) {
   const airlines = [];
   const years = [];
   const months = [];
-  const monNames = [
+  const enNames = [
     "January",
     "February",
     "March",
@@ -72,6 +122,28 @@ export default function FlightList({ navigation }) {
     "November",
     "December",
   ];
+  const jpNames = [
+    "1月",
+    "2月",
+    "3月",
+    "4月",
+    "5月",
+    "6月",
+    "7月",
+    "8月",
+    "9月",
+    "10月",
+    "11月",
+    "12月",
+  ];
+  let monNames = [];
+  if (state.language === "en") {
+    monNames = enNames;
+  }
+  if (state.language === "jp") {
+    monNames = jpNames;
+  }
+
   if (state.flightList.length > 0) {
     state.flightList.forEach((flight) => {
       let yr = flight.date.slice(0, 4);
@@ -91,8 +163,12 @@ export default function FlightList({ navigation }) {
 
   years.forEach((yr) => {
     if (filterItems.length === 0) {
+      let yLabel = "Year";
+      if (state.language === "jp") {
+        yLabel = "年";
+      }
       filterItems.push({
-        label: "Year",
+        label: yLabel,
         value: "yr",
         untouchable: true,
         textStyle: styles.labelHead,
@@ -105,8 +181,12 @@ export default function FlightList({ navigation }) {
     });
   });
 
+  let mLabel = "Month";
+  if (state.language === "jp") {
+    mLabel = "月";
+  }
   filterItems.push({
-    label: "Month",
+    label: mLabel,
     value: "mn",
     untouchable: true,
     textStyle: styles.labelHead,
@@ -120,8 +200,12 @@ export default function FlightList({ navigation }) {
     });
   });
 
+  let aLabel = "Airline";
+  if (state.language === "jp") {
+    aLabel = "航空会社";
+  }
   filterItems.push({
-    label: "Airline",
+    label: aLabel,
     value: "airline",
     untouchable: true,
     textStyle: styles.labelHead,
@@ -176,20 +260,41 @@ export default function FlightList({ navigation }) {
   };
 
   const confirmDelete = (id) => {
-    Alert.alert(
-      "Delete Flight",
-      "Are you sure you want to delete this flight?",
-      [
-        {
-          text: "Yes",
-          onPress: () => deleteFlight(id),
-        },
-        {
-          text: "No",
-        },
-      ]
-    );
+    if (state.language === "en") {
+      Alert.alert(
+        "Delete Flight",
+        "Are you sure you want to delete this flight?",
+        [
+          {
+            text: "Yes",
+            onPress: () => deleteFlight(id),
+          },
+          {
+            text: "No",
+          },
+        ]
+      );
+    }
+    if (state.language === "jp") {
+      Alert.alert(
+        "フライト削除",
+        "このフライトを削除してもよろしでしょうか？",
+        [
+          {
+            text: "はい",
+            onPress: () => deleteFlight(id),
+          },
+          {
+            text: "いいえ",
+          },
+        ]
+      );
+    }
   };
+  let placeholdertxt = "Filter by...";
+  if (state.language === "jp") {
+    placeholdertxt = "フィルター";
+  }
 
   function CreateList() {
     const arrayOfFlihtId = state.qrCodes.map((qrcode) => qrcode.flightID);
@@ -206,40 +311,59 @@ export default function FlightList({ navigation }) {
               activeOpacity={0.6}
             >
               <View style={styles.deleteBox}>
-                <Text style={styles.deleteText}>Delete</Text>
+                {state.language === "en" && (
+                  <Text style={styles.deleteText}>Delete</Text>
+                )}
+                {state.language === "jp" && (
+                  <Text style={styles.deleteText}>削除</Text>
+                )}
               </View>
             </TouchableOpacity>
           );
         }}
       >
         <ListItem
-          bottomDivider
           onPress={() => {
             navigation.navigate("Details");
             dispatch({ type: "SetSelectedFlight", payload: l.id });
           }}
-          style={{ borderBottomWidth: 1, borderBottomColor: "lightgray" }}
         >
-          <ListItem.Content>
-            <View
-              style={{
-                flexDirection: "row",
-                width: screenwidth,
-                justifyContent: "space-between",
-              }}
-            >
-              <Image
-                style={styles.tinyLogo}
-                source={state.logo[l.airlineICAO]}
-              ></Image>
+          <View style={styles.flightLabel}>
+            <View style={styles.flightLabelUpper}>
+              <View style={styles.logo}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={state.logo[l.airlineICAO]}
+                ></Image>
+              </View>
+              <View style={styles.deperatureArrival}>
+                <View>
+                  <Text style={styles.deperature}>{l.depAirport}</Text>
+                </View>
+                <View>
+                  <Text style={styles.tinyAirplane}> ✈︎ </Text>
+                </View>
+                <View>
+                  <Text style={styles.arrival}>{l.arrAirport}</Text>
+                </View>
+              </View>
+              <View style={styles.rightInfo}>
+                <View style={styles.rightInfoUpper}>
+                  <View>
+                    <Text>{l.flightNo}</Text>
+                  </View>
+                  <View>
+                    <Text>
+                      {arrayOfFlihtId.includes(l.id) ? <Text>✉️</Text> : <></>}
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <Text>{moment(l.date).format("MMM Do YYYY")}</Text>
+                </View>
+              </View>
             </View>
-            <ListItem.Title>{l.flightNo}</ListItem.Title>
-            <ListItem.Subtitle>
-              {moment(l.date).format("MMM Do YYYY")}:{l.depAirport}-
-              {l.arrAirport}
-            </ListItem.Subtitle>
-            {arrayOfFlihtId.includes(l.id) ? <Text>😎</Text> : <></>}
-          </ListItem.Content>
+          </View>
         </ListItem>
       </Swipeable>
     ));
@@ -270,14 +394,26 @@ export default function FlightList({ navigation }) {
             }}
             onPress={resetList}
           >
-            <Text
-              style={{
-                paddingLeft: 5,
-                paddingRight: 5,
-              }}
-            >
-              Clear Filter
-            </Text>
+            {state.language === "en" && (
+              <Text
+                style={{
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                }}
+              >
+                Clear Filter
+              </Text>
+            )}
+            {state.language === "jp" && (
+              <Text
+                style={{
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                }}
+              >
+                フィルター削除
+              </Text>
+            )}
           </TouchableOpacity>
           <DropDownPicker
             scrollViewProps={{
@@ -289,7 +425,7 @@ export default function FlightList({ navigation }) {
             min={0}
             max={10}
             defaultValue={""}
-            placeholder="Filter by..."
+            placeholder={placeholdertxt}
             containerStyle={{ width: 200 }}
             itemStyle={{
               justifyContent: "flex-start",
@@ -320,13 +456,20 @@ export default function FlightList({ navigation }) {
     return <QRScanner></QRScanner>;
   }
 
+  let hTitle = `${Auth.user.attributes.name}'s Flights`;
+  let h2 = "Flight Details";
+  if (state.language === "jp") {
+    hTitle = "フライトリスト";
+    h2 = "フライト情報";
+  }
+
   return (
     <Stack.Navigator initialRouteName="List">
       <Stack.Screen
         name="List"
         component={List}
         options={{
-          headerTitle: "My Flights",
+          headerTitle: hTitle,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
@@ -369,7 +512,7 @@ export default function FlightList({ navigation }) {
         name="Details"
         component={Details}
         options={{
-          headerTitle: "Flight Detail",
+          headerTitle: h2,
           headerTintColor: "#fff",
           headerStyle: {
             backgroundColor: "#298BD9",
