@@ -16,6 +16,14 @@ const screenWidth = Dimensions.get("window").width;
 export default function UserStats({ navigation }) {
   const state = useSelector((state) => state);
   const [data, setData] = useState([]);
+  let totFl = "Total Flights";
+  let totAl = "Flights by Airline:";
+  let headerTitle = "My Stats";
+  if (state.language === "jp") {
+    totFl = "フライト合計";
+    totAl = "航空会社比率";
+    headerTitle = "統計";
+  }
 
   useEffect(() => {
     const perAirline = {};
@@ -81,11 +89,11 @@ export default function UserStats({ navigation }) {
         <Text
           style={{ fontSize: 15, marginTop: 0, padding: 0, marginBottom: 5 }}
         >
-          Total Flights
+          {totFl}
         </Text>
         <Calender />
         <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
-          Flights by Airline:
+          {totAl}
         </Text>
         <PieChart
           data={data}
@@ -107,7 +115,7 @@ export default function UserStats({ navigation }) {
         name="List"
         component={stats}
         options={{
-          headerTitle: "My Stats",
+          headerTitle: headerTitle,
           headerStyle: {
             backgroundColor: "#298BD9",
           },

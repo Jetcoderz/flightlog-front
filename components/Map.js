@@ -8,13 +8,17 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 const { airportList } = require("./resources/airportList");
 
 export default function Map({ navigation }) {
   const [pathCoords, setPathCoords] = useState([]);
   const [theAirports, setTheAirports] = useState([]);
   const state = useSelector((state) => state);
+  let headerTitle = "Flights Map";
+  if (state.language === "jp") {
+    headerTitle = "地図";
+  }
 
   useEffect(() => {
     const paths = [];
@@ -57,7 +61,7 @@ export default function Map({ navigation }) {
     return (
       <Polyline
         coordinates={path}
-        strokeColor={"#0f0f6c"}
+        strokeColor={"#298BD9"}
         strokeWidth={3}
         key={i}
       />
@@ -91,7 +95,7 @@ export default function Map({ navigation }) {
         name="List"
         component={map}
         options={{
-          headerTitle: "Flights Map",
+          headerTitle: headerTitle,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
