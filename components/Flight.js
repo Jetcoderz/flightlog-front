@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Picture from "./Picture";
 import UserInfo from "./UserInfo";
 import Surprise from "./Surprise";
-import { color } from "react-native-reanimated";
 import moment from "moment";
 
 export default function Flight() {

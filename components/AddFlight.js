@@ -6,7 +6,9 @@ import {
   Image,
   Text,
   StyleSheet,
+  ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Calendar } from "react-native-calendars";
@@ -38,49 +40,63 @@ export default function AddFlight({ navigation }) {
     }
   };
 
-  let pl = "Purpose of Trip";
   let pl2 = "Flight #";
   let bTitle = "NEXT";
   let hTit = "Add Flight";
   let hTit2 = "Add User Info";
+  let text1 = "Please select your Flight Date";
+  let text2 = "Please input your Flight Number";
   if (state.language === "jp") {
-    pl = "目的";
     pl2 = "フライト番号";
     bTitle = "次";
     hTit = "フライト追加";
     hTit2 = "個人情報追加";
+    text1 = "日付を選んでください";
+    text2 = "フライト番号を入力しでください";
   }
 
   function addFlight() {
     const [flightNumInput, setFlightNumInput] = useState("");
 
     return (
-      <View>
-        <Text>Please select your flight date</Text>
-        <Calendar
-          markedDates={selectedDate}
-          theme={{ arrowColor: "#298BD9" }}
-          onDayPress={(day) => {
-            const obj = {};
-            obj[day.dateString] = { selected: true, selectedColor: "#298BD9" };
-            setSelectedDate(obj);
+      <ScrollView>
+        <View
+          style={{
+            backgroundColor: "white",
+            alignItems: "center",
+            height: Dimensions.get("window").height,
           }}
-        />
-        <Text>Please input your Flight Number</Text>
-        <TextInput
-          style={styles.TextInput}
-          placeholder={pl2}
-          onChangeText={(val) => setFlightNumInput(val)}
-        />
-        <Button
-          title={bTitle}
-          onPress={async () => {
-            getPostData(flightNumInput);
+        >
+          <Text style={styles.helperText}>{text1}</Text>
+          <Calendar
+            markedDates={selectedDate}
+            theme={{ arrowColor: "#298BD9" }}
+            onDayPress={(day) => {
+              const obj = {};
+              obj[day.dateString] = {
+                selected: true,
+                selectedColor: "#298BD9",
+              };
+              setSelectedDate(obj);
+            }}
+          />
+          <Text style={styles.helperText}>{text2}</Text>
+          <TextInput
+            style={styles.TextInput}
+            placeholder={pl2}
+            onChangeText={(val) => setFlightNumInput(val)}
+          />
+          <Button
+            title={bTitle}
+            style={styles.button}
+            onPress={async () => {
+              getPostData(flightNumInput);
 
-            navigation.navigate("AddUserInfo");
-          }}
-        />
-      </View>
+              navigation.navigate("AddUserInfo");
+            }}
+          />
+        </View>
+      </ScrollView>
     );
   }
 
@@ -131,5 +147,20 @@ export default function AddFlight({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  TextInput: { height: 40, borderColor: "gray", borderWidth: 1, marginTop: 50 },
+  TextInput: {
+    height: 40,
+    width: 300,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 20,
+    marginTop: 20,
+    paddingLeft: 20,
+  },
+  helperText: {
+    fontSize: 18,
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: "#298BD9",
+  },
 });

@@ -4,7 +4,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import Auth from "@aws-amplify/auth";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function QRScanner() {
+export default function QRScanner({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [hasPermission, setHasPermission] = useState(null);
@@ -74,6 +74,7 @@ export default function QRScanner() {
       };
 
       getQrcodes();
+      navigation.navigate("List");
       dispatch({ type: "SetFlightList", payload: state.flightList });
     } else {
       alert("QR-code is not correct");
