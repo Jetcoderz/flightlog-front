@@ -62,8 +62,52 @@ export default function AddFlight({ navigation }) {
     dayNamesShort: ["日", "月", "火", "水", "木", "金", "土"],
     today: "今日",
   };
+  LocaleConfig.locales["en"] = {
+    monthNames: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    monthNamesShort: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    dayNames: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
+    dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    today: "Today",
+  };
   if (state.language === "jp") {
     LocaleConfig.defaultLocale = "jp";
+  }
+  if (state.language === "en") {
+    LocaleConfig.defaultLocale = "en";
   }
 
   const getPostData = async (input) => {
