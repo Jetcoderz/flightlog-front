@@ -6,28 +6,46 @@ import {
   FlatList,
   PickerIOSComponent,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function UserInfo({ thisFlight }) {
+  const state = useSelector((state) => state);
+
+  let labels;
+  let enLabels = [
+    "Purpose:",
+    "Entertainment:",
+    "Meal:",
+    "SeatNo:",
+    "Comments:",
+  ];
+  let jpLabels = ["目的", "エンターテイメント", "食事", "席番号", "コメント"];
+  if (state.language === "en") {
+    labels = enLabels;
+  }
+  if (state.language === "jp") {
+    labels = jpLabels;
+  }
   return (
     <View style={styles.userInfo}>
       <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>Purpose: </Text>
+        <Text style={styles.eachUserInfoTitle}>{labels[0]}</Text>
         <Text style={styles.eachUserInfo}>{thisFlight.purpose}</Text>
       </View>
       <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>Entertainment: </Text>
+        <Text style={styles.eachUserInfoTitle}>{labels[1]}</Text>
         <Text style={styles.eachUserInfo}>{thisFlight.entertainment}</Text>
       </View>
       <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>Meal: </Text>
+        <Text style={styles.eachUserInfoTitle}>{labels[2]}</Text>
         <Text style={styles.eachUserInfo}>{thisFlight.meal}</Text>
       </View>
       <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>SeatNo: </Text>
+        <Text style={styles.eachUserInfoTitle}>{labels[3]}</Text>
         <Text style={styles.eachUserInfo}>{thisFlight.seatNo}</Text>
       </View>
       <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>Review: </Text>
+        <Text style={styles.eachUserInfoTitle}>{labels[4]}</Text>
         <Text style={styles.eachUserInfo}>{thisFlight.review}</Text>
       </View>
     </View>

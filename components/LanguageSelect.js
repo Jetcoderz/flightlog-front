@@ -1,53 +1,56 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import {} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
-export default function LanguageSelect() {
+export default function LanguageSelect({ navigation }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  let headerTitle = "Language Select";
+  if (state.language === "jp") {
+    headerTitle = "言語設定";
+  }
 
   function lan() {
     return (
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#fff",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {state.language === "en" && (
           <View>
-            <Text style={{ textAlign: "center" }}>Set Language</Text>
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  dispatch({ type: "SetLanguage", payload: "en" });
-                }}
-              >
-                <Text>English</Text>
+              <TouchableOpacity style={styles.radioButtonSelected}>
+                <Text style={styles.radioButtonText}>English</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
                   dispatch({ type: "SetLanguage", payload: "jp" });
                 }}
+                style={styles.radioButtonNotSelected}
               >
-                <Text>Japanese</Text>
+                <Text style={styles.radioButtonText}>Japanese</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
         {state.language === "jp" && (
-          <View>
-            <Text>言語設定</Text>
+          <View style={{ flex: 1, flexDirection: "row" }}>
             <TouchableOpacity
               onPress={() => {
                 dispatch({ type: "SetLanguage", payload: "en" });
               }}
+              style={styles.radioButtonNotSelected}
             >
-              <Text>英語</Text>
+              <Text style={styles.radioButtonText}>英語</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                dispatch({ type: "SetLanguage", payload: "jp" });
-              }}
-            >
-              <Text>日本語</Text>
+            <TouchableOpacity style={styles.radioButtonSelected}>
+              <Text style={styles.radioButtonText}>日本語</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -63,7 +66,7 @@ export default function LanguageSelect() {
         name="List"
         component={lan}
         options={{
-          headerTitle: "Language Select",
+          headerTitle: headerTitle,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
@@ -85,3 +88,34 @@ export default function LanguageSelect() {
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  radioButtonSelected: {
+    height: 50,
+    width: 160,
+    backgroundColor: "#298BD9",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 160,
+    borderWidth: 1,
+    borderColor: "#E6E6E6",
+  },
+  radioButtonNotSelected: {
+    height: 50,
+    width: 160,
+    backgroundColor: "#AAAAAA",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 160,
+    borderWidth: 1,
+    borderColor: "#E6E6E6",
+  },
+  radioButtonText: {
+    fontSize: 16,
+    color: "#fff",
+  },
+});
