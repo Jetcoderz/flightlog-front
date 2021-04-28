@@ -2,7 +2,7 @@
   "expo": {
     "name": "flightlog-front",
     "slug": "flightlog-front",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icon": "./assets/icon.png",
     "orientation": "portrait",
     "updates": {
@@ -10,7 +10,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jetcoderz.flightlog"
     },
     "android": {
       "icon": "./assets/playstoreicon.png",
