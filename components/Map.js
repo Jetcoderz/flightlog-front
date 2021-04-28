@@ -17,7 +17,7 @@ export default function Map({ navigation }) {
   const state = useSelector((state) => state);
   let headerTitle = "Flights Map";
   if (state.language === "jp") {
-    headerTitle = "地図";
+    headerTitle = "地図で見る";
   }
 
   useEffect(() => {

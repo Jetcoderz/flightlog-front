@@ -49,7 +49,7 @@ export default function AddFlight({ navigation }) {
   if (state.language === "jp") {
     pl2 = "フライト番号";
     bTitle = "次";
-    hTit = "フライト追加";
+    hTit = "フライトを追加";
     hTit2 = "個人情報追加";
     text1 = "日付を選んでください";
     text2 = "フライト番号を入力しでください";
