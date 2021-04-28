@@ -55,7 +55,7 @@ export default function Flight() {
         </View>
         {/* <FlightInfo /> */}
         <UserInfo thisFlight={thisFlight} />
-        <Surprise id={thisFlight.id} />
+        {state.qrCodes.length > 0 && <Surprise id={thisFlight.id} />}
         <Picture />
       </ScrollView>
     </View>

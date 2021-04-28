@@ -10,6 +10,7 @@ export default function ReduxReducer(
     logo: logoObj,
     addedFlight: {},
     qrCodes: [],
+    language: "en",
   },
   action
 ) {
@@ -44,6 +45,11 @@ export default function ReduxReducer(
       return {
         ...state,
         qrCodes: action.payload,
+      };
+    case "SetLanguage":
+      return {
+        ...state,
+        language: action.payload,
       };
     default:
       return state;

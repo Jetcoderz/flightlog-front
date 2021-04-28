@@ -3,7 +3,7 @@ import { Text, StyleSheet, TouchableHighlight } from "react-native";
 
 const styles = StyleSheet.create({
   buttonStyle: {
-    width: 100,
+    width: 105,
     alignItems: "center",
     padding: 10,
     backgroundColor: "#2a6bcc",
@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "white",
+    textAlign: "center",
   },
 });
 
