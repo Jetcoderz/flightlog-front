@@ -6,6 +6,7 @@ export default function ReduxReducer(
     flightList: [],
     flightListLoaded: false,
     flightNo: "",
+    flightDate: "",
     selectedFlight: "",
     logo: logoObj,
     addedFlight: {},
@@ -30,6 +31,11 @@ export default function ReduxReducer(
       return {
         ...state,
         flightNo: action.payload,
+      };
+    case "SetFlightDate":
+      return {
+        ...state,
+        flightDate: action.payload,
       };
     case "SetSelectedFlight":
       return {

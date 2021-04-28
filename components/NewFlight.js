@@ -16,7 +16,7 @@ export default function NewFlight({ navigation }) {
   const dispatch = useDispatch();
 
   //const [purpose, setPurpose] = useState("");
-  const [entertainmnet, setEntertainmnet] = useState([]);
+  //const [entertainmnet, setEntertainmnet] = useState([]);
   const [meal, setMeal] = useState("");
   const [seatNo, setSeatNo] = useState("");
   const [reviw, setReviw] = useState("");
@@ -25,14 +25,24 @@ export default function NewFlight({ navigation }) {
     { id: 1, selected: false, name: "Business" },
     { id: 2, selected: false, name: "Travel" },
   ]);
+  const [entertainItems, SetEntertainItems] = useState([
+    { id: 1, selected: false, name: "Reading" },
+    { id: 2, selected: false, name: "Movie" },
+    { id: 3, selected: false, name: "Music" },
+    { id: 4, selected: false, name: "Game" },
+  ]);
 
   async function postButton() {
     const purpose = purposeItems.filter((i) => i.selected === true).length
       ? purposeItems.filter((i) => i.selected === true)[0]["name"]
       : "";
+    const entertainment = entertainItems.filter((i) => i.selected === true)
+      .length
+      ? entertainItems.filter((i) => i.selected === true).map((i) => i.name)
+      : "";
     const body = {
       username: Auth.user.attributes.email || "",
-      date: state.addedFlight.flight_date || "",
+      date: state.flightDate || state.addedFlight.flight_date || "",
       flightNo: state.flightNo,
       depAirport: state.addedFlight.departure.iata || "",
       arrAirport: state.addedFlight.arrival.iata || "",
@@ -44,7 +54,7 @@ export default function NewFlight({ navigation }) {
       // ↓ return null
       // plane: state.addedFlight.aircraft.icao || "",
       purpose: purpose,
-      entertainment: entertainmnet,
+      entertainment: entertainment,
       meal: meal,
       seatNo: seatNo,
       reviw: reviw,
@@ -115,6 +125,41 @@ export default function NewFlight({ navigation }) {
     );
   }
 
+  function Entertainment() {
+    function radioButtonOnPress(id) {
+      const updatedState = entertainItems.slice();
+      updatedState[id - 1].selected = !entertainItems[id - 1].selected;
+      SetEntertainItems(updatedState);
+    }
+
+    return (
+      <View>
+        <Text>Purpose of Travel</Text>
+        <View style={styles.radioButtonContainer}>
+          {entertainItems.map((item) => (
+            <View key={item.id}>
+              {item.selected ? (
+                <TouchableOpacity
+                  onPress={() => radioButtonOnPress(item.id)}
+                  style={styles.radioButtonSelected}
+                >
+                  <Text style={styles.radioButtonText}>{item.name}</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => radioButtonOnPress(item.id)}
+                  style={styles.radioButtonNotSelected}
+                >
+                  <Text style={styles.radioButtonText}>{item.name}</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          ))}
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View>
       {state.addedFlight.airline && (
@@ -127,29 +172,20 @@ export default function NewFlight({ navigation }) {
         </View>
       )}
       <Purpose />
-      {/* <TextInput
-        style={styles.TextInput}
-        placeholder="purpose"
-        onChangeText={(val) => setPurpose(val)}
-      /> */}
+      <Entertainment />
       <TextInput
         style={styles.TextInput}
-        placeholder="entertainmnet"
-        onChangeText={(val) => setEntertainmnet(val)}
-      />
-      <TextInput
-        style={styles.TextInput}
-        placeholder="meal"
+        placeholder="Meal"
         onChangeText={(val) => setMeal(val)}
       />
       <TextInput
         style={styles.TextInput}
-        placeholder="seat number"
+        placeholder="Seat Number"
         onChangeText={(val) => setSeatNo(val)}
       />
       <TextInput
         style={styles.TextInput}
-        placeholder="review"
+        placeholder="Comments"
         onChangeText={(val) => setReviw(val)}
       />
       <Button title="ADD" onPress={postButton} />
@@ -162,6 +198,7 @@ const styles = StyleSheet.create({
   radioButtonContainer: {
     width: "100%",
     display: "flex",
+    flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",

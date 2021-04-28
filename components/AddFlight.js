@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Calendar } from "react-native-calendars";
 import { useSelector, useDispatch } from "react-redux";
 
 import NewFlight from "./NewFlight";
@@ -16,6 +17,7 @@ import NewFlight from "./NewFlight";
 export default function AddFlight({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [selectedDate, setSelectedDate] = useState({});
 
   const getPostData = async (input) => {
     let flightData;
@@ -27,6 +29,10 @@ export default function AddFlight({ navigation }) {
 
       dispatch({ type: "SetaddedFlight", payload: flightData });
       dispatch({ type: "SetFlightNo", payload: input });
+      dispatch({
+        type: "SetFlightDate",
+        payload: Object.keys(selectedDate)[0],
+      });
     } catch (e) {
       console.log(input, "Here", e);
     }
@@ -47,16 +53,25 @@ export default function AddFlight({ navigation }) {
 
   function addFlight() {
     const [flightNumInput, setFlightNumInput] = useState("");
+
     return (
       <View>
-        {state.language === "en" && <Text>Add a Flight</Text>}
-        {state.language === "jp" && <Text>フライト追加</Text>}
+        <Text>Please select your flight date</Text>
+        <Calendar
+          markedDates={selectedDate}
+          theme={{ arrowColor: "#298BD9" }}
+          onDayPress={(day) => {
+            const obj = {};
+            obj[day.dateString] = { selected: true, selectedColor: "#298BD9" };
+            setSelectedDate(obj);
+          }}
+        />
+        <Text>Please input your Flight Number</Text>
         <TextInput
           style={styles.TextInput}
           placeholder={pl2}
           onChangeText={(val) => setFlightNumInput(val)}
         />
-        <TextInput style={styles.TextInput} placeholder={pl} />
         <Button
           title={bTitle}
           onPress={async () => {

@@ -354,7 +354,7 @@ export default function FlightList({ navigation }) {
                   </View>
                   <View>
                     <Text>
-                      {arrayOfFlihtId.includes(l.id) ? <Text>✉️</Text> : <></>}
+                      {arrayOfFlihtId.includes(l.id) ? <Text>🎁</Text> : <></>}
                     </Text>
                   </View>
                 </View>
