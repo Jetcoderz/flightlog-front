@@ -10,7 +10,7 @@ export default function Collection({ navigation }) {
   let headerTitle = "My Collection";
   if (state.language === "jp") {
     label = "航空会社";
-    headerTitle = "収集";
+    headerTitle = "コレクション";
   }
 
   function collections() {
