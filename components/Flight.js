@@ -8,6 +8,14 @@ import moment from "moment";
 
 export default function Flight() {
   const state = useSelector((state) => state);
+  let airline = "Airline: ";
+  let aircraft = "Type of Aircraft: ";
+  let gate = "Gate# ";
+  if (state.language === "jp") {
+    airline = "航空会社 ";
+    aircraft = "飛行機 ";
+    gate = "ゲート ";
+  }
 
   const thisFlight = state.flightList.filter(
     (i) => i.id === state.selectedFlight
@@ -33,7 +41,10 @@ export default function Flight() {
               <Text style={styles.moment}>
                 {moment(thisFlight.takeoff).format("LL")}
               </Text>
-              <Text style={styles.gate}>Gate# {thisFlight.depGate}</Text>
+              <Text style={styles.gate}>
+                {gate}
+                {thisFlight.depGate}
+              </Text>
             </View>
             <Text style={styles.airplane}>✈︎</Text>
             <View>
@@ -44,12 +55,19 @@ export default function Flight() {
               <Text style={styles.moment}>
                 {moment(thisFlight.landing).format("LL")}
               </Text>
-              <Text style={styles.gate}>Gate# {thisFlight.arrGate}</Text>
+              <Text style={styles.gate}>
+                {gate}
+                {thisFlight.arrGate}
+              </Text>
             </View>
           </View>
-          <Text style={styles.airline}>Airline: {thisFlight.airlineICAO}</Text>
+          <Text style={styles.airline}>
+            {airline}
+            {thisFlight.airlineICAO}
+          </Text>
           <Text style={styles.typeOfAircraft}>
-            Type of aircraft: {thisFlight.plane}
+            {aircraft}
+            {thisFlight.plane}
           </Text>
         </View>
         {/* <FlightInfo /> */}
