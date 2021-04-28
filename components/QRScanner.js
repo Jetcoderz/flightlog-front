@@ -17,6 +17,19 @@ export default function QRScanner({ navigation }) {
     })();
   }, []);
 
+  const texts =
+    state.language === "en"
+      ? {
+          alert1: "You got the CA's Message!",
+          alert2: "QR-code is invalid",
+          alert3: "Tap to Scan Again",
+        }
+      : {
+          alert1: "CAのメッセージをゲットしました！",
+          alert2: "このQRコードは無効です",
+          alert3: "もう一度スキャンしてください",
+        };
+
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     // alert(`QRcode with type ${type} and data ${data} has been scanned`);
@@ -62,7 +75,7 @@ export default function QRScanner({ navigation }) {
 
     if (check) {
       postQR();
-      alert("You've got CA's message");
+      alert(texts.alert1);
 
       const getQrcodes = async () => {
         const res = await fetch(
@@ -77,7 +90,7 @@ export default function QRScanner({ navigation }) {
       navigation.navigate("List");
       dispatch({ type: "SetFlightList", payload: state.flightList });
     } else {
-      alert("QR-code is not correct");
+      alert(texts.alert2);
     }
   };
 
@@ -95,7 +108,7 @@ export default function QRScanner({ navigation }) {
         style={StyleSheet.absoluteFillObject}
       />
       {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
+        <Button title={texts.alert3} onPress={() => setScanned(false)} />
       )}
     </View>
   );

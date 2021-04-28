@@ -141,7 +141,7 @@ export default function AddFlight({ navigation }) {
     hTit = "フライトを追加";
     hTit2 = "個人情報追加";
     text1 = "日付を選んでください";
-    text2 = "フライト番号を入力しでください";
+    text2 = "フライト番号を入力してください";
   }
 
   function addFlight() {
@@ -225,6 +225,7 @@ export default function AddFlight({ navigation }) {
         component={newFlight}
         options={{
           headerTitle: hTit2,
+          headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: "#298BD9",
           },
@@ -244,9 +245,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20,
     paddingLeft: 20,
+    marginBottom: 5,
   },
   helperText: {
     fontSize: 18,
+    fontWeight: "bold",
+    color: "#298BD9",
     marginTop: 20,
   },
   button: {
