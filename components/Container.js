@@ -26,15 +26,6 @@ export default function Container() {
       dispatch({ type: "SetFlightList", payload: theFlights });
     };
 
-    let enName = [
-      "Home",
-      "Add Flight",
-      "Flights Map",
-      "View Stats",
-      "View Collection",
-      "Language Selection",
-    ];
-
     const getQrcodes = async () => {
       const res = await fetch(
         "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes/" +
