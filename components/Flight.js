@@ -12,7 +12,7 @@ export default function Flight() {
   let aircraft = "Type of Aircraft: ";
   let gate = "Gate# ";
   if (state.language === "jp") {
-    airline = "航空会社 ";
+    airline = "エアライン ";
     aircraft = "飛行機 ";
     gate = "ゲート ";
   }
