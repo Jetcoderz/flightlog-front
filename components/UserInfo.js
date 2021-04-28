@@ -19,7 +19,7 @@ export default function UserInfo({ thisFlight }) {
     "SeatNo:",
     "Comments:",
   ];
-  let jpLabels = ["目的", "エンターテインメント", "食事", "席番号", "コメント"];
+  let jpLabels = ["目的", "エンターテイメント", "食事", "席番号", "コメント"];
   if (state.language === "en") {
     labels = enLabels;
   }
