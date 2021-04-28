@@ -40,7 +40,14 @@ export default function Container() {
     }
   }, [Auth.user.attributes.email]);
 
-  let jpName = ["ホーム", "フライト追加", "地図", "統計", "収集", "言語設定"];
+  let jpName = [
+    "ホーム",
+    "フライトを追加",
+    "地図で見る",
+    "フライトの統計",
+    "コレクション",
+    "言語設定",
+  ];
   let enName = [
     "Home",
     "Add Flight",

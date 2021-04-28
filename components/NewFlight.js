@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Button,
   TextInput,
+  ScrollView,
+  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -31,6 +33,21 @@ export default function NewFlight({ navigation }) {
     { id: 3, selected: false, name: "Music" },
     { id: 4, selected: false, name: "Game" },
   ]);
+
+  const texts =
+    state.language === "en"
+      ? {
+          helper1: "Purpose of Travel",
+          helper2: "Entertainment",
+          button: "Add",
+          jumpScreen: "Home",
+        }
+      : {
+          helper1: "目的",
+          helper2: "エンターテイメント",
+          button: "追加",
+          jumpScreen: "ホーム",
+        };
 
   async function postButton() {
     const purpose = purposeItems.filter((i) => i.selected === true).length
@@ -84,7 +101,7 @@ export default function NewFlight({ navigation }) {
       dispatch({ type: "SetFlightList", payload: jsonRes });
     };
     getFlights();
-    navigation.navigate("Home");
+    navigation.navigate(texts.jumpScreen);
   }
 
   function Purpose() {
@@ -99,7 +116,7 @@ export default function NewFlight({ navigation }) {
 
     return (
       <View>
-        <Text>Purpose of Travel</Text>
+        <Text style={styles.helperText}>{texts.helper1}</Text>
         <View style={styles.radioButtonContainer}>
           {purposeItems.map((item) => (
             <View key={item.id}>
@@ -134,7 +151,7 @@ export default function NewFlight({ navigation }) {
 
     return (
       <View>
-        <Text>Purpose of Travel</Text>
+        <Text style={styles.helperText}>{texts.helper2}</Text>
         <View style={styles.radioButtonContainer}>
           {entertainItems.map((item) => (
             <View key={item.id}>
@@ -161,40 +178,56 @@ export default function NewFlight({ navigation }) {
   }
 
   return (
-    <View>
-      {state.addedFlight.airline && (
-        <View>
-          <Image source={state.logo[state.addedFlight.airline.name]}></Image>
+    <ScrollView>
+      <View
+        style={{
+          backgroundColor: "white",
+          alignItems: "center",
+          height: Dimensions.get("window").height,
+        }}
+      >
+        {state.addedFlight.airline && (
           <View>
-            <Text>Departure: {state.addedFlight.departure.iata}</Text>
-            <Text>Arrival: {state.addedFlight.arrival.iata}</Text>
+            <Image source={state.logo[state.addedFlight.airline.name]}></Image>
+            <View>
+              <Text>Departure: {state.addedFlight.departure.iata}</Text>
+              <Text>Arrival: {state.addedFlight.arrival.iata}</Text>
+            </View>
           </View>
-        </View>
-      )}
-      <Purpose />
-      <Entertainment />
-      <TextInput
-        style={styles.TextInput}
-        placeholder="Meal"
-        onChangeText={(val) => setMeal(val)}
-      />
-      <TextInput
-        style={styles.TextInput}
-        placeholder="Seat Number"
-        onChangeText={(val) => setSeatNo(val)}
-      />
-      <TextInput
-        style={styles.TextInput}
-        placeholder="Comments"
-        onChangeText={(val) => setReviw(val)}
-      />
-      <Button title="ADD" onPress={postButton} />
-    </View>
+        )}
+        <Purpose />
+        <Entertainment />
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Meal"
+          onChangeText={(val) => setMeal(val)}
+        />
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Seat Number"
+          onChangeText={(val) => setSeatNo(val)}
+        />
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Comments"
+          onChangeText={(val) => setReviw(val)}
+        />
+        <Button title={texts.button} onPress={postButton} />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  TextInput: { height: 40, borderColor: "gray", borderWidth: 1, marginTop: 50 },
+  TextInput: {
+    height: 40,
+    width: 300,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 20,
+    marginTop: 20,
+    paddingLeft: 20,
+  },
   radioButtonContainer: {
     width: "100%",
     display: "flex",
@@ -225,5 +258,9 @@ const styles = StyleSheet.create({
   },
   radioButtonText: {
     fontSize: 16,
+  },
+  helperText: {
+    fontSize: 18,
+    marginTop: 20,
   },
 });
