@@ -25,12 +25,7 @@ export default function LanguageSelect({ navigation }) {
         {state.language === "en" && (
           <View>
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  dispatch({ type: "SetLanguage", payload: "en" });
-                }}
-                style={styles.radioButtonSelected}
-              >
+              <TouchableOpacity style={styles.radioButtonSelected}>
                 <Text style={styles.radioButtonText}>English</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -54,12 +49,7 @@ export default function LanguageSelect({ navigation }) {
             >
               <Text style={styles.radioButtonText}>英語</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                dispatch({ type: "SetLanguage", payload: "jp" });
-              }}
-              style={styles.radioButtonSelected}
-            >
+            <TouchableOpacity style={styles.radioButtonSelected}>
               <Text style={styles.radioButtonText}>日本語</Text>
             </TouchableOpacity>
           </View>
