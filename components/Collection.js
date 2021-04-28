@@ -1,9 +1,18 @@
 import React from "react";
 import { Image, Text, ScrollView, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useSelector } from "react-redux";
 import Stamp from "./Stamp";
 
 export default function Collection({ navigation }) {
+  const state = useSelector((state) => state);
+  let label = "Airlines";
+  let headerTitle = "My Collection";
+  if (state.language === "jp") {
+    label = "エアライン";
+    headerTitle = "コレクション";
+  }
+
   function collections() {
     return (
       <ScrollView
@@ -19,9 +28,10 @@ export default function Collection({ navigation }) {
             fontWeight: "bold",
             margin: 5,
             padding: 5,
+            color: "#298BD9",
           }}
         >
-          Airlines
+          {label}
         </Text>
         <Stamp />
         <Text style={{ marginBottom: 20 }}></Text>
@@ -36,7 +46,7 @@ export default function Collection({ navigation }) {
         name="List"
         component={collections}
         options={{
-          headerTitle: "My Collection",
+          headerTitle: headerTitle,
           headerStyle: {
             backgroundColor: "#298BD9",
           },

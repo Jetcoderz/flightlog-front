@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Flightlog",
-    "slug": "flightlog",
-    "version": "1.0.2",
+    "name": "flightlog-front",
+    "slug": "flightlog-front",
+    "version": "1.0.3",
     "icon": "./assets/icon.png",
     "orientation": "portrait",
     "updates": {
@@ -24,7 +24,7 @@
         "backgroundColor": "#0e2b77"
       },
       "package": "com.jetcoderz.flightlog",
-      "versionCode": 8,
+      "versionCode": 9,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyA5df97hjQlblBQcaZMeRhTVleU1RlbkV8"

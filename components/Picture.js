@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
+import S3 from "aws-sdk/clients/s3";
+import { Credentials } from "aws-sdk";
 import axios from "axios";
 import * as ImageManipulator from "expo-image-manipulator";
 

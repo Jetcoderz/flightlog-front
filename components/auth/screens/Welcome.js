@@ -1,7 +1,14 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 import Button from "./Button";
 import BackgroundImage from "./BackgroundImage";
+import LOGO from "./floghtlog.png";
 
 const styles = StyleSheet.create({
   container: {
@@ -18,18 +25,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 25,
-    textTransform: "uppercase",
-    textAlign: "center",
-    marginBottom: 280,
-    fontWeight: "800",
-    color: "white",
-    textShadowColor: "rgba(0, 0, 0, 0.95)",
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
+    marginBottom: 400,
+    width: 200,
+    height: 37,
   },
-  button: {
-    marginTop: 10,
+  signInButton: {
+    width: 100,
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "#2a6bcc",
+    borderColor: "white",
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  signInText: {
+    fontWeight: "bold",
+    fontSize: 18,
+    color: "white",
+    textAlign: "center",
+  },
+  signUpButton: {
+    width: 100,
+    alignItems: "center",
+    margin: 10,
+    padding: 10,
+    backgroundColor: "gray",
+    borderColor: "white",
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  signUpText: {
+    fontSize: 13,
+    color: "white",
   },
 });
 
@@ -37,13 +64,19 @@ const Welcome = ({ navigation }) => (
   <View style={styles.container}>
     <BackgroundImage>
       <View style={styles.content}>
-        <Text style={styles.title}>Flightlog</Text>
-        <View>
-          <Button onPress={() => navigation.navigate("SignIn")}>Sign In</Button>
-        </View>
-        <View style={styles.button}>
-          <Button onPress={() => navigation.navigate("SignUp")}>Sign Up</Button>
-        </View>
+        <Image style={styles.title} source={LOGO} />
+        <TouchableHighlight
+          onPress={() => navigation.navigate("SignIn")}
+          style={styles.signInButton}
+        >
+          <Text style={styles.signInText}>Sign In</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          onPress={() => navigation.navigate("SignUp")}
+          style={styles.signUpButton}
+        >
+          <Text style={styles.signUpText}>Sign Up</Text>
+        </TouchableHighlight>
       </View>
     </BackgroundImage>
   </View>

@@ -4,7 +4,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import Auth from "@aws-amplify/auth";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function QRScanner() {
+export default function QRScanner({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [hasPermission, setHasPermission] = useState(null);
@@ -17,17 +17,30 @@ export default function QRScanner() {
     })();
   }, []);
 
+  const texts =
+    state.language === "en"
+      ? {
+          alert1: "You got the CA's Message!",
+          alert2: "QR-code is invalid",
+          alert3: "Tap to Scan Again",
+        }
+      : {
+          alert1: "CAのメッセージをゲットしました！",
+          alert2: "このQRコードは無効です",
+          alert3: "もう一度スキャンしてください",
+        };
+
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     // alert(`QRcode with type ${type} and data ${data} has been scanned`);
 
     const postQR = async () => {
       try {
-        console.log({
-          username: Auth.user.attributes.email,
-          flightID: state.selectedFlight,
-          url: data,
-        });
+        // console.log({
+        //   username: Auth.user.attributes.email,
+        //   flightID: state.selectedFlight,
+        //   url: data,
+        // });
         await fetch(
           "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes",
           {
@@ -62,7 +75,7 @@ export default function QRScanner() {
 
     if (check) {
       postQR();
-      alert("You've got CA's message");
+      alert(texts.alert1);
 
       const getQrcodes = async () => {
         const res = await fetch(
@@ -74,9 +87,10 @@ export default function QRScanner() {
       };
 
       getQrcodes();
+      navigation.navigate("List");
       dispatch({ type: "SetFlightList", payload: state.flightList });
     } else {
-      alert("QR-code is not correct");
+      alert(texts.alert2);
     }
   };
 
@@ -94,7 +108,7 @@ export default function QRScanner() {
         style={StyleSheet.absoluteFillObject}
       />
       {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
+        <Button title={texts.alert3} onPress={() => setScanned(false)} />
       )}
     </View>
   );
