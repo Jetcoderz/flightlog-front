@@ -23,11 +23,11 @@ export default function QRScanner({ navigation }) {
 
     const postQR = async () => {
       try {
-        console.log({
-          username: Auth.user.attributes.email,
-          flightID: state.selectedFlight,
-          url: data,
-        });
+        // console.log({
+        //   username: Auth.user.attributes.email,
+        //   flightID: state.selectedFlight,
+        //   url: data,
+        // });
         await fetch(
           "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes",
           {

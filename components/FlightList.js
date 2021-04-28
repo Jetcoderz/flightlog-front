@@ -460,7 +460,7 @@ export default function FlightList({ navigation }) {
   if (state.language === "jp") {
     hTitle = "フライトリスト";
     h2 = "フライト情報";
-    jumpScreen = "フライト追加";
+    jumpScreen = "フライトを追加";
   }
 
   return (
