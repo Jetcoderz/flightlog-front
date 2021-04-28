@@ -386,34 +386,28 @@ export default function FlightList({ navigation }) {
         >
           <TouchableOpacity
             style={{
-              height: 25,
+              height: 35,
+              width: 130,
               borderColor: "lightgray",
-              borderWidth: 2,
-              borderRadius: 10,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderWidth: 1,
+              borderRadius: 20,
               marginLeft: 15,
+              marginTop: 5,
+              backgroundColor: "#cccccc",
             }}
             onPress={resetList}
           >
-            {state.language === "en" && (
-              <Text
-                style={{
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                }}
-              >
-                Clear Filter
-              </Text>
-            )}
-            {state.language === "jp" && (
-              <Text
-                style={{
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                }}
-              >
-                フィルター削除
-              </Text>
-            )}
+            <Text
+              style={{
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
+              {state.language === "en" ? "Clear Filter" : "フィルター削除"}
+            </Text>
           </TouchableOpacity>
           <DropDownPicker
             scrollViewProps={{
@@ -426,7 +420,11 @@ export default function FlightList({ navigation }) {
             max={10}
             defaultValue={""}
             placeholder={placeholdertxt}
-            containerStyle={{ width: 200 }}
+            containerStyle={{
+              width: 200,
+              marginTop: 5,
+              marginRight: 15,
+            }}
             itemStyle={{
               justifyContent: "flex-start",
             }}
@@ -452,15 +450,17 @@ export default function FlightList({ navigation }) {
     return <Flight></Flight>;
   }
 
-  function Scanner() {
-    return <QRScanner></QRScanner>;
+  function Scanner({ navigation }) {
+    return <QRScanner navigation={navigation}></QRScanner>;
   }
 
-  let hTitle = `${Auth.user.attributes.name}'s Flights`;
+  let hTitle = "My Flights";
   let h2 = "Flight Details";
+  let jumpScreen = "Add Flight";
   if (state.language === "jp") {
     hTitle = "フライトリスト";
     h2 = "フライト情報";
+    jumpScreen = "フライトを追加";
   }
 
   return (
@@ -489,7 +489,7 @@ export default function FlightList({ navigation }) {
           headerRight: () => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("Add Flight", { screen: "AddFlight" })
+                navigation.navigate(jumpScreen, { screen: "AddFlight" })
               }
               style={{ backgroundColor: "#298BD9" }}
             >
