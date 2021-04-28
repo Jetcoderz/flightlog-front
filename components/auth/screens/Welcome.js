@@ -29,7 +29,22 @@ const styles = StyleSheet.create({
     width: 200,
     height: 37,
   },
-  buttonStyle: {
+  signInButton: {
+    width: 100,
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "#2a6bcc",
+    borderColor: "white",
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  signInText: {
+    fontWeight: "bold",
+    fontSize: 18,
+    color: "white",
+    textAlign: "center",
+  },
+  signUpButton: {
     width: 100,
     alignItems: "center",
     margin: 10,
@@ -39,7 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
   },
-  textStyle: {
+  signUpText: {
     fontSize: 13,
     color: "white",
   },
@@ -50,12 +65,17 @@ const Welcome = ({ navigation }) => (
     <BackgroundImage>
       <View style={styles.content}>
         <Image style={styles.title} source={LOGO} />
-        <Button onPress={() => navigation.navigate("SignIn")}>Sign In</Button>
+        <TouchableHighlight
+          onPress={() => navigation.navigate("SignIn")}
+          style={styles.signInButton}
+        >
+          <Text style={styles.signInText}>Sign In</Text>
+        </TouchableHighlight>
         <TouchableHighlight
           onPress={() => navigation.navigate("SignUp")}
-          style={styles.buttonStyle}
+          style={styles.signUpButton}
         >
-          <Text style={styles.textStyle}>Sign Up</Text>
+          <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableHighlight>
       </View>
     </BackgroundImage>

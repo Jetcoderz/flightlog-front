@@ -4,7 +4,7 @@ import {} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
-export default function LanguageSelect() {
+export default function LanguageSelect({ navigation }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
