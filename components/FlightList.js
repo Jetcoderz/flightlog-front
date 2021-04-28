@@ -278,7 +278,7 @@ export default function FlightList({ navigation }) {
     if (state.language === "jp") {
       Alert.alert(
         "フライト削除",
-        "このフライトを削除してもよろしでしょうか？",
+        "このフライトを削除してもよろしいでしょうか？",
         [
           {
             text: "はい",
