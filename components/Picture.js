@@ -1,12 +1,18 @@
 import React, { useRef, useState, useEffect } from "react";
 import Carousel, { ParallaxImage } from "react-native-snap-carousel";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
+import * as MediaLibrary from "expo-media-library";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
-import S3 from "aws-sdk/clients/s3";
-import { Credentials } from "aws-sdk";
 import axios from "axios";
 
 const DEFAULT = {
@@ -51,7 +57,13 @@ export default function Picture() {
       return;
     }
 
-    const uploadPhoto = async (pickerResult) => {
+    const getBlob = async (fileuri) => {
+      const resp = await fetch(fileuri);
+      const imageBody = await resp.blob();
+      return imageBody;
+    };
+
+    const uploadPhoto = async (asseturi) => {
       // Get signedUrl
       const curUID = uuidv4();
       const awsURL =
@@ -60,24 +72,12 @@ export default function Picture() {
       const resp = await axios.get(awsURL);
 
       // Upload to S3
-      pickerResult.uri = pickerResult.uri.replace("file://", "");
-      const xhr = new XMLHttpRequest();
-      xhr.open("PUT", resp.data);
-      //xhr.setRequestHeader("Content-Type", pickerResult.type);
-      xhr.send({
-        uri: pickerResult.uri,
-        type: pickerResult.type,
-        //name: pickerResult.fileName,
+      const imageBody = await getBlob(asseturi);
+
+      await fetch(resp.data, {
+        method: "PUT",
+        body: imageBody,
       });
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            console.log("Image successfully uploaded to S3");
-          } else {
-            console.log("Error while sending the image to S3", xhr.status);
-          }
-        }
-      };
 
       // Add to database
       const bodyObj = {
@@ -101,14 +101,16 @@ export default function Picture() {
     let pickerResult;
     const getPhoto = async () => {
       pickerResult = await ImagePicker.launchImageLibraryAsync();
+      const asset = await MediaLibrary.createAssetAsync(pickerResult.uri);
       if (pickerResult !== undefined) {
-        await uploadPhoto(pickerResult);
+        await uploadPhoto(asset.uri);
       }
     };
     const takePhoto = async () => {
       pickerResult = await ImagePicker.launchCameraAsync();
+      const asset = await MediaLibrary.createAssetAsync(pickerResult.uri);
       if (pickerResult !== undefined) {
-        await uploadPhoto(pickerResult);
+        await uploadPhoto(asset.uri);
       }
     };
     Alert.alert("Add Photo", "Choose one:", [
