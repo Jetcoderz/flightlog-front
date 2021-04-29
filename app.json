@@ -21,7 +21,6 @@
       },
       "splash": {
         "image": "./assets/planecloudsm.png",
-        "resizeMode": "contain",
         "backgroundColor": "#0e2b77"
       },
       "package": "com.jetcoderz.flightlog",
