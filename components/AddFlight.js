@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -103,6 +103,26 @@ export default function AddFlight({ navigation }) {
     dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     today: "Today",
   };
+
+  const texts =
+    state.language === "en"
+      ? {
+          pl1: "Flight #",
+          b1: "NEXT",
+          h1: "Add Flight",
+          h2: "Add User Info",
+          t1: "Please select your Flight Date",
+          t2: "Please input your Flight Number",
+        }
+      : {
+          pl1: "フライト番号",
+          b1: "次",
+          h1: "フライトを追加",
+          h2: "個人情報を追加",
+          t1: "日付を選んでください",
+          t2: "フライト番号を入力してください",
+        };
+
   if (state.language === "jp") {
     LocaleConfig.defaultLocale = "jp";
   }
@@ -125,24 +145,9 @@ export default function AddFlight({ navigation }) {
         payload: Object.keys(selectedDate)[0],
       });
     } catch (e) {
-      console.log(input, "Here", e);
+      console.log(input, "error: ", e);
     }
   };
-
-  let pl2 = "Flight #";
-  let bTitle = "NEXT";
-  let hTit = "Add Flight";
-  let hTit2 = "Add User Info";
-  let text1 = "Please select your Flight Date";
-  let text2 = "Please input your Flight Number";
-  if (state.language === "jp") {
-    pl2 = "フライト番号";
-    bTitle = "次";
-    hTit = "フライトを追加";
-    hTit2 = "個人情報追加";
-    text1 = "日付を選んでください";
-    text2 = "フライト番号を入力してください";
-  }
 
   function addFlight() {
     const [flightNumInput, setFlightNumInput] = useState("");
@@ -156,7 +161,7 @@ export default function AddFlight({ navigation }) {
             height: Dimensions.get("window").height,
           }}
         >
-          <Text style={styles.helperText}>{text1}</Text>
+          <Text style={styles.helperText}>{texts.t1}</Text>
           <Calendar
             markedDates={selectedDate}
             theme={{ arrowColor: "#298BD9" }}
@@ -169,14 +174,14 @@ export default function AddFlight({ navigation }) {
               setSelectedDate(obj);
             }}
           />
-          <Text style={styles.helperText}>{text2}</Text>
+          <Text style={styles.helperText}>{texts.t2}</Text>
           <TextInput
             style={styles.TextInput}
-            placeholder={pl2}
+            placeholder={texts.pl1}
             onChangeText={(val) => setFlightNumInput(val)}
           />
           <Button
-            title={bTitle}
+            title={texts.b1}
             style={styles.button}
             onPress={async () => {
               getPostData(flightNumInput);
@@ -201,7 +206,7 @@ export default function AddFlight({ navigation }) {
         name="AddFlight"
         component={addFlight}
         options={{
-          headerTitle: hTit,
+          headerTitle: texts.h1,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
@@ -224,7 +229,7 @@ export default function AddFlight({ navigation }) {
         name="AddUserInfo"
         component={newFlight}
         options={{
-          headerTitle: hTit2,
+          headerTitle: texts.h2,
           headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: "#298BD9",
