@@ -1,6 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
-import Carousel, { ParallaxImage } from "react-native-snap-carousel";
-import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import Carousel from "react-native-snap-carousel";
+import {
+  View,
+  Image,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useSelector } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
@@ -9,10 +16,9 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 const DEFAULT = {
-  illustration:
-    "https://flightlogpics.s3-ap-northeast-1.amazonaws.com/addimg.png",
+  imgUrl: "https://flightlogpics.s3-ap-northeast-1.amazonaws.com/addimg.png",
 };
-const screenWidth = 270;
+const SLIDER_WIDTH = Dimensions.get("window").width + 200;
 
 export default function Picture() {
   const state = useSelector((state) => state);
@@ -29,7 +35,7 @@ export default function Picture() {
       let jsonRes = await response.json();
       let theURLs = await jsonRes.map((photo) => {
         const photoObj = {};
-        photoObj["illustration"] = photo.url;
+        photoObj["imgUrl"] = photo.url;
         return photoObj;
       });
       theURLs.push(DEFAULT);
@@ -125,50 +131,35 @@ export default function Picture() {
     carouselRef.current.snapToNext();
   };
 
-  const renderItem = ({ item, index }, parallaxProps) => {
+  const renderItem = ({ item, index }) => {
     if (index === entries.length - 1) {
       return (
-        <TouchableOpacity onPress={openImagePickerAsync}>
-          <View style={styles.item}>
-            <ParallaxImage
-              source={{ uri: item.illustration }}
-              containerStyle={styles.imageContainer}
-              style={styles.image}
-              parallaxFactor={0.4}
-              {...parallaxProps}
-            />
-          </View>
-        </TouchableOpacity>
+        <View style={styles.container} key={index}>
+          <TouchableOpacity onPress={openImagePickerAsync}>
+            <Image source={{ uri: item.imgUrl }} style={styles.image} />
+          </TouchableOpacity>
+        </View>
       );
     } else {
       return (
-        <View style={styles.item}>
-          <ParallaxImage
-            source={{ uri: item.illustration }}
-            containerStyle={styles.imageContainer}
-            style={styles.image}
-            parallaxFactor={0.4}
-            {...parallaxProps}
-          />
+        <View style={styles.container}>
+          <Image source={{ uri: item.imgUrl }} style={styles.image} />
         </View>
       );
     }
   };
 
   return (
-    <View style={styles.container}>
-      {/* <TouchableOpacity onPress={goForward}>
-        <Text>go to next slide</Text>
-      </TouchableOpacity> */}
+    <View style={{ flex: 1, alignItems: "center" }}>
       {entries && (
         <Carousel
+          layout={"default"}
           ref={carouselRef}
-          sliderWidth={screenWidth + 100}
-          sliderHeight={screenWidth}
-          itemWidth={screenWidth - 60}
+          sliderWidth={SLIDER_WIDTH}
+          itemWidth={180}
           data={entries}
           renderItem={renderItem}
-          hasParallaxImages={true}
+          useScrollView={true}
         />
       )}
     </View>
@@ -177,20 +168,21 @@ export default function Picture() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  item: {
+    backgroundColor: "#fff",
     width: 180,
-    height: 180,
-  },
-  imageContainer: {
-    flex: 1,
-    marginBottom: 1,
-    backgroundColor: "white",
-    borderRadius: 8,
+    marginTop: 30,
+    marginBottom: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   image: {
-    ...StyleSheet.absoluteFillObject,
-    resizeMode: "contain",
+    width: 180,
+    height: 180,
   },
 });
