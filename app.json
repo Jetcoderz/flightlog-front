@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "flightlog-front",
-    "slug": "flightlog-front",
-    "version": "1.0.3",
+    "name": "Flightlog",
+    "slug": "flightlog",
+    "version": "1.1.0",
     "icon": "./assets/icon.png",
     "orientation": "portrait",
     "updates": {
@@ -15,16 +15,16 @@
     "android": {
       "icon": "./assets/playstoreicon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/planecloudsm.png",
+        "foregroundImage": "./assets/planeNcloudtiny.png",
         "backgroundImage": "./assets/bg.png"
       },
       "splash": {
-        "image": "./assets/planeNcloud.png",
+        "image": "./assets/planeNcloudsm.png",
         "resizeMode": "contain",
         "backgroundColor": "#0e2b77"
       },
       "package": "com.jetcoderz.flightlog",
-      "versionCode": 9,
+      "versionCode": 10,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyA5df97hjQlblBQcaZMeRhTVleU1RlbkV8"
