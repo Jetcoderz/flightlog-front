@@ -25,8 +25,11 @@ export default function Surprise({ id }) {
   return (
     <View style={styles.container}>
       {arrayOfFlightId.includes(state.selectedFlight) && clicked === false ? (
-        <TouchableOpacity onPress={surprise} style={styles.button}>
-          <Text style={styles.buttonText}>{texts.bTitle}</Text>
+        <TouchableOpacity style={styles.button}>
+          {/* <Button onPress={surprise} title="surprise" color="#939597" /> */}
+          <Text onPress={surprise} style={styles.text}>
+            {texts.bTitle}
+          </Text>
         </TouchableOpacity>
       ) : (
         <View>
@@ -44,17 +47,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: 120,
-    height: 40,
-    margin: 10,
+    width: 160,
+    margin: 20,
     padding: 5,
     backgroundColor: "#f5df4d",
     borderColor: "#939597",
-    borderRadius: 10,
-    borderWidth: 1,
+    borderRadius: 30,
+    borderWidth: 4,
+    alignItems: "center",
   },
   image: {
     marginTop: 20,
@@ -65,10 +65,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 10,
   },
-  buttonText: {
+  text: {
+    fontSize: 20,
+    margin: 10,
+    fontWeight: "800",
     color: "#939597",
-    textAlign: "center",
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });
