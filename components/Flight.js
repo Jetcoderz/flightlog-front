@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Picture from "./Picture";
 import UserInfo from "./UserInfo";
 import Surprise from "./Surprise";
@@ -31,7 +31,6 @@ export default function Flight() {
               style={styles.logo}
             ></Image>
           </View>
-          {/* <Text>{state.selectedFlight}</Text> */}
           <View style={styles.containerDepArr}>
             <View>
               <Text style={styles.depArr}>{thisFlight.depAirport}</Text>
@@ -70,7 +69,6 @@ export default function Flight() {
             {thisFlight.plane}
           </Text>
         </View>
-        {/* <FlightInfo /> */}
         <UserInfo thisFlight={thisFlight} />
         {state.qrCodes.length > 0 && <Surprise id={thisFlight.id} />}
         <Picture />
@@ -82,16 +80,11 @@ export default function Flight() {
 const styles = StyleSheet.create({
   flight: {
     flex: 1,
+    backgroundColor: "#fff",
   },
-  //for barcode
-  // barcode: {
-  //   width: "90%",
-  //   marginTop: 4,
-  //   marginLeft: 18
-  // },
   flightInfo: {
     display: "flex",
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     margin: 15,
     borderRadius: 8,
     shadowColor: "#000",
