@@ -62,8 +62,52 @@ export default function AddFlight({ navigation }) {
     dayNamesShort: ["日", "月", "火", "水", "木", "金", "土"],
     today: "今日",
   };
+  LocaleConfig.locales["en"] = {
+    monthNames: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    monthNamesShort: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    dayNames: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
+    dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    today: "Today",
+  };
   if (state.language === "jp") {
     LocaleConfig.defaultLocale = "jp";
+  }
+  if (state.language === "en") {
+    LocaleConfig.defaultLocale = "en";
   }
 
   const getPostData = async (input) => {
@@ -97,7 +141,7 @@ export default function AddFlight({ navigation }) {
     hTit = "フライトを追加";
     hTit2 = "個人情報追加";
     text1 = "日付を選んでください";
-    text2 = "フライト番号を入力しでください";
+    text2 = "フライト番号を入力してください";
   }
 
   function addFlight() {
@@ -181,6 +225,7 @@ export default function AddFlight({ navigation }) {
         component={newFlight}
         options={{
           headerTitle: hTit2,
+          headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: "#298BD9",
           },
@@ -200,9 +245,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20,
     paddingLeft: 20,
+    marginBottom: 5,
   },
   helperText: {
     fontSize: 18,
+    fontWeight: "bold",
+    color: "#298BD9",
     marginTop: 20,
   },
   button: {
