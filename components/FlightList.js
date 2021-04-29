@@ -320,7 +320,7 @@ export default function FlightList({ navigation }) {
               borderWidth: 1,
               borderRadius: 20,
               marginLeft: 15,
-              marginTop: 5,
+              marginTop: 10,
               backgroundColor: "#cccccc",
             }}
             onPress={resetList}
@@ -347,7 +347,7 @@ export default function FlightList({ navigation }) {
             placeholder={texts.placeholdertxt}
             containerStyle={{
               width: 200,
-              marginTop: 5,
+              marginTop: 10,
               marginRight: 15,
             }}
             itemStyle={{
@@ -362,7 +362,7 @@ export default function FlightList({ navigation }) {
             height: 0,
             borderColor: "#298BD9",
             borderBottomWidth: 1,
-            marginTop: 4,
+            marginTop: 10,
           }}
         ></Text>
         <ScrollView>

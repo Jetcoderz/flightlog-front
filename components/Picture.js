@@ -26,6 +26,29 @@ export default function Picture() {
   const [refresh, setRefresh] = useState(false);
   const carouselRef = useRef(null);
 
+  const texts =
+    state.language === "en"
+      ? {
+          a1: "Add Photo",
+          a2: "Choose one:",
+          a3: "From Device",
+          a4: "Take Photo",
+          a5: "Cancel",
+          a6: "Delete Photo",
+          a7: "Are you sure you want to delete this photo?",
+          a8: "Yes",
+        }
+      : {
+          a1: "写真を追加",
+          a2: "項目を選択:",
+          a3: "デバイスから選択",
+          a4: "写真を撮る",
+          a5: "キャンセル",
+          a6: "写真を削除",
+          a7: "写真を消去しますか？",
+          a8: "はい",
+        };
+
   useEffect(() => {
     const getPhotoURLs = async () => {
       let fullURL =
@@ -36,6 +59,7 @@ export default function Picture() {
       let theURLs = await jsonRes.map((photo) => {
         const photoObj = {};
         photoObj["imgUrl"] = photo.url;
+        photoObj["photoID"] = photo.id;
         return photoObj;
       });
       theURLs.push(DEFAULT);
@@ -112,23 +136,42 @@ export default function Picture() {
         await uploadPhoto(asset.uri);
       }
     };
-    Alert.alert("Add Photo", "Choose one:", [
+    Alert.alert(texts.a1, texts.a2, [
       {
-        text: "From Device",
+        text: texts.a3,
         onPress: () => getPhoto(),
       },
       {
-        text: "Take Photo",
+        text: texts.a4,
         onPress: () => takePhoto(),
       },
       {
-        text: "Cancel",
+        text: texts.a5,
       },
     ]);
   };
 
-  const goForward = () => {
-    carouselRef.current.snapToNext();
+  const deletePhoto = (id) => {
+    Alert.alert(texts.a6, texts.a7, [
+      {
+        text: texts.a8,
+        onPress: () => handleDelete(id),
+      },
+      {
+        text: texts.a5,
+      },
+    ]);
+  };
+
+  const handleDelete = async (id) => {
+    let picId = id.toString();
+    let fullURL =
+      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/photos/" +
+      picId;
+    const resp = await axios.delete(fullURL);
+    if (resp.status == 200) {
+      setRefresh(!refresh);
+    }
   };
 
   const renderItem = ({ item, index }) => {
@@ -143,7 +186,13 @@ export default function Picture() {
     } else {
       return (
         <View style={styles.container}>
-          <Image source={{ uri: item.imgUrl }} style={styles.image} />
+          <TouchableOpacity
+            onLongPress={() => {
+              deletePhoto(item.photoID);
+            }}
+          >
+            <Image source={{ uri: item.imgUrl }} style={styles.image} />
+          </TouchableOpacity>
         </View>
       );
     }
