@@ -19,7 +19,7 @@
         "backgroundImage": "./assets/bg.png"
       },
       "splash": {
-        "image": "./assets/planeNcloudsm.png",
+        "image": "./assets/planecloudsm.png",
         "resizeMode": "contain",
         "backgroundColor": "#0e2b77"
       },

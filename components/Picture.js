@@ -1,14 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Carousel, { ParallaxImage } from "react-native-snap-carousel";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { useSelector } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import "react-native-get-random-values";
