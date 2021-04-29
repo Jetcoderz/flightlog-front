@@ -99,7 +99,7 @@ export default function FlightList({ navigation }) {
   if (state.language === "jp") {
     monNames = jpNames;
     mLabel = "月";
-    aLabel = "航空会社";
+    aLabel = "エアライン";
   }
 
   if (state.flightList.length > 0) {
