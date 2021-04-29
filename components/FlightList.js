@@ -37,7 +37,8 @@ export default function FlightList({ navigation }) {
       paddingBottom: 10,
       paddingRight: 10,
       alignItems: "center",
-      height: "auto",
+      justifyContent: "center",
+      height: 70,
       width: "100%",
       backgroundColor: "white",
       borderRadius: 10,
@@ -59,6 +60,9 @@ export default function FlightList({ navigation }) {
     rightInfoUpper: {
       flexDirection: "row",
       justifyContent: "space-between",
+    },
+    detailInfo: {
+      fontWeight: "bold"
     },
     tinyLogo: {
       width: 40,
@@ -354,7 +358,7 @@ export default function FlightList({ navigation }) {
               <View style={styles.rightInfo}>
                 <View style={styles.rightInfoUpper}>
                   <View>
-                    <Text>{l.flightNo}</Text>
+                    <Text style={styles.detailInfo}>{l.flightNo}</Text>
                   </View>
                   <View>
                     <Text>
@@ -363,7 +367,7 @@ export default function FlightList({ navigation }) {
                   </View>
                 </View>
                 <View>
-                  <Text>{moment(l.date).format("MMM Do YYYY")}</Text>
+                  <Text style={styles.detailInfo}>{moment(l.date).format("MMM Do YYYY")}</Text>
                 </View>
               </View>
             </View>
