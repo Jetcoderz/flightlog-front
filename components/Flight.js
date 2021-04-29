@@ -82,13 +82,8 @@ export default function Flight() {
 const styles = StyleSheet.create({
   flight: {
     flex: 1,
+    backgroundColor: "white",
   },
-  //for barcode
-  // barcode: {
-  //   width: "90%",
-  //   marginTop: 4,
-  //   marginLeft: 18
-  // },
   flightInfo: {
     display: "flex",
     backgroundColor: "white",
