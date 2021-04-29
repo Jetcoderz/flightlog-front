@@ -467,8 +467,10 @@ const styles = StyleSheet.create({
   flightLabel: {
     paddingTop: 10,
     paddingBottom: 10,
+    paddingRight: 10,
     alignItems: "center",
-    height: "auto",
+    justifyContent: "center",
+    height: 70,
     width: "100%",
     backgroundColor: "white",
     borderRadius: 10,
@@ -491,6 +493,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  detailInfo: {
+    fontWeight: "bold",
+  },
   tinyLogo: {
     width: 40,
     height: 40,
@@ -499,23 +504,26 @@ const styles = StyleSheet.create({
   deperatureArrival: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 30,
-    marginLeft: 30,
+    marginRight: 10,
+    marginLeft: 10,
   },
   deperature: {
     fontSize: 30,
     fontWeight: "bold",
     height: 35,
+    color: "gray",
   },
   arrival: {
     fontSize: 30,
     fontWeight: "bold",
     height: 35,
+    color: "gray",
   },
   tinyAirplane: {
     fontSize: 15,
     marginLeft: 5,
     marginRight: 5,
+    color: "gray",
   },
   deleteBox: {
     backgroundColor: "red",
