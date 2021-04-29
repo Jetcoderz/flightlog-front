@@ -10,15 +10,8 @@ import { useSelector } from "react-redux";
 
 export default function UserInfo({ thisFlight }) {
   const state = useSelector((state) => state);
-
   let labels;
-  let enLabels = [
-    "Purpose:",
-    "Entertainment:",
-    "Meal:",
-    "SeatNo:",
-    "Comments:",
-  ];
+  let enLabels = ["Purpose", "Entertainment", "Meal", "SeatNo", "Comments"];
   let jpLabels = ["目的", "エンターテイメント", "食事", "席番号", "コメント"];
   if (state.language === "en") {
     labels = enLabels;
@@ -30,24 +23,52 @@ export default function UserInfo({ thisFlight }) {
     <View style={styles.userInfo}>
       <View style={styles.eachUserInfoContiner}>
         <Text style={styles.eachUserInfoTitle}>{labels[0]}</Text>
-        <Text style={styles.eachUserInfo}>{thisFlight.purpose}</Text>
+        <View style={{ flexDirection: "row" }}>
+          <View style={styles.enterItem}>
+            <Text>{thisFlight.purpose}</Text>
+          </View>
+        </View>
       </View>
       <View style={styles.eachUserInfoContiner}>
         <Text style={styles.eachUserInfoTitle}>{labels[1]}</Text>
-        <Text style={styles.eachUserInfo}>{thisFlight.entertainment}</Text>
+        <View style={{ flexDirection: "row" }}>
+          {thisFlight.entertainment.map((e) => (
+            <View style={styles.enterItem}>
+              <Text>{e}</Text>
+            </View>
+          ))}
+        </View>
       </View>
-      <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>{labels[2]}</Text>
-        <Text style={styles.eachUserInfo}>{thisFlight.meal}</Text>
-      </View>
-      <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>{labels[3]}</Text>
-        <Text style={styles.eachUserInfo}>{thisFlight.seatNo}</Text>
-      </View>
-      <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>{labels[4]}</Text>
-        <Text style={styles.eachUserInfo}>{thisFlight.review}</Text>
-      </View>
+      {thisFlight.meal !== "" && (
+        <View style={styles.eachUserInfoContiner}>
+          <Text style={styles.eachUserInfoTitle}>{labels[2]}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <View style={styles.enterItem}>
+              <Text>{thisFlight.meal}</Text>
+            </View>
+          </View>
+        </View>
+      )}
+      {thisFlight.seatNo !== "" && (
+        <View style={styles.eachUserInfoContiner}>
+          <Text style={styles.eachUserInfoTitle}>{labels[3]}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <View style={styles.enterItem}>
+              <Text>{thisFlight.seatNo}</Text>
+            </View>
+          </View>
+        </View>
+      )}
+      {thisFlight.review !== "" && (
+        <View style={styles.eachUserInfoContiner}>
+          <Text style={styles.eachUserInfoTitle}>{labels[4]}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <View style={styles.enterItem}>
+              <Text>{thisFlight.review}</Text>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -57,21 +78,43 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   eachUserInfoContiner: {
-    backgroundColor: "lightgray",
+    backgroundColor: "#939597",
     height: 35,
     height: "auto",
-    width: "90%",
+    width: "92%",
     margin: 5,
     justifyContent: "center",
-    borderRadius: 10,
+    // flexDirection: "row",
+    // justifyContent: "flex-start",
+    // borderRadius: 10,
     padding: 12,
-    shadowOpacity: 0.25,
-    elevation: 1,
+    // shadowOpacity: 0.25,
+    // elevation: 1,
   },
   eachUserInfoTitle: {
     color: "white",
+    fontWeight: "bold",
+    fontSize: 14,
   },
   eachUserInfo: {
-    fontSize: 18,
+    fontSize: 16,
+    marginTop: 10,
+    color: "white",
+    backgroundColor: "lightgray",
+    marginTop: 10,
+    marginRight: 10,
+    padding: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  enterItem: {
+    backgroundColor: "lightgray",
+    marginTop: 10,
+    marginRight: 10,
+    padding: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 20,
+    fontSize: 16,
   },
 });

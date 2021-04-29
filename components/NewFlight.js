@@ -38,7 +38,7 @@ export default function NewFlight({ navigation }) {
 
   const [meal, setMeal] = useState("");
   const [seatNo, setSeatNo] = useState("");
-  const [reviw, setReviw] = useState("");
+  const [review, setReview] = useState("");
 
   const [purposeItems, SetPurposeItems] = useState([
     { id: 1, selected: false, name: buttonTexts.b1 },
@@ -97,7 +97,7 @@ export default function NewFlight({ navigation }) {
       entertainment: entertainment,
       meal: meal,
       seatNo: seatNo,
-      reviw: reviw,
+      review: review,
     };
     try {
       await fetch(
@@ -233,7 +233,7 @@ export default function NewFlight({ navigation }) {
         <TextInput
           style={styles.TextInput}
           placeholder={texts.placeholder3}
-          onChangeText={(val) => setReviw(val)}
+          onChangeText={(val) => setReview(val)}
         />
         <Button title={texts.button} onPress={postButton} />
       </View>
