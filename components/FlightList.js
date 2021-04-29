@@ -273,7 +273,7 @@ export default function FlightList({ navigation }) {
               <View style={styles.rightInfo}>
                 <View style={styles.rightInfoUpper}>
                   <View>
-                    <Text>{l.flightNo}</Text>
+                    <Text style={styles.detailInfo}>{l.flightNo}</Text>
                   </View>
                   <View>
                     <Text>
@@ -282,7 +282,9 @@ export default function FlightList({ navigation }) {
                   </View>
                 </View>
                 <View>
-                  <Text>{moment(l.date).format("MMM Do YYYY")}</Text>
+                  <Text style={styles.detailInfo}>
+                    {moment(l.date).format("MMM Do YYYY")}
+                  </Text>
                 </View>
               </View>
             </View>
