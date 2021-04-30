@@ -76,10 +76,12 @@ export default function NewFlight({ navigation }) {
     const purpose = purposeItems.filter((i) => i.selected === true).length
       ? purposeItems.filter((i) => i.selected === true)[0]["name"]
       : "";
+
     const entertainment = entertainItems.filter((i) => i.selected === true)
       .length
       ? entertainItems.filter((i) => i.selected === true).map((i) => i.name)
-      : "";
+      : [];
+
     const body = {
       username: Auth.user.attributes.email || "",
       date: state.flightDate || state.addedFlight.flight_date || "",
@@ -91,8 +93,6 @@ export default function NewFlight({ navigation }) {
       takeoff: state.addedFlight.departure.scheduled || "",
       landing: state.addedFlight.arrival.scheduled || "",
       airlineICAO: state.addedFlight.airline.icao || "",
-      // ↓ return null
-      // plane: state.addedFlight.aircraft.icao || "",
       purpose: purpose,
       entertainment: entertainment,
       meal: meal,
