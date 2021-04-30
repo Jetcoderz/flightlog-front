@@ -25,6 +25,7 @@
       },
       "package": "com.jetcoderz.flightlog",
       "versionCode": 10,
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.jetcoderz.flightlog",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyA5df97hjQlblBQcaZMeRhTVleU1RlbkV8"
