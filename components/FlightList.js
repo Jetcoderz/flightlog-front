@@ -225,7 +225,7 @@ export default function FlightList({ navigation }) {
   };
 
   function CreateList() {
-    const arrayOfFlihtId = state.qrCodes.map((qrcode) => qrcode.flightID);
+    const arrayOfflightId = state.qrCodes.map((qrcode) => qrcode.flightID);
 
     const list = filteredList.map((l, i) => (
       <Swipeable
@@ -277,7 +277,7 @@ export default function FlightList({ navigation }) {
                   </View>
                   <View>
                     <Text>
-                      {arrayOfFlihtId.includes(l.id) ? <Text>🎁</Text> : <></>}
+                      {arrayOfflightId.includes(l.id) ? <Text>🎁</Text> : <></>}
                     </Text>
                   </View>
                 </View>
