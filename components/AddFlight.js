@@ -110,7 +110,7 @@ export default function AddFlight({ navigation }) {
     state.language === "en"
       ? {
           pl1: "Flight #",
-          b1: "NEXT",
+          b1: "Next",
           h1: "Add Flight",
           h2: "Add User Info",
           t1: "Please select your Flight Date",
@@ -118,7 +118,7 @@ export default function AddFlight({ navigation }) {
         }
       : {
           pl1: "フライト番号",
-          b1: "次",
+          b1: "次へ",
           h1: "フライトを追加",
           h2: "個人情報を追加",
           t1: "日付を選んでください",

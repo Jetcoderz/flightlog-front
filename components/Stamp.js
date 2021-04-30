@@ -12,18 +12,18 @@ export default function Stamp() {
   }, [state.flightList]);
   const styles = StyleSheet.create({
     notYetLogo: {
-      width: 30,
-      height: 30,
+      width: 27,
+      height: 27,
       opacity: 0.1,
       margin: 2,
     },
     myLogo: {
-      width: 30,
-      height: 30,
+      width: 27,
+      height: 27,
       margin: 2,
     },
     logoBox: {
-      width: "80%",
+      width: "100%",
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",

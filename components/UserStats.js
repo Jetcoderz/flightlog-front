@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
+  View,
   Text,
   Image,
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import { useSelector } from "react-redux";
 import { PieChart } from "react-native-chart-kit";
@@ -17,11 +19,13 @@ export default function UserStats({ navigation }) {
   const state = useSelector((state) => state);
   const [data, setData] = useState([]);
   let totFl = "Total Flights";
-  let totAl = "Flights by Airline:";
+  let totAl = "Flights by Airline";
+  let FlCal = "Flights Calender";
   let headerTitle = "My Stats";
   if (state.language === "jp") {
     totFl = "フライト合計";
     totAl = "航空会社比率";
+    FlCal = "フライトカレンダー";
     headerTitle = "フライトの統計";
   }
 
@@ -72,42 +76,58 @@ export default function UserStats({ navigation }) {
       <ScrollView
         style={{
           flex: 1,
-          backgroundColor: "#fff",
+          backgroundColor: "#eee",
         }}
         contentContainerStyle={{ alignItems: "center" }}
       >
-        <Text
-          style={{
-            fontSize: 50,
-            fontWeight: "bold",
-            margin: 0,
-            padding: 0,
-          }}
-        >
-          {state.flightList.length}
-        </Text>
-        <Text
-          style={{ fontSize: 15, marginTop: 0, padding: 0, marginBottom: 5 }}
-        >
-          {totFl}
-        </Text>
-        <Calender />
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
-          {totAl}
-        </Text>
-        <PieChart
-          data={data}
-          width={screenWidth}
-          height={220}
-          chartConfig={chartConfig}
-          accessor="numFlights"
-          backgroundColor="transparent"
-          paddingLeft={18}
-        />
+        <View style={styles.container}>
+          <Text
+            style={{
+              fontSize: 50,
+              fontWeight: "bold",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {state.flightList.length}
+          </Text>
+          <Text style={styles.title}>{totFl}</Text>
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.title}>{FlCal}</Text>
+          <Calender />
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.title}>{totAl}</Text>
+          <PieChart
+            data={data}
+            width={350}
+            height={200}
+            chartConfig={chartConfig}
+            accessor="numFlights"
+            backgroundColor="transparent"
+          />
+        </View>
+        <View style={{ marginTop: 40 }}></View>
       </ScrollView>
     );
   }
   const Stack = createStackNavigator();
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: "white",
+      width: "90%",
+      marginTop: 20,
+      borderRadius: 10,
+      padding: 20,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: "bold",
+      color: "#298BD9",
+    },
+  });
 
   return (
     <Stack.Navigator initialRouteName="List">

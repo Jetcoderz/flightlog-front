@@ -7,8 +7,8 @@ import {
   Button,
   TextInput,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Auth from "@aws-amplify/auth";
@@ -57,7 +57,7 @@ export default function NewFlight({ navigation }) {
       ? {
           helper1: "Purpose of Trip",
           helper2: "Entertainment",
-          button: "Add",
+          button: "Add Flight",
           jumpScreen: "Home",
           placeholder1: "Meal",
           placeholder2: "Seat Number",
@@ -66,7 +66,7 @@ export default function NewFlight({ navigation }) {
       : {
           helper1: "目的",
           helper2: "エンターテイメント",
-          button: "追加",
+          button: "フライト追加",
           jumpScreen: "ホーム",
           placeholder1: "食事",
           placeholder2: "座席番号",
@@ -202,84 +202,90 @@ export default function NewFlight({ navigation }) {
   }
 
   return (
-    <ScrollView>
-      <View
-        style={{
-          backgroundColor: "#eee",
-          alignItems: "center",
-          height: Dimensions.get("window").height,
-        }}
-      >
-        {state.addedFlight.airline && (
-          <View style={styles.flightLabel}>
-            <View style={styles.flightLabelUpper}>
-              <View style={styles.logo}>
-                <Image
-                  style={styles.tinyLogo}
-                  source={state.logo[state.addedFlight.airline.name]}
-                ></Image>
-              </View>
-              <View style={styles.deperatureArrival}>
-                <View>
-                  <Text style={styles.deperature}>
-                    {state.addedFlight.departure.iata}
-                  </Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView>
+        <View
+          style={{
+            backgroundColor: "#eee",
+            alignItems: "center",
+          }}
+        >
+          {state.addedFlight.airline && (
+            <View style={styles.flightLabel}>
+              <View style={styles.flightLabelUpper}>
+                <View style={styles.logo}>
+                  <Image
+                    style={styles.tinyLogo}
+                    source={state.logo[state.addedFlight.airline.name]}
+                  ></Image>
                 </View>
-                <View>
-                  <Text style={styles.tinyAirplane}> ✈︎ </Text>
-                </View>
-                <View>
-                  <Text style={styles.arrival}>
-                    {state.addedFlight.arrival.iata}
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.rightInfo}>
-                <View style={styles.rightInfoUpper}>
+                <View style={styles.deperatureArrival}>
                   <View>
-                    <Text style={styles.detailInfo}>{state.flightNo}</Text>
+                    <Text style={styles.deperature}>
+                      {state.addedFlight.departure.iata}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.tinyAirplane}> ✈︎ </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.arrival}>
+                      {state.addedFlight.arrival.iata}
+                    </Text>
                   </View>
                 </View>
-                <View>
-                  <Text style={styles.detailInfo}>
-                    {moment(
-                      state.flightDate || state.addedFlight.flight_date || ""
-                    ).format("MMM Do YYYY")}
-                  </Text>
+                <View style={styles.rightInfo}>
+                  <View style={styles.rightInfoUpper}>
+                    <View>
+                      <Text style={styles.detailInfo}>{state.flightNo}</Text>
+                    </View>
+                  </View>
+                  <View>
+                    <Text style={styles.detailInfo}>
+                      {moment(
+                        state.flightDate || state.addedFlight.flight_date || ""
+                      ).format("MMM Do YYYY")}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
+          )}
+          <Purpose />
+          <Entertainment />
+          <View style={styles.container}>
+            <Text style={styles.helperText}>{texts.placeholder1}</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholder={texts.placeholder1}
+              onChangeText={(val) => setMeal(val)}
+            />
           </View>
-        )}
-        <Purpose />
-        <Entertainment />
-        <View style={styles.container}>
-          <Text style={styles.helperText}>{texts.placeholder1}</Text>
-          <TextInput
-            style={styles.TextInput}
-            placeholder={texts.placeholder1}
-            onChangeText={(val) => setMeal(val)}
-          />
+          <View style={styles.container}>
+            <Text style={styles.helperText}>{texts.placeholder2}</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholder={texts.placeholder2}
+              onChangeText={(val) => setSeatNo(val)}
+            />
+          </View>
+          <View style={styles.container}>
+            <Text style={styles.helperText}>{texts.placeholder3}</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholder={texts.placeholder3}
+              onChangeText={(val) => setReview(val)}
+            />
+          </View>
+          {/* <Button title={texts.button} onPress={postButton} /> */}
+          <TouchableOpacity style={styles.button} onPress={postButton}>
+            <Text style={styles.btnText}>{texts.button}</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.container}>
-          <Text style={styles.helperText}>{texts.placeholder2}</Text>
-          <TextInput
-            style={styles.TextInput}
-            placeholder={texts.placeholder2}
-            onChangeText={(val) => setSeatNo(val)}
-          />
-        </View>
-        <View style={styles.container}>
-          <Text style={styles.helperText}>{texts.placeholder3}</Text>
-          <TextInput
-            style={styles.TextInput}
-            placeholder={texts.placeholder3}
-            onChangeText={(val) => setReview(val)}
-          />
-        </View>
-        <Button title={texts.button} onPress={postButton} />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -290,8 +296,7 @@ const styles = StyleSheet.create({
     borderColor: "#bbb",
     borderWidth: 1,
     borderRadius: 20,
-    marginTop: 15,
-    marginBottom: 5,
+    marginTop: 5,
     paddingLeft: 20,
   },
   radioButtonContainer: {
@@ -309,8 +314,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 5,
-    borderWidth: 1,
-    borderColor: "#E6E6E6",
     borderRadius: 10,
   },
   radioButtonNotSelected: {
@@ -320,8 +323,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 5,
-    borderWidth: 1,
-    borderColor: "#E6E6E6",
     borderRadius: 10,
   },
   radioButtonText: {
@@ -340,7 +341,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    marginTop: 20,
+    marginHorizontal: 20,
     height: 70,
     width: "90%",
     backgroundColor: "white",
@@ -393,8 +395,23 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     width: "90%",
-    marginBottom: 20,
+    marginTop: 20,
     borderRadius: 10,
     padding: 20,
+  },
+  button: {
+    backgroundColor: "#298BD9",
+    alignItems: "center",
+    padding: 10,
+    borderColor: "white",
+    borderRadius: 10,
+    borderWidth: 1,
+    marginBottom: 40,
+    marginTop: 20,
+  },
+  btnText: {
+    fontSize: 18,
+    color: "white",
+    textAlign: "center",
   },
 });

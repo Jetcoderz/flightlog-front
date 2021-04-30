@@ -8,13 +8,6 @@ import FlightInfo from "./FlightInfo";
 
 export default function Flight() {
   const state = useSelector((state) => state);
-
-  if (state.language === "jp") {
-    airline = "エアライン ";
-    aircraft = "飛行機 ";
-    gate = "ゲート ";
-  }
-
   const thisFlight = state.flightList.filter(
     (i) => i.id === state.selectedFlight
   )[0];
@@ -34,6 +27,6 @@ export default function Flight() {
 const styles = StyleSheet.create({
   flight: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#eee",
   },
 });
