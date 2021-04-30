@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Auth from "@aws-amplify/auth";
+import moment from "moment";
 
 export default function NewFlight({ navigation }) {
   const state = useSelector((state) => state);
@@ -209,12 +210,53 @@ export default function NewFlight({ navigation }) {
           height: Dimensions.get("window").height,
         }}
       >
-        {state.addedFlight.airline && (
+        {/* {state.addedFlight.airline && (
           <View>
             <Image source={state.logo[state.addedFlight.airline.name]}></Image>
             <View>
               <Text>Departure: {state.addedFlight.departure.iata}</Text>
               <Text>Arrival: {state.addedFlight.arrival.iata}</Text>
+            </View>
+          </View>
+        )} */}
+        {state.addedFlight.airline && (
+          <View style={styles.flightLabel}>
+            <View style={styles.flightLabelUpper}>
+              <View style={styles.logo}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={state.logo[state.addedFlight.airline.name]}
+                ></Image>
+              </View>
+              <View style={styles.deperatureArrival}>
+                <View>
+                  <Text style={styles.deperature}>
+                    {state.addedFlight.departure.iata}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.tinyAirplane}> ✈︎ </Text>
+                </View>
+                <View>
+                  <Text style={styles.arrival}>
+                    {state.addedFlight.arrival.iata}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.rightInfo}>
+                <View style={styles.rightInfoUpper}>
+                  <View>
+                    <Text style={styles.detailInfo}>{state.flightNo}</Text>
+                  </View>
+                </View>
+                <View>
+                  <Text style={styles.detailInfo}>
+                    {moment(
+                      state.flightDate || state.addedFlight.flight_date || ""
+                    ).format("MMM Do YYYY")}
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
         )}
@@ -290,5 +332,67 @@ const styles = StyleSheet.create({
     color: "#298BD9",
     marginTop: 20,
     marginLeft: 25,
+  },
+  flightLabel: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 20,
+    height: 70,
+    width: "90%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.25,
+    elevation: 5,
+  },
+  flightLabelUpper: {
+    flexDirection: "row",
+  },
+  rightInfo: {
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  rightInfoUpper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  detailInfo: {
+    fontWeight: "bold",
+  },
+  tinyLogo: {
+    width: 40,
+    height: 40,
+    margin: 3,
+  },
+  deperatureArrival: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  deperature: {
+    fontSize: 30,
+    fontWeight: "bold",
+    height: 35,
+    color: "gray",
+  },
+  arrival: {
+    fontSize: 30,
+    fontWeight: "bold",
+    height: 35,
+    color: "gray",
+  },
+  tinyAirplane: {
+    fontSize: 15,
+    marginLeft: 5,
+    marginRight: 5,
+    color: "gray",
   },
 });
