@@ -32,15 +32,9 @@ export default function QRScanner({ navigation }) {
 
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
-    // alert(`QRcode with type ${type} and data ${data} has been scanned`);
 
     const postQR = async () => {
       try {
-        // console.log({
-        //   username: Auth.user.attributes.email,
-        //   flightID: state.selectedFlight,
-        //   url: data,
-        // });
         await fetch(
           "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes",
           {
@@ -85,10 +79,19 @@ export default function QRScanner({ navigation }) {
         const data = await res.json();
         dispatch({ type: "SetQrCodes", payload: data });
       };
+      const getFlights = async () => {
+        const fullURL =
+          "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
+          Auth.user.attributes.email;
+        const response = await fetch(fullURL);
+        const jsonRes = await response.json();
+        const theFlights = await jsonRes.map((flight) => flight);
+        dispatch({ type: "SetFlightList", payload: theFlights });
+      };
 
       getQrcodes();
+      getFlights();
       navigation.navigate("List");
-      dispatch({ type: "SetFlightList", payload: state.flightList });
     } else {
       alert(texts.alert2);
     }

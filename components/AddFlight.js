@@ -9,12 +9,14 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  KeyboardAvoidingView,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { useSelector, useDispatch } from "react-redux";
 
 import NewFlight from "./NewFlight";
+import { Platform } from "react-native";
 
 export default function AddFlight({ navigation }) {
   const state = useSelector((state) => state);
@@ -153,44 +155,48 @@ export default function AddFlight({ navigation }) {
     const [flightNumInput, setFlightNumInput] = useState("");
 
     return (
-      <ScrollView>
-        <View
-          style={{
-            backgroundColor: "white",
-            alignItems: "center",
-            height: Dimensions.get("window").height,
-          }}
-        >
-          <Text style={styles.helperText}>{texts.t1}</Text>
-          <Calendar
-            markedDates={selectedDate}
-            theme={{ arrowColor: "#298BD9" }}
-            onDayPress={(day) => {
-              const obj = {};
-              obj[day.dateString] = {
-                selected: true,
-                selectedColor: "#298BD9",
-              };
-              setSelectedDate(obj);
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView>
+          <View
+            style={{
+              backgroundColor: "white",
+              alignItems: "center",
+              height: Dimensions.get("window").height,
             }}
-          />
-          <Text style={styles.helperText}>{texts.t2}</Text>
-          <TextInput
-            style={styles.TextInput}
-            placeholder={texts.pl1}
-            onChangeText={(val) => setFlightNumInput(val)}
-          />
-          <Button
-            title={texts.b1}
-            style={styles.button}
-            onPress={async () => {
-              getPostData(flightNumInput);
+          >
+            <Text style={styles.helperText}>{texts.t1}</Text>
+            <Calendar
+              markedDates={selectedDate}
+              theme={{ arrowColor: "#298BD9" }}
+              onDayPress={(day) => {
+                const obj = {};
+                obj[day.dateString] = {
+                  selected: true,
+                  selectedColor: "#298BD9",
+                };
+                setSelectedDate(obj);
+              }}
+            />
+            <Text style={styles.helperText}>{texts.t2}</Text>
+            <TextInput
+              style={styles.TextInput}
+              placeholder={texts.pl1}
+              onChangeText={(val) => setFlightNumInput(val)}
+            />
+            <Button
+              title={texts.b1}
+              style={styles.button}
+              onPress={async () => {
+                getPostData(flightNumInput);
 
-              navigation.navigate("AddUserInfo");
-            }}
-          />
-        </View>
-      </ScrollView>
+                navigation.navigate("AddUserInfo");
+              }}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 
