@@ -139,7 +139,7 @@ export default function NewFlight({ navigation }) {
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.helperText}>{texts.helper1}</Text>
         <View style={styles.radioButtonContainer}>
           {purposeItems.map((item) => (
@@ -174,7 +174,7 @@ export default function NewFlight({ navigation }) {
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.helperText}>{texts.helper2}</Text>
         <View style={styles.radioButtonContainer}>
           {entertainItems.map((item) => (
@@ -205,20 +205,11 @@ export default function NewFlight({ navigation }) {
     <ScrollView>
       <View
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#eee",
           alignItems: "center",
           height: Dimensions.get("window").height,
         }}
       >
-        {/* {state.addedFlight.airline && (
-          <View>
-            <Image source={state.logo[state.addedFlight.airline.name]}></Image>
-            <View>
-              <Text>Departure: {state.addedFlight.departure.iata}</Text>
-              <Text>Arrival: {state.addedFlight.arrival.iata}</Text>
-            </View>
-          </View>
-        )} */}
         {state.addedFlight.airline && (
           <View style={styles.flightLabel}>
             <View style={styles.flightLabelUpper}>
@@ -262,21 +253,30 @@ export default function NewFlight({ navigation }) {
         )}
         <Purpose />
         <Entertainment />
-        <TextInput
-          style={styles.TextInput}
-          placeholder={texts.placeholder1}
-          onChangeText={(val) => setMeal(val)}
-        />
-        <TextInput
-          style={styles.TextInput}
-          placeholder={texts.placeholder2}
-          onChangeText={(val) => setSeatNo(val)}
-        />
-        <TextInput
-          style={styles.TextInput}
-          placeholder={texts.placeholder3}
-          onChangeText={(val) => setReview(val)}
-        />
+        <View style={styles.container}>
+          <Text style={styles.helperText}>{texts.placeholder1}</Text>
+          <TextInput
+            style={styles.TextInput}
+            placeholder={texts.placeholder1}
+            onChangeText={(val) => setMeal(val)}
+          />
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.helperText}>{texts.placeholder2}</Text>
+          <TextInput
+            style={styles.TextInput}
+            placeholder={texts.placeholder2}
+            onChangeText={(val) => setSeatNo(val)}
+          />
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.helperText}>{texts.placeholder3}</Text>
+          <TextInput
+            style={styles.TextInput}
+            placeholder={texts.placeholder3}
+            onChangeText={(val) => setReview(val)}
+          />
+        </View>
         <Button title={texts.button} onPress={postButton} />
       </View>
     </ScrollView>
@@ -286,8 +286,8 @@ export default function NewFlight({ navigation }) {
 const styles = StyleSheet.create({
   TextInput: {
     height: 40,
-    width: 300,
-    borderColor: "gray",
+    width: "100%",
+    borderColor: "#bbb",
     borderWidth: 1,
     borderRadius: 20,
     marginTop: 15,
@@ -304,23 +304,25 @@ const styles = StyleSheet.create({
   },
   radioButtonSelected: {
     height: 50,
-    width: 160,
+    width: 145,
     backgroundColor: "#298BD9",
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    margin: 5,
     borderWidth: 1,
     borderColor: "#E6E6E6",
+    borderRadius: 10,
   },
   radioButtonNotSelected: {
     height: 50,
-    width: 160,
+    width: 145,
     backgroundColor: "#AAAAAA",
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    margin: 5,
     borderWidth: 1,
     borderColor: "#E6E6E6",
+    borderRadius: 10,
   },
   radioButtonText: {
     fontSize: 16,
@@ -330,8 +332,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#298BD9",
-    marginTop: 20,
-    marginLeft: 25,
+    marginBottom: 10,
   },
   flightLabel: {
     paddingTop: 10,
@@ -344,13 +345,6 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "white",
     borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.25,
-    elevation: 5,
   },
   flightLabelUpper: {
     flexDirection: "row",
@@ -365,6 +359,7 @@ const styles = StyleSheet.create({
   },
   detailInfo: {
     fontWeight: "bold",
+    marginBottom: 5,
   },
   tinyLogo: {
     width: 40,
@@ -394,5 +389,12 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     color: "gray",
+  },
+  container: {
+    backgroundColor: "white",
+    width: "90%",
+    marginBottom: 20,
+    borderRadius: 10,
+    padding: 20,
   },
 });

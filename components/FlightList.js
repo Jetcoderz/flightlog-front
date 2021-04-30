@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Alert,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -245,7 +246,7 @@ export default function FlightList({ navigation }) {
           );
         }}
       >
-        <ListItem
+        <TouchableOpacity
           onPress={() => {
             navigation.navigate("Details");
             dispatch({ type: "SetSelectedFlight", payload: l.id });
@@ -289,7 +290,7 @@ export default function FlightList({ navigation }) {
               </View>
             </View>
           </View>
-        </ListItem>
+        </TouchableOpacity>
       </Swipeable>
     ));
     return list;
@@ -297,13 +298,15 @@ export default function FlightList({ navigation }) {
 
   function List() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={{ flex: 1, backgroundColor: "#eee" }}>
         <View
           style={{
             ...(Platform.OS !== "android" && {
               zIndex: 10,
             }),
             flexDirection: "row",
+            marginTop: 15,
+            marginBottom: 5,
             justifyContent: "space-between",
             alignItems: "center",
             height: 40,
@@ -311,7 +314,7 @@ export default function FlightList({ navigation }) {
         >
           <TouchableOpacity
             style={{
-              height: 35,
+              height: 40,
               width: 130,
               borderColor: "lightgray",
               display: "flex",
@@ -319,8 +322,7 @@ export default function FlightList({ navigation }) {
               alignItems: "center",
               borderWidth: 1,
               borderRadius: 20,
-              marginLeft: 15,
-              marginTop: 10,
+              marginLeft: 20,
               backgroundColor: "#cccccc",
             }}
             onPress={resetList}
@@ -334,6 +336,7 @@ export default function FlightList({ navigation }) {
               {texts.filtText}
             </Text>
           </TouchableOpacity>
+
           <DropDownPicker
             scrollViewProps={{
               persistentScrollbar: true,
@@ -347,8 +350,8 @@ export default function FlightList({ navigation }) {
             placeholder={texts.placeholdertxt}
             containerStyle={{
               width: 200,
-              marginTop: 10,
-              marginRight: 15,
+              marginTop: 0,
+              marginRight: 20,
             }}
             itemStyle={{
               justifyContent: "flex-start",
@@ -470,17 +473,12 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     alignItems: "center",
     justifyContent: "center",
-    height: 70,
-    width: "100%",
+    height: 90,
+    width: "90%",
+    marginHorizontal: 20,
+    marginBottom: 20,
     backgroundColor: "white",
     borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.25,
-    elevation: 5,
   },
   flightLabelUpper: {
     flexDirection: "row",
@@ -495,6 +493,7 @@ const styles = StyleSheet.create({
   },
   detailInfo: {
     fontWeight: "bold",
+    marginBottom: 5,
   },
   tinyLogo: {
     width: 40,
@@ -530,7 +529,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 100,
-    height: 100,
+    height: 90,
+    borderRadius: 5,
   },
   deleteText: {
     fontSize: 15,
