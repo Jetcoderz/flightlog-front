@@ -11,7 +11,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jetcoderz.flightlog"
+      "bundleIdentifier": "com.jetcoderz.flightlog",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to allow the user to capture images and attach them to the flightlog.",
+        "NSPhotoLibraryUsageDescription": "This app accesses the photo library to attach user selected images to the flightlog."
+      }
     },
     "android": {
       "icon": "./assets/playstoreicon.png",
