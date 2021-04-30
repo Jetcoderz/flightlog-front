@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  Button,
-  StyleSheet,
-  TouchableHighlight,
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function Surprise({ id }) {
   const state = useSelector((state) => state);
   const [clicked, setClicked] = useState(false);
+  const texts =
+    state.language === "en"
+      ? {
+          bTitle: "SURPRISE!",
+        }
+      : {
+          bTitle: "サプライズ",
+        };
 
   const arrayOfFlightId = state.qrCodes.map((qrcode) => qrcode.flightID);
 
@@ -24,9 +25,12 @@ export default function Surprise({ id }) {
   return (
     <View style={styles.container}>
       {arrayOfFlightId.includes(state.selectedFlight) && clicked === false ? (
-        <TouchableHighlight style={styles.button}>
-          <Button onPress={surprise} title="surprise" color="#939597" />
-        </TouchableHighlight>
+        <TouchableOpacity style={styles.button}>
+          {/* <Button onPress={surprise} title="surprise" color="#939597" /> */}
+          <Text onPress={surprise} style={styles.text}>
+            {texts.bTitle}
+          </Text>
+        </TouchableOpacity>
       ) : (
         <View>
           {qrCode && (
@@ -43,13 +47,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    width: 120,
-    margin: 10,
+    width: 160,
+    margin: 20,
     padding: 5,
     backgroundColor: "#f5df4d",
     borderColor: "#939597",
-    borderRadius: 10,
-    borderWidth: 1,
+    borderRadius: 30,
+    borderWidth: 4,
+    alignItems: "center",
   },
   image: {
     marginTop: 20,
@@ -59,5 +64,11 @@ const styles = StyleSheet.create({
     borderColor: "#298BD9",
     borderRadius: 5,
     borderWidth: 10,
+  },
+  text: {
+    fontSize: 20,
+    margin: 10,
+    fontWeight: "800",
+    color: "#939597",
   },
 });

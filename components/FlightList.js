@@ -31,80 +31,37 @@ export default function FlightList({ navigation }) {
   const dispatch = useDispatch();
   const [filteredList, setFilteredList] = useState(state.flightList);
 
-  const styles = StyleSheet.create({
-    flightLabel: {
-      paddingTop: 10,
-      paddingBottom: 10,
-      alignItems: "center",
-      height: "auto",
-      width: "100%",
-      backgroundColor: "white",
-      borderRadius: 10,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 0,
-      },
-      shadowOpacity: 0.25,
-      elevation: 5,
-    },
-    flightLabelUpper: {
-      flexDirection: "row",
-    },
-    rightInfo: {
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-    rightInfoUpper: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-    },
-    tinyLogo: {
-      width: 40,
-      height: 40,
-      margin: 3,
-    },
-    deperatureArrival: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginRight: 30,
-      marginLeft: 30,
-    },
-    deperature: {
-      fontSize: 30,
-      fontWeight: "bold",
-      height: 35,
-    },
-    arrival: {
-      fontSize: 30,
-      fontWeight: "bold",
-      height: 35,
-    },
-    tinyAirplane: {
-      fontSize: 15,
-      marginLeft: 5,
-      marginRight: 5,
-    },
-    deleteBox: {
-      backgroundColor: "red",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 100,
-      height: 100,
-    },
-    deleteText: {
-      fontSize: 15,
-      color: "white",
-    },
-    labelHead: {
-      fontWeight: "bold",
-    },
-  });
+  const texts =
+    state.language === "en"
+      ? {
+          h1: "My Flights",
+          h2: "Flight Details",
+          jumpScreen: "Add Flight",
+          a1: "Delete Flight",
+          a2: "Are you sure you want to delete this flight?",
+          aText1: "Yes",
+          aText2: "No",
+          delText: "Delete",
+          filtText: "Clear Filter",
+          placeholdertxt: "Filter by...",
+        }
+      : {
+          h1: "フライトリスト",
+          h2: "フライト情報",
+          jumpScreen: "フライトを追加",
+          a1: "フライト削除",
+          a2: "このフライトを削除してもよろしいでしょうか？",
+          aText1: "はい",
+          aText2: "いいえ",
+          delText: "削除",
+          filtText: "フィルター削除",
+          placeholdertxt: "フィルター",
+        };
 
-  const resetList = () => {
-    setFilteredList(state.flightList);
-  };
-
+  let aLabel = "Airline";
+  let mLabel = "Month";
+  let filterItems = [];
+  let monNames = [];
   const airlines = [];
   const years = [];
   const months = [];
@@ -136,12 +93,13 @@ export default function FlightList({ navigation }) {
     "11月",
     "12月",
   ];
-  let monNames = [];
   if (state.language === "en") {
     monNames = enNames;
   }
   if (state.language === "jp") {
     monNames = jpNames;
+    mLabel = "月";
+    aLabel = "エアライン";
   }
 
   if (state.flightList.length > 0) {
@@ -159,7 +117,6 @@ export default function FlightList({ navigation }) {
       }
     });
   }
-  let filterItems = [];
 
   years.forEach((yr) => {
     if (filterItems.length === 0) {
@@ -181,10 +138,6 @@ export default function FlightList({ navigation }) {
     });
   });
 
-  let mLabel = "Month";
-  if (state.language === "jp") {
-    mLabel = "月";
-  }
   filterItems.push({
     label: mLabel,
     value: "mn",
@@ -200,10 +153,6 @@ export default function FlightList({ navigation }) {
     });
   });
 
-  let aLabel = "Airline";
-  if (state.language === "jp") {
-    aLabel = "航空会社";
-  }
   filterItems.push({
     label: aLabel,
     value: "airline",
@@ -218,6 +167,10 @@ export default function FlightList({ navigation }) {
       parent: "airline",
     });
   });
+
+  const resetList = () => {
+    setFilteredList(state.flightList);
+  };
 
   const applyFilters = (item) => {
     const filteredFlights = filteredList.filter((flight) => {
@@ -260,41 +213,16 @@ export default function FlightList({ navigation }) {
   };
 
   const confirmDelete = (id) => {
-    if (state.language === "en") {
-      Alert.alert(
-        "Delete Flight",
-        "Are you sure you want to delete this flight?",
-        [
-          {
-            text: "Yes",
-            onPress: () => deleteFlight(id),
-          },
-          {
-            text: "No",
-          },
-        ]
-      );
-    }
-    if (state.language === "jp") {
-      Alert.alert(
-        "フライト削除",
-        "このフライトを削除してもよろしいでしょうか？",
-        [
-          {
-            text: "はい",
-            onPress: () => deleteFlight(id),
-          },
-          {
-            text: "いいえ",
-          },
-        ]
-      );
-    }
+    Alert.alert(texts.a1, texts.a2, [
+      {
+        text: texts.aText1,
+        onPress: () => deleteFlight(id),
+      },
+      {
+        text: texts.aText2,
+      },
+    ]);
   };
-  let placeholdertxt = "Filter by...";
-  if (state.language === "jp") {
-    placeholdertxt = "フィルター";
-  }
 
   function CreateList() {
     const arrayOfFlihtId = state.qrCodes.map((qrcode) => qrcode.flightID);
@@ -311,12 +239,7 @@ export default function FlightList({ navigation }) {
               activeOpacity={0.6}
             >
               <View style={styles.deleteBox}>
-                {state.language === "en" && (
-                  <Text style={styles.deleteText}>Delete</Text>
-                )}
-                {state.language === "jp" && (
-                  <Text style={styles.deleteText}>削除</Text>
-                )}
+                <Text style={styles.deleteText}>{texts.delText}</Text>
               </View>
             </TouchableOpacity>
           );
@@ -350,7 +273,7 @@ export default function FlightList({ navigation }) {
               <View style={styles.rightInfo}>
                 <View style={styles.rightInfoUpper}>
                   <View>
-                    <Text>{l.flightNo}</Text>
+                    <Text style={styles.detailInfo}>{l.flightNo}</Text>
                   </View>
                   <View>
                     <Text>
@@ -359,7 +282,9 @@ export default function FlightList({ navigation }) {
                   </View>
                 </View>
                 <View>
-                  <Text>{moment(l.date).format("MMM Do YYYY")}</Text>
+                  <Text style={styles.detailInfo}>
+                    {moment(l.date).format("MMM Do YYYY")}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -395,7 +320,7 @@ export default function FlightList({ navigation }) {
               borderWidth: 1,
               borderRadius: 20,
               marginLeft: 15,
-              marginTop: 5,
+              marginTop: 10,
               backgroundColor: "#cccccc",
             }}
             onPress={resetList}
@@ -406,7 +331,7 @@ export default function FlightList({ navigation }) {
                 paddingRight: 5,
               }}
             >
-              {state.language === "en" ? "Clear Filter" : "フィルター削除"}
+              {texts.filtText}
             </Text>
           </TouchableOpacity>
           <DropDownPicker
@@ -419,10 +344,10 @@ export default function FlightList({ navigation }) {
             min={0}
             max={10}
             defaultValue={""}
-            placeholder={placeholdertxt}
+            placeholder={texts.placeholdertxt}
             containerStyle={{
               width: 200,
-              marginTop: 5,
+              marginTop: 10,
               marginRight: 15,
             }}
             itemStyle={{
@@ -435,8 +360,9 @@ export default function FlightList({ navigation }) {
           style={{
             width: fullWidth,
             height: 0,
-            borderColor: "gray",
+            borderColor: "#298BD9",
             borderBottomWidth: 1,
+            marginTop: 10,
           }}
         ></Text>
         <ScrollView>
@@ -454,22 +380,13 @@ export default function FlightList({ navigation }) {
     return <QRScanner navigation={navigation}></QRScanner>;
   }
 
-  let hTitle = "My Flights";
-  let h2 = "Flight Details";
-  let jumpScreen = "Add Flight";
-  if (state.language === "jp") {
-    hTitle = "フライトリスト";
-    h2 = "フライト情報";
-    jumpScreen = "フライトを追加";
-  }
-
   return (
     <Stack.Navigator initialRouteName="List">
       <Stack.Screen
         name="List"
         component={List}
         options={{
-          headerTitle: hTitle,
+          headerTitle: texts.h1,
           headerStyle: {
             backgroundColor: "#298BD9",
           },
@@ -489,7 +406,7 @@ export default function FlightList({ navigation }) {
           headerRight: () => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate(jumpScreen, { screen: "AddFlight" })
+                navigation.navigate(texts.jumpScreen, { screen: "AddFlight" })
               }
               style={{ backgroundColor: "#298BD9" }}
             >
@@ -512,7 +429,7 @@ export default function FlightList({ navigation }) {
         name="Details"
         component={Details}
         options={{
-          headerTitle: h2,
+          headerTitle: texts.h2,
           headerTintColor: "#fff",
           headerStyle: {
             backgroundColor: "#298BD9",
@@ -545,3 +462,81 @@ export default function FlightList({ navigation }) {
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  flightLabel: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 70,
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.25,
+    elevation: 5,
+  },
+  flightLabelUpper: {
+    flexDirection: "row",
+  },
+  rightInfo: {
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  rightInfoUpper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  detailInfo: {
+    fontWeight: "bold",
+  },
+  tinyLogo: {
+    width: 40,
+    height: 40,
+    margin: 3,
+  },
+  deperatureArrival: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  deperature: {
+    fontSize: 30,
+    fontWeight: "bold",
+    height: 35,
+    color: "gray",
+  },
+  arrival: {
+    fontSize: 30,
+    fontWeight: "bold",
+    height: 35,
+    color: "gray",
+  },
+  tinyAirplane: {
+    fontSize: 15,
+    marginLeft: 5,
+    marginRight: 5,
+    color: "gray",
+  },
+  deleteBox: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 100,
+  },
+  deleteText: {
+    fontSize: 15,
+    color: "white",
+  },
+  labelHead: {
+    fontWeight: "bold",
+  },
+});
