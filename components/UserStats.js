@@ -24,9 +24,9 @@ export default function UserStats({ navigation }) {
   let headerTitle = "My Stats";
   if (state.language === "jp") {
     totFl = "フライト合計";
-    totAl = "航空会社比率";
+    totAl = "搭乗比率";
     FlCal = "フライトカレンダー";
-    headerTitle = "フライトの統計";
+    headerTitle = "分析結果";
   }
 
   useEffect(() => {
