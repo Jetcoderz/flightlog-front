@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     marginTop: 160,
     borderWidth: 1,
     borderColor: "#E6E6E6",
+    borderRadius: 10,
   },
   radioButtonNotSelected: {
     height: 50,
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 160,
     borderWidth: 1,
     borderColor: "#E6E6E6",
+    borderRadius: 10,
   },
   radioButtonText: {
     fontSize: 16,

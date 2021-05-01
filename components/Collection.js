@@ -1,5 +1,12 @@
 import React from "react";
-import { Image, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector } from "react-redux";
 import Stamp from "./Stamp";
@@ -10,30 +17,41 @@ export default function Collection({ navigation }) {
   let headerTitle = "My Collection";
   if (state.language === "jp") {
     label = "エアライン";
-    headerTitle = "コレクション";
+    headerTitle = "マイコレクション";
   }
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: "white",
+      width: "90%",
+      marginTop: 20,
+      borderRadius: 10,
+      padding: 20,
+    },
+  });
 
   function collections() {
     return (
       <ScrollView
         style={{
           flex: 1,
-          backgroundColor: "#fff",
+          backgroundColor: "#eee",
         }}
         contentContainerStyle={{ alignItems: "center" }}
       >
-        <Text
-          style={{
-            fontSize: 35,
-            fontWeight: "bold",
-            margin: 5,
-            padding: 5,
-            color: "#298BD9",
-          }}
-        >
-          {label}
-        </Text>
-        <Stamp />
+        <View style={styles.container}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              color: "#298BD9",
+              marginBottom: 10,
+            }}
+          >
+            {label}
+          </Text>
+          <Stamp />
+        </View>
         <Text style={{ marginBottom: 20 }}></Text>
       </ScrollView>
     );
