@@ -117,12 +117,12 @@ export default function AddFlight({ navigation }) {
           t2: "Please input your Flight Number",
         }
       : {
-          pl1: "フライト番号",
+          pl1: "便名",
           b1: "次へ",
           h1: "フライトを追加",
           h2: "個人情報を追加",
           t1: "日付を選んでください",
-          t2: "フライト番号を入力してください",
+          t2: "便名を入力してください",
         };
 
   if (state.language === "jp") {
