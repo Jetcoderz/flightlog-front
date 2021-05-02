@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   tinyLogo: {
     width: 40,
     height: 40,
-    margin: 5,
+    margin: 8,
     justifyContent: "center",
   },
   deperatureArrival: {
