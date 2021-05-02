@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 const DEFAULT = {
-  imgUrl: "https://flightlogpics.s3-ap-northeast-1.amazonaws.com/addimg.png",
+  imgUrl: "https://flightlogpics.s3-ap-northeast-1.amazonaws.com/newIMG.png",
 };
 const SLIDER_WIDTH = Dimensions.get("window").width + 200;
 

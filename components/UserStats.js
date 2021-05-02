@@ -147,7 +147,7 @@ export default function UserStats({ navigation }) {
               style={{ backgroundColor: "#298BD9" }}
             >
               <Image
-                source={require("./resources/hamburger.png")}
+                source={require("./resources/newhamburger.png")}
                 style={{ width: 20, height: 20, marginLeft: 10, marginTop: 2 }}
               />
             </TouchableOpacity>
