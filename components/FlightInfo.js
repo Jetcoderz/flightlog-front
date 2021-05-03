@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
+import moment from "moment-timezone";
 
 export default function FlightInfo() {
   const state = useSelector((state) => state);
@@ -25,85 +25,85 @@ export default function FlightInfo() {
 
   return (
     <View style={styles.flightContainer}>
-    <View style={styles.flightLabel}>
-      <View style={styles.flightInfo}>
-        <View style={styles.flightInfoHead}>
-          <View style={styles.logo}>
-            <Image
-              style={styles.tinyLogo}
-              source={state.logo[thisFlight.airlineICAO]}
-            ></Image>
-          </View>
-          <View style={styles.flightInfoHeadRight}>
-            <View>
-              <Text style={styles.mainInfo}>{thisFlight.flightNo}</Text>
+      <View style={styles.flightLabel}>
+        <View style={styles.flightInfo}>
+          <View style={styles.flightInfoHead}>
+            <View style={styles.logo}>
+              <Image
+                style={styles.tinyLogo}
+                source={state.logo[thisFlight.airlineICAO]}
+              ></Image>
             </View>
-            {/* <View>
+            <View style={styles.flightInfoHeadRight}>
+              <View>
+                <Text style={styles.mainInfo}>{thisFlight.flightNo}</Text>
+              </View>
+              {/* <View>
               <Text >
               {airline}
               {thisFlight.airlineICAO}
               </Text>
             </View> */}
-          </View>
-        </View>
-        <View style={styles.deperatureArrival}>
-          <View>
-            <View>
-              <Text style={styles.deperature}>{thisFlight.depAirport}</Text>
-            </View>
-            <View style={styles.depInfo}>
-              <View>
-                <Text style={styles.detailInfo}>
-                  {moment(thisFlight.takeoff).format("LL")}
-                </Text>
-              </View>
-              <View>
-                <Text style={styles.detailInfo}>
-                  {moment(thisFlight.takeoff).format("LT")}
-                </Text>
-              </View>
-              <View>
-                <Text style={styles.detailInfo}>
-                  {gate}
-                  {thisFlight.depGate}
-                </Text>
-              </View>
             </View>
           </View>
-          <View style={styles.altitude}>
+          <View style={styles.deperatureArrival}>
             <View>
-              <Text style={styles.tinyAirplane}> ✈︎ </Text>
+              <View>
+                <Text style={styles.deperature}>{thisFlight.depAirport}</Text>
+              </View>
+              <View style={styles.depInfo}>
+                <View>
+                  <Text style={styles.detailInfo}>
+                    {moment.utc(thisFlight.takeoff).format("MMMM D, YYYY")}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.detailInfo}>
+                    {moment.utc(thisFlight.takeoff).format("h:mm A")}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.detailInfo}>
+                    {gate}
+                    {thisFlight.depGate}
+                  </Text>
+                </View>
+              </View>
             </View>
-            <View style={styles.dammySpace}>
-              {/* <Text style={styles.dammyAirplane}> ✈︎ </Text> */}
+            <View style={styles.altitude}>
+              <View>
+                <Text style={styles.tinyAirplane}> ✈︎ </Text>
+              </View>
+              <View style={styles.dammySpace}>
+                {/* <Text style={styles.dammyAirplane}> ✈︎ </Text> */}
+              </View>
             </View>
-          </View>
-          <View>
             <View>
-              <Text style={styles.arrival}>{thisFlight.arrAirport}</Text>
-            </View>
-            <View style={styles.arrInfo}>
               <View>
-                <Text style={styles.detailInfo}>
-                  {moment(thisFlight.landing).format("LL")}
-                </Text>
+                <Text style={styles.arrival}>{thisFlight.arrAirport}</Text>
               </View>
-              <View>
-                <Text style={styles.detailInfo}>
-                  {moment(thisFlight.landing).format("LT")}
-                </Text>
-              </View>
-              <View>
-                <Text style={styles.detailInfo}>
-                  {gate}
-                  {thisFlight.arrGate}
-                </Text>
+              <View style={styles.arrInfo}>
+                <View>
+                  <Text style={styles.detailInfo}>
+                    {moment.utc(thisFlight.landing).format("MMMM D, YYYY")}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.detailInfo}>
+                    {moment.utc(thisFlight.landing).format("h:mm A")}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.detailInfo}>
+                    {gate}
+                    {thisFlight.arrGate}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
     </View>
   );
 }
