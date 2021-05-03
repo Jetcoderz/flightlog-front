@@ -13,14 +13,22 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { useSelector, useDispatch } from "react-redux";
-
 import NewFlight from "./NewFlight";
 import { Platform } from "react-native";
+
+const newD = new Date();
+const dateStr = newD.toISOString();
+const today = dateStr.slice(0, 10);
+const defaultDay = {};
+defaultDay[today] = {
+  selected: true,
+  selectedColor: "#298BD9",
+};
 
 export default function AddFlight({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [selectedDate, setSelectedDate] = useState({});
+  const [selectedDate, setSelectedDate] = useState(defaultDay);
 
   LocaleConfig.locales["jp"] = {
     monthNames: [
