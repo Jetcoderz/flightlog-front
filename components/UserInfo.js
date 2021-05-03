@@ -21,24 +21,30 @@ export default function UserInfo({ thisFlight }) {
   }
   return (
     <View style={styles.userInfo}>
-      <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>{labels[0]}</Text>
-        <View style={{ flexDirection: "row" }}>
-          <View style={styles.enterItem}>
-            <Text>{thisFlight.purpose}</Text>
+      {thisFlight.purpose !== "" && (
+        <View style={styles.eachUserInfoContiner}>
+          <Text style={styles.eachUserInfoTitle}>{labels[0]}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <View style={styles.enterItem}>
+              <Text>{thisFlight.purpose}</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.eachUserInfoContiner}>
-        <Text style={styles.eachUserInfoTitle}>{labels[1]}</Text>
-        <View style={{ flexDirection: "row" }}>
-          {thisFlight.entertainment.map((e, i) => (
-            <View key={i} style={styles.enterItem}>
-              <Text>{e}</Text>
-            </View>
-          ))}
+      )}
+      {thisFlight.entertainment.length > 0 && (
+        <View style={styles.eachUserInfoContiner}>
+          <Text style={styles.eachUserInfoTitle}>{labels[1]}</Text>
+          <View style={{ flexDirection: "row" }}>
+            {thisFlight.entertainment.map((e, i) => {
+              return (
+                <View key={i} style={styles.enterItem}>
+                  <Text>{e}</Text>
+                </View>
+              );
+            })}
+          </View>
         </View>
-      </View>
+      )}
       {thisFlight.meal !== "" && (
         <View style={styles.eachUserInfoContiner}>
           <Text style={styles.eachUserInfoTitle}>{labels[2]}</Text>
