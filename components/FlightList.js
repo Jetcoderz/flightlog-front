@@ -252,6 +252,7 @@ export default function FlightList({ navigation }) {
             dispatch({ type: "SetSelectedFlight", payload: l.id });
           }}
         >
+        <View style={styles.flightContainer}>
           <View style={styles.flightLabel}>
             <View style={styles.flightLabelUpper}>
               <View style={styles.logo}>
@@ -289,6 +290,7 @@ export default function FlightList({ navigation }) {
                 </View>
               </View>
             </View>
+          </View>
           </View>
         </TouchableOpacity>
       </Swipeable>
@@ -467,15 +469,18 @@ export default function FlightList({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  flightContainer: {
+    alignItems: "center",
+  },
   flightLabel: {
     paddingTop: 10,
     paddingBottom: 10,
-    paddingRight: 10,
+    paddingRight: 20,
+    paddingLeft: 20,
     alignItems: "center",
     justifyContent: "center",
-    height: 90,
+    height: 83,
     width: "90%",
-    marginHorizontal: 20,
     marginBottom: 20,
     backgroundColor: "white",
     borderRadius: 10,
@@ -493,7 +498,8 @@ const styles = StyleSheet.create({
   },
   detailInfo: {
     fontWeight: "bold",
-    marginBottom: 5,
+    color: "#298BD9",
+    fontSize: 11,
   },
   tinyLogo: {
     width: 40,
@@ -529,7 +535,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 100,
-    height: 90,
+    height: 83,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
   },

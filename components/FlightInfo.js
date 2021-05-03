@@ -24,6 +24,7 @@ export default function FlightInfo() {
   }
 
   return (
+    <View style={styles.flightContainer}>
     <View style={styles.flightLabel}>
       <View style={styles.flightInfo}>
         <View style={styles.flightInfoHead}>
@@ -103,14 +104,18 @@ export default function FlightInfo() {
         </View>
       </View>
     </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  flightLabel: {
-    padding: 20,
+  flightContainer: {
     alignItems: "center",
-    justifyContent: "center",
+  },
+  flightLabel: {
+    paddingTop: 15,
+    paddingBottom: 25,
+    alignItems: "center",
     marginTop: 20,
     marginHorizontal: 20,
     width: "90%",
@@ -128,7 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   detailInfo: {
-    color: "gray",
+    color: "#298BD9",
     fontSize: 12,
   },
   flightInfoHeadRight: {
@@ -138,7 +143,7 @@ const styles = StyleSheet.create({
   tinyLogo: {
     width: 40,
     height: 40,
-    margin: 5,
+    margin: 8,
     justifyContent: "center",
   },
   deperatureArrival: {
