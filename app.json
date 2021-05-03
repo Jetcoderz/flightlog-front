@@ -20,15 +20,15 @@
     "android": {
       "icon": "./assets/playstoreicon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/planeNcloudtiny.png",
-        "backgroundImage": "./assets/bg.png"
+        "foregroundImage": "./assets/ic_launcher_foreground.png",
+        "backgroundImage": "./assets/ic_launcher_background.png"
       },
       "splash": {
         "image": "./assets/planecloudsm.png",
         "backgroundColor": "#0e2b77"
       },
       "package": "com.jetcoderz.flightlog",
-      "versionCode": 10,
+      "versionCode": 11,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.jetcoderz.flightlog",
       "config": {
         "googleMaps": {
