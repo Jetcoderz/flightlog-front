@@ -34,7 +34,7 @@ export default function UserInfo({ thisFlight }) {
       {thisFlight.entertainment.length > 0 && (
         <View style={styles.eachUserInfoContiner}>
           <Text style={styles.eachUserInfoTitle}>{labels[1]}</Text>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             {thisFlight.entertainment.map((e, i) => {
               return (
                 <View key={i} style={styles.enterItem}>
