@@ -1,4 +1,4 @@
-![App Logo](https://play-lh.googleusercontent.com/-QNQgf458bap1zT8ET9WCBPuDxL4t3O7opV1aBkRhbXMoEDGaBOAx4EKFpFoMPi6j-o=s180) ![App QRCode](https://i.imgur.com/yecJqlT.png)
+![App Logo](https://i.imgur.com/UFMgl44.png)  ![App QRCode](https://i.imgur.com/yecJqlT.png)
 # Flightlog APP
 A journal app to keep track your flight history with data from aviationstack API. Plan to be deployed on app store and google play.
 This is a team project created during our study at Code Chrysalis, a Tokyo-based fullstack bootcamp. 
