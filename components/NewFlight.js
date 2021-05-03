@@ -91,8 +91,6 @@ export default function NewFlight({ navigation }) {
       state.addedFlight.arrival.timezone
     );
 
-    console.log("TZ TEST", depTZ, arrTZ);
-
     const body = {
       username: Auth.user.attributes.email || "",
       date: state.flightDate || state.addedFlight.flight_date || "",
