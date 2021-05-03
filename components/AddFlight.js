@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   TextInput,
-  Button,
   Image,
   Text,
   StyleSheet,
@@ -193,8 +192,12 @@ export default function AddFlight({ navigation }) {
             <TouchableOpacity
               style={styles.button}
               onPress={async () => {
-                getPostData(flightNumInput);
-                navigation.navigate("AddUserInfo");
+                if (flightNumInput === "") {
+                  alert(texts.t2);
+                } else {
+                  getPostData(flightNumInput);
+                  navigation.navigate("AddUserInfo");
+                }
               }}
             >
               <Text style={styles.btnText}>{texts.b1}</Text>
