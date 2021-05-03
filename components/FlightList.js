@@ -287,7 +287,7 @@ export default function FlightList({ navigation }) {
                   </View>
                   <View>
                     <Text style={styles.detailInfo}>
-                      {moment(l.date).format("MMM Do YYYY")}
+                      {moment.utc(l.date).format("MMM Do YYYY")}
                     </Text>
                   </View>
                 </View>
