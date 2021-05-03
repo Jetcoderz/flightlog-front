@@ -32,6 +32,8 @@ export default function FlightList({ navigation }) {
   const dispatch = useDispatch();
   const [filteredList, setFilteredList] = useState(state.flightList);
 
+  const awsLambda = state.awsLambda;
+
   const texts =
     state.language === "en"
       ? {
@@ -195,19 +197,15 @@ export default function FlightList({ navigation }) {
   };
 
   const deleteFlight = async (id) => {
-    let fullURL =
-      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-      id;
-    const resp = await fetch(fullURL, {
+    let url = awsLambda + "flightlist/" + id;
+    const resp = await fetch(url, {
       method: "DELETE",
     });
     let jsonR = await JSON.stringify(resp.status);
 
     if (jsonR === "200") {
-      let newfullURL =
-        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-        Auth.user.attributes.email;
-      let response = await fetch(newfullURL);
+      let url = awsLambda + "flightlist/" + Auth.user.attributes.email;
+      let response = await fetch(url);
       let jsonRes = await response.json();
       dispatch({ type: "SetFlightList", payload: jsonRes });
     }
@@ -252,45 +250,49 @@ export default function FlightList({ navigation }) {
             dispatch({ type: "SetSelectedFlight", payload: l.id });
           }}
         >
-        <View style={styles.flightContainer}>
-          <View style={styles.flightLabel}>
-            <View style={styles.flightLabelUpper}>
-              <View style={styles.logo}>
-                <Image
-                  style={styles.tinyLogo}
-                  source={state.logo[l.airlineICAO]}
-                ></Image>
-              </View>
-              <View style={styles.deperatureArrival}>
-                <View>
-                  <Text style={styles.deperature}>{l.depAirport}</Text>
+          <View style={styles.flightContainer}>
+            <View style={styles.flightLabel}>
+              <View style={styles.flightLabelUpper}>
+                <View style={styles.logo}>
+                  <Image
+                    style={styles.tinyLogo}
+                    source={state.logo[l.airlineICAO]}
+                  ></Image>
                 </View>
-                <View>
-                  <Text style={styles.tinyAirplane}> ✈︎ </Text>
-                </View>
-                <View>
-                  <Text style={styles.arrival}>{l.arrAirport}</Text>
-                </View>
-              </View>
-              <View style={styles.rightInfo}>
-                <View style={styles.rightInfoUpper}>
+                <View style={styles.deperatureArrival}>
                   <View>
-                    <Text style={styles.detailInfo}>{l.flightNo}</Text>
+                    <Text style={styles.deperature}>{l.depAirport}</Text>
                   </View>
                   <View>
-                    <Text>
-                      {arrayOfflightId.includes(l.id) ? <Text>🎁</Text> : <></>}
+                    <Text style={styles.tinyAirplane}> ✈︎ </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.arrival}>{l.arrAirport}</Text>
+                  </View>
+                </View>
+                <View style={styles.rightInfo}>
+                  <View style={styles.rightInfoUpper}>
+                    <View>
+                      <Text style={styles.detailInfo}>{l.flightNo}</Text>
+                    </View>
+                    <View>
+                      <Text>
+                        {arrayOfflightId.includes(l.id) ? (
+                          <Text>🎁</Text>
+                        ) : (
+                          <></>
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                  <View>
+                    <Text style={styles.detailInfo}>
+                      {moment(l.date).format("MMM Do YYYY")}
                     </Text>
                   </View>
                 </View>
-                <View>
-                  <Text style={styles.detailInfo}>
-                    {moment(l.date).format("MMM Do YYYY")}
-                  </Text>
-                </View>
               </View>
             </View>
-          </View>
           </View>
         </TouchableOpacity>
       </Swipeable>

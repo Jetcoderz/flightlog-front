@@ -30,6 +30,8 @@ export default function AddFlight({ navigation }) {
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(defaultDay);
 
+  const awsLambda = state.awsLambda;
+
   LocaleConfig.locales["jp"] = {
     monthNames: [
       "1月",
@@ -142,9 +144,8 @@ export default function AddFlight({ navigation }) {
   const getPostData = async (input) => {
     let flightData;
     try {
-      let response = await fetch(
-        `https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/aviation/${input}`
-      );
+      const url = awsLambda + "aviation/" + input;
+      let response = await fetch(url);
       flightData = await response.json();
 
       dispatch({ type: "SetaddedFlight", payload: flightData });

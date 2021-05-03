@@ -10,6 +10,8 @@ export default function QRScanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
+  const awsLambda = state.awsLambda;
+
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -34,31 +36,28 @@ export default function QRScanner({ navigation }) {
     setScanned(true);
 
     const postQR = async () => {
+      const urlforQRPost = awsLambda + "qr-codes/";
       try {
-        await fetch(
-          "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes",
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: Auth.user.attributes.email,
-              flightID: state.selectedFlight,
-              url: data,
-            }),
-          }
-        );
+        await fetch(urlforQRPost, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: Auth.user.attributes.email,
+            flightID: state.selectedFlight,
+            url: data,
+          }),
+        });
       } catch (e) {
         console.log(e);
       }
     };
 
     const getCAQRCode = async () => {
-      const res = await fetch(
-        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes/CA"
-      );
+      const urlforQRCA = awsLambda + "qr-codes/CA/";
+      const res = await fetch(urlforQRCA);
       const urlData = await res.json();
       const arrayOfUrl = urlData.map((qrcode) => qrcode.url);
 
@@ -72,18 +71,16 @@ export default function QRScanner({ navigation }) {
       alert(texts.alert1);
 
       const getQrcodes = async () => {
-        const res = await fetch(
-          "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/qr-codes/" +
-            Auth.user.attributes.email
-        );
+        const urlforQRGet =
+          awsLambda + "qr-codes/" + Auth.user.attributes.email;
+        const res = await fetch(urlforQRGet);
         const data = await res.json();
         dispatch({ type: "SetQrCodes", payload: data });
       };
       const getFlights = async () => {
-        const fullURL =
-          "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-          Auth.user.attributes.email;
-        const response = await fetch(fullURL);
+        const urlforFligtsGet =
+          awsLambda + "flightList/" + Auth.user.attributes.email;
+        const response = await fetch(urlforFligtsGet);
         const jsonRes = await response.json();
         const theFlights = await jsonRes.map((flight) => flight);
         dispatch({ type: "SetFlightList", payload: theFlights });
