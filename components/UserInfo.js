@@ -32,8 +32,8 @@ export default function UserInfo({ thisFlight }) {
       <View style={styles.eachUserInfoContiner}>
         <Text style={styles.eachUserInfoTitle}>{labels[1]}</Text>
         <View style={{ flexDirection: "row" }}>
-          {thisFlight.entertainment.map((e) => (
-            <View style={styles.enterItem}>
+          {thisFlight.entertainment.map((e, i) => (
+            <View style={styles.enterItem} key={i}>
               <Text>{e}</Text>
             </View>
           ))}
