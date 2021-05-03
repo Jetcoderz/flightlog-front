@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   StyleSheet,
-  Button,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -12,7 +11,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Auth from "@aws-amplify/auth";
-import moment from "moment";
+import moment from "moment-timezone";
 
 export default function NewFlight({ navigation }) {
   const state = useSelector((state) => state);
@@ -83,6 +82,15 @@ export default function NewFlight({ navigation }) {
       ? entertainItems.filter((i) => i.selected === true).map((i) => i.name)
       : [];
 
+    const depTZ = moment(state.addedFlight.departure.scheduled).tz(
+      state.addedFlight.departure.timezone
+    );
+    const arrTZ = moment(state.addedFlight.arrival.scheduled).tz(
+      state.addedFlight.arrival.timezone
+    );
+
+    console.log("TZ TEST", depTZ, arrTZ);
+
     const body = {
       username: Auth.user.attributes.email || "",
       date: state.flightDate || state.addedFlight.flight_date || "",
@@ -91,8 +99,8 @@ export default function NewFlight({ navigation }) {
       arrAirport: state.addedFlight.arrival.iata || "",
       depGate: state.addedFlight.departure.gate || "",
       arrGate: state.addedFlight.arrival.gate || "",
-      takeoff: state.addedFlight.departure.scheduled || "",
-      landing: state.addedFlight.arrival.scheduled || "",
+      takeoff: depTZ || "",
+      landing: arrTZ || "",
       airlineICAO: state.addedFlight.airline.icao || "",
       purpose: purpose,
       entertainment: entertainment,
