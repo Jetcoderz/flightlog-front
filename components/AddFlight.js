@@ -110,19 +110,19 @@ export default function AddFlight({ navigation }) {
     state.language === "en"
       ? {
           pl1: "Flight #",
-          b1: "NEXT",
+          b1: "Next",
           h1: "Add Flight",
           h2: "Add User Info",
           t1: "Please select your Flight Date",
           t2: "Please input your Flight Number",
         }
       : {
-          pl1: "フライト番号",
-          b1: "次",
+          pl1: "便名",
+          b1: "次へ",
           h1: "フライトを追加",
           h2: "個人情報を追加",
           t1: "日付を選んでください",
-          t2: "フライト番号を入力してください",
+          t2: "便名を入力してください",
         };
 
   if (state.language === "jp") {
@@ -161,39 +161,44 @@ export default function AddFlight({ navigation }) {
         <ScrollView>
           <View
             style={{
-              backgroundColor: "white",
+              backgroundColor: "#eee",
               alignItems: "center",
               height: Dimensions.get("window").height,
             }}
           >
-            <Text style={styles.helperText}>{texts.t1}</Text>
-            <Calendar
-              markedDates={selectedDate}
-              theme={{ arrowColor: "#298BD9" }}
-              onDayPress={(day) => {
-                const obj = {};
-                obj[day.dateString] = {
-                  selected: true,
-                  selectedColor: "#298BD9",
-                };
-                setSelectedDate(obj);
-              }}
-            />
-            <Text style={styles.helperText}>{texts.t2}</Text>
-            <TextInput
-              style={styles.TextInput}
-              placeholder={texts.pl1}
-              onChangeText={(val) => setFlightNumInput(val)}
-            />
-            <Button
-              title={texts.b1}
+            <View style={styles.container}>
+              <Text style={styles.helperText}>{texts.t1}</Text>
+              <Calendar
+                style={{ marginTop: 10 }}
+                markedDates={selectedDate}
+                theme={{ arrowColor: "#298BD9" }}
+                onDayPress={(day) => {
+                  const obj = {};
+                  obj[day.dateString] = {
+                    selected: true,
+                    selectedColor: "#298BD9",
+                  };
+                  setSelectedDate(obj);
+                }}
+              />
+            </View>
+            <View style={styles.container}>
+              <Text style={styles.helperText}>{texts.t2}</Text>
+              <TextInput
+                style={styles.TextInput}
+                placeholder={texts.pl1}
+                onChangeText={(val) => setFlightNumInput(val)}
+              />
+            </View>
+            <TouchableOpacity
               style={styles.button}
               onPress={async () => {
                 getPostData(flightNumInput);
-
                 navigation.navigate("AddUserInfo");
               }}
-            />
+            >
+              <Text style={styles.btnText}>{texts.b1}</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -250,8 +255,8 @@ export default function AddFlight({ navigation }) {
 const styles = StyleSheet.create({
   TextInput: {
     height: 40,
-    width: 300,
-    borderColor: "gray",
+    width: "100%",
+    borderColor: "#bbb",
     borderWidth: 1,
     borderRadius: 20,
     marginTop: 20,
@@ -262,9 +267,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#298BD9",
-    marginTop: 20,
   },
   button: {
     backgroundColor: "#298BD9",
+    alignItems: "center",
+    padding: 10,
+    borderColor: "white",
+    borderRadius: 10,
+    borderWidth: 1,
+    marginTop: 20,
+  },
+  btnText: {
+    fontSize: 18,
+    color: "white",
+    textAlign: "center",
+  },
+  container: {
+    backgroundColor: "white",
+    width: "90%",
+    marginTop: 20,
+    borderRadius: 10,
+    padding: 20,
   },
 });

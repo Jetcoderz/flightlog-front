@@ -44,16 +44,16 @@ export default function Container() {
     "ホーム",
     "フライトを追加",
     "地図で見る",
-    "フライトの統計",
-    "コレクション",
+    "フライトを分析する",
+    "マイコレクション",
     "言語設定",
   ];
   let enName = [
     "Home",
     "Add Flight",
     "Flight Map",
-    "View Stats",
-    "View Collection",
+    "My Stats",
+    "My Collection",
     "Language Selection",
   ];
   let drawerNames = [];
