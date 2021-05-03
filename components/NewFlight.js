@@ -17,6 +17,8 @@ export default function NewFlight({ navigation }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const awsLambda = state.awsLambda;
+
   const buttonTexts =
     state.language === "en"
       ? {
@@ -108,27 +110,24 @@ export default function NewFlight({ navigation }) {
       seatNo: seatNo,
       review: review,
     };
+
+    const url = awsLambda + "flightList";
     try {
-      await fetch(
-        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
     } catch (e) {
       console.log(e);
     }
 
     const getFlights = async () => {
-      let fullURL =
-        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/flightlist/" +
-        Auth.user.attributes.email;
-      let response = await fetch(fullURL);
+      let url = awsLambda + "flightList/" + Auth.user.attributes.email;
+      let response = await fetch(url);
       let jsonRes = await response.json();
       dispatch({ type: "SetFlightList", payload: jsonRes });
     };

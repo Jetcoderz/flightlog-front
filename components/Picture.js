@@ -26,6 +26,8 @@ export default function Picture() {
   const [refresh, setRefresh] = useState(false);
   const carouselRef = useRef(null);
 
+  const awsLambda = state.awsLambda;
+
   const texts =
     state.language === "en"
       ? {
@@ -51,10 +53,8 @@ export default function Picture() {
 
   useEffect(() => {
     const getPhotoURLs = async () => {
-      let fullURL =
-        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/photos/" +
-        String(state.selectedFlight);
-      let response = await fetch(fullURL);
+      let url = awsLambda + "photos/" + String(state.selectedFlight);
+      let response = await fetch(url);
       let jsonRes = await response.json();
       let theURLs = await jsonRes.map((photo) => {
         const photoObj = {};
@@ -89,10 +89,8 @@ export default function Picture() {
     const uploadPhoto = async (asseturi) => {
       // Get signedUrl
       const curUID = uuidv4();
-      const awsURL =
-        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/awsPUT/" +
-        curUID;
-      const resp = await axios.get(awsURL);
+      const urlforAWSPut = awsLambda + "awsPUT/" + curUID;
+      const resp = await axios.get(urlforAWSPut);
 
       // Upload to S3
       const imageBody = await getBlob(asseturi);
@@ -107,17 +105,15 @@ export default function Picture() {
         url: `https://flightlogpics.s3-ap-northeast-1.amazonaws.com/${curUID}`,
         flightID: state.selectedFlight,
       };
-      await fetch(
-        "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/photos",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(bodyObj),
-        }
-      );
+      const urlforPhotoPost = awsLambda + "photos/";
+      await fetch(urlforPhotoPost, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyObj),
+      });
       setRefresh(!refresh);
     };
 
@@ -165,10 +161,8 @@ export default function Picture() {
 
   const handleDelete = async (id) => {
     let picId = id.toString();
-    let fullURL =
-      "https://9u4abgs1zk.execute-api.ap-northeast-1.amazonaws.com/dev/photos/" +
-      picId;
-    const resp = await axios.delete(fullURL);
+    let url = awsLambda + "photos/" + picId;
+    const resp = await axios.delete(url);
     if (resp.status == 200) {
       setRefresh(!refresh);
     }

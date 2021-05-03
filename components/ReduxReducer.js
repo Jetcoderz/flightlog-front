@@ -12,6 +12,8 @@ export default function ReduxReducer(
     addedFlight: {},
     qrCodes: [],
     language: "en",
+    awsLambda:
+      "https://ex2zdoudm0.execute-api.ap-northeast-1.amazonaws.com/dev/",
   },
   action
 ) {
