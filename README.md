@@ -1,4 +1,7 @@
-![App Logo](https://i.imgur.com/H902wuv.png)  ![App QRCode](https://i.imgur.com/yecJqlT.png)
+![App Logo](/assets/roundicon.png)
+[![Playstore Logo](/assets/smgplaylogo.png)](https://play.google.com/store/apps/details?id=com.jetcoderz.flightlog)
+[![Appstore Logo](/assets/appstorelogosm.png)](https://apps.apple.com/jp/app/flightlog-app/id1564235311)
+
 # Flightlog APP
 A journal app to keep track your flight history with data from aviationstack API. Plan to be deployed on app store and google play.
 This is a team project created during our study at Code Chrysalis, a Tokyo-based fullstack bootcamp. 
@@ -19,7 +22,6 @@ This is a team project created during our study at Code Chrysalis, a Tokyo-based
 * Front End
   * React Native
   * Expo
-  * (Planned) deployment on App Store and Google Play
 * Back End (API server)
   * Express.js
   * Knex.js
