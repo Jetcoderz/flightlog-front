@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, Alert, StyleSheet, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import Auth from "@aws-amplify/auth";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,14 +22,16 @@ export default function QRScanner({ navigation }) {
   const texts =
     state.language === "en"
       ? {
-          alert1: "You got the CA's Message!",
+          alert1: "You got the CA's Message! 🎁",
           alert2: "QR-code is invalid",
           alert3: "Tap to Scan Again",
+          alert4: "✨ SURPRISE ✨",
         }
       : {
-          alert1: "CAのメッセージをゲットしました！",
+          alert1: "CAのメッセージをゲットしました！ 🎁",
           alert2: "このQRコードは無効です",
           alert3: "もう一度スキャンしてください",
+          alert4: "✨ サプライズ ✨",
         };
 
   const handleBarCodeScanned = async ({ type, data }) => {
@@ -68,7 +70,7 @@ export default function QRScanner({ navigation }) {
 
     if (check) {
       postQR();
-      alert(texts.alert1);
+      Alert.alert(texts.alert4, texts.alert1);
 
       const getQrcodes = async () => {
         const urlforQRGet =
