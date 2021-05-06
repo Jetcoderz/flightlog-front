@@ -46,6 +46,10 @@ yarn
 expo start
 ```
 
+## Demo Event
+[Youtube](https://www.youtube.com/watch?v=S9GBXQEosK4)  
+[Slides](https://docs.google.com/presentation/d/e/2PACX-1vTu4qba9OaHq6due-QpBz0w6pD8g6tvZVjn5mXoQ8SUCEEeAjejlLbs_Kvncs8LZj2ppxUrcWzKkObp/pub?start=false&loop=false&delayms=3000#slide=id.gd522241c73_3_0)
+
 ## Sample App Screens
 
 <img width="300" alt="pic1" src="https://user-images.githubusercontent.com/34878933/117110545-3be3a480-adc1-11eb-9ab0-9d61eec3b2fe.PNG">
